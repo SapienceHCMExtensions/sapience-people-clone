@@ -125,7 +125,7 @@ export function Header() {
 
           {/* Right side */}
           <div className="hidden lg:flex items-center gap-3">
-            <Link to="/request-demo" className="text-sm font-medium text-foreground hover:text-bright-blue transition-colors">
+            <Link to="/sign-in" className="text-sm font-medium text-foreground hover:text-bright-blue transition-colors">
               Sign In
             </Link>
             <Link
