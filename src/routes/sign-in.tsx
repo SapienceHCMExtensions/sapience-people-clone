@@ -32,7 +32,7 @@ function SignInPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-4">
           <Link to="/" className="inline-block mx-auto">
-            <img src={logo} alt="Sapience HCM" className="h-10 w-auto mx-auto" />
+            <img src={logo} alt="Sapience HCM" className="h-10 w-auto mx-auto object-cover" />
           </Link>
           <div>
             <CardTitle className="text-2xl font-bold text-foreground">Welcome back</CardTitle>
