@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as RequestQuoteRouteImport } from './routes/request-quote'
 import { Route as RequestDemoRouteImport } from './routes/request-demo'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -34,6 +35,11 @@ import { Route as FeaturesEngagementRouteImport } from './routes/features/engage
 import { Route as FeaturesCustomServicesRouteImport } from './routes/features/custom-services'
 import { Route as FeaturesCoreHrRouteImport } from './routes/features/core-hr'
 
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RequestQuoteRoute = RequestQuoteRouteImport.update({
   id: '/request-quote',
   path: '/request-quote',
@@ -162,6 +168,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
+  '/sign-in': typeof SignInRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
   '/features/engagement': typeof FeaturesEngagementRoute
@@ -188,6 +195,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
+  '/sign-in': typeof SignInRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
   '/features/engagement': typeof FeaturesEngagementRoute
@@ -215,6 +223,7 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
+  '/sign-in': typeof SignInRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
   '/features/engagement': typeof FeaturesEngagementRoute
@@ -243,6 +252,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
+    | '/sign-in'
     | '/features/core-hr'
     | '/features/custom-services'
     | '/features/engagement'
@@ -269,6 +279,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
+    | '/sign-in'
     | '/features/core-hr'
     | '/features/custom-services'
     | '/features/engagement'
@@ -295,6 +306,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
+    | '/sign-in'
     | '/features/core-hr'
     | '/features/custom-services'
     | '/features/engagement'
@@ -322,6 +334,7 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   RequestDemoRoute: typeof RequestDemoRoute
   RequestQuoteRoute: typeof RequestQuoteRoute
+  SignInRoute: typeof SignInRoute
   FeaturesCoreHrRoute: typeof FeaturesCoreHrRoute
   FeaturesCustomServicesRoute: typeof FeaturesCustomServicesRoute
   FeaturesEngagementRoute: typeof FeaturesEngagementRoute
@@ -345,6 +358,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/request-quote': {
       id: '/request-quote'
       path: '/request-quote'
@@ -522,6 +542,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   RequestDemoRoute: RequestDemoRoute,
   RequestQuoteRoute: RequestQuoteRoute,
+  SignInRoute: SignInRoute,
   FeaturesCoreHrRoute: FeaturesCoreHrRoute,
   FeaturesCustomServicesRoute: FeaturesCustomServicesRoute,
   FeaturesEngagementRoute: FeaturesEngagementRoute,
