@@ -9,11 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RequestQuoteRouteImport } from './routes/request-quote'
+import { Route as RequestDemoRouteImport } from './routes/request-demo'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeaturesIndexRouteImport } from './routes/features/index'
+import { Route as FeaturesPerformanceRouteImport } from './routes/features/performance'
+import { Route as FeaturesPayrollRouteImport } from './routes/features/payroll'
+import { Route as FeaturesMobileAppRouteImport } from './routes/features/mobile-app'
+import { Route as FeaturesIntegrationsRouteImport } from './routes/features/integrations'
+import { Route as FeaturesHrChatbotRouteImport } from './routes/features/hr-chatbot'
+import { Route as FeaturesHrAutomationRouteImport } from './routes/features/hr-automation'
+import { Route as FeaturesHiringOnboardingRouteImport } from './routes/features/hiring-onboarding'
+import { Route as FeaturesEngagementRouteImport } from './routes/features/engagement'
+import { Route as FeaturesCustomServicesRouteImport } from './routes/features/custom-services'
+import { Route as FeaturesCoreHrRouteImport } from './routes/features/core-hr'
 
+const RequestQuoteRoute = RequestQuoteRouteImport.update({
+  id: '/request-quote',
+  path: '/request-quote',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RequestDemoRoute = RequestDemoRouteImport.update({
+  id: '/request-demo',
+  path: '/request-demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -34,17 +56,92 @@ const FeaturesIndexRoute = FeaturesIndexRouteImport.update({
   path: '/features/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeaturesPerformanceRoute = FeaturesPerformanceRouteImport.update({
+  id: '/features/performance',
+  path: '/features/performance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesPayrollRoute = FeaturesPayrollRouteImport.update({
+  id: '/features/payroll',
+  path: '/features/payroll',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesMobileAppRoute = FeaturesMobileAppRouteImport.update({
+  id: '/features/mobile-app',
+  path: '/features/mobile-app',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesIntegrationsRoute = FeaturesIntegrationsRouteImport.update({
+  id: '/features/integrations',
+  path: '/features/integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesHrChatbotRoute = FeaturesHrChatbotRouteImport.update({
+  id: '/features/hr-chatbot',
+  path: '/features/hr-chatbot',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesHrAutomationRoute = FeaturesHrAutomationRouteImport.update({
+  id: '/features/hr-automation',
+  path: '/features/hr-automation',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesHiringOnboardingRoute =
+  FeaturesHiringOnboardingRouteImport.update({
+    id: '/features/hiring-onboarding',
+    path: '/features/hiring-onboarding',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const FeaturesEngagementRoute = FeaturesEngagementRouteImport.update({
+  id: '/features/engagement',
+  path: '/features/engagement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesCustomServicesRoute = FeaturesCustomServicesRouteImport.update({
+  id: '/features/custom-services',
+  path: '/features/custom-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeaturesCoreHrRoute = FeaturesCoreHrRouteImport.update({
+  id: '/features/core-hr',
+  path: '/features/core-hr',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/customers': typeof CustomersRoute
   '/pricing': typeof PricingRoute
+  '/request-demo': typeof RequestDemoRoute
+  '/request-quote': typeof RequestQuoteRoute
+  '/features/core-hr': typeof FeaturesCoreHrRoute
+  '/features/custom-services': typeof FeaturesCustomServicesRoute
+  '/features/engagement': typeof FeaturesEngagementRoute
+  '/features/hiring-onboarding': typeof FeaturesHiringOnboardingRoute
+  '/features/hr-automation': typeof FeaturesHrAutomationRoute
+  '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
+  '/features/integrations': typeof FeaturesIntegrationsRoute
+  '/features/mobile-app': typeof FeaturesMobileAppRoute
+  '/features/payroll': typeof FeaturesPayrollRoute
+  '/features/performance': typeof FeaturesPerformanceRoute
   '/features/': typeof FeaturesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/customers': typeof CustomersRoute
   '/pricing': typeof PricingRoute
+  '/request-demo': typeof RequestDemoRoute
+  '/request-quote': typeof RequestQuoteRoute
+  '/features/core-hr': typeof FeaturesCoreHrRoute
+  '/features/custom-services': typeof FeaturesCustomServicesRoute
+  '/features/engagement': typeof FeaturesEngagementRoute
+  '/features/hiring-onboarding': typeof FeaturesHiringOnboardingRoute
+  '/features/hr-automation': typeof FeaturesHrAutomationRoute
+  '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
+  '/features/integrations': typeof FeaturesIntegrationsRoute
+  '/features/mobile-app': typeof FeaturesMobileAppRoute
+  '/features/payroll': typeof FeaturesPayrollRoute
+  '/features/performance': typeof FeaturesPerformanceRoute
   '/features': typeof FeaturesIndexRoute
 }
 export interface FileRoutesById {
@@ -52,25 +149,112 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/customers': typeof CustomersRoute
   '/pricing': typeof PricingRoute
+  '/request-demo': typeof RequestDemoRoute
+  '/request-quote': typeof RequestQuoteRoute
+  '/features/core-hr': typeof FeaturesCoreHrRoute
+  '/features/custom-services': typeof FeaturesCustomServicesRoute
+  '/features/engagement': typeof FeaturesEngagementRoute
+  '/features/hiring-onboarding': typeof FeaturesHiringOnboardingRoute
+  '/features/hr-automation': typeof FeaturesHrAutomationRoute
+  '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
+  '/features/integrations': typeof FeaturesIntegrationsRoute
+  '/features/mobile-app': typeof FeaturesMobileAppRoute
+  '/features/payroll': typeof FeaturesPayrollRoute
+  '/features/performance': typeof FeaturesPerformanceRoute
   '/features/': typeof FeaturesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/customers' | '/pricing' | '/features/'
+  fullPaths:
+    | '/'
+    | '/customers'
+    | '/pricing'
+    | '/request-demo'
+    | '/request-quote'
+    | '/features/core-hr'
+    | '/features/custom-services'
+    | '/features/engagement'
+    | '/features/hiring-onboarding'
+    | '/features/hr-automation'
+    | '/features/hr-chatbot'
+    | '/features/integrations'
+    | '/features/mobile-app'
+    | '/features/payroll'
+    | '/features/performance'
+    | '/features/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/customers' | '/pricing' | '/features'
-  id: '__root__' | '/' | '/customers' | '/pricing' | '/features/'
+  to:
+    | '/'
+    | '/customers'
+    | '/pricing'
+    | '/request-demo'
+    | '/request-quote'
+    | '/features/core-hr'
+    | '/features/custom-services'
+    | '/features/engagement'
+    | '/features/hiring-onboarding'
+    | '/features/hr-automation'
+    | '/features/hr-chatbot'
+    | '/features/integrations'
+    | '/features/mobile-app'
+    | '/features/payroll'
+    | '/features/performance'
+    | '/features'
+  id:
+    | '__root__'
+    | '/'
+    | '/customers'
+    | '/pricing'
+    | '/request-demo'
+    | '/request-quote'
+    | '/features/core-hr'
+    | '/features/custom-services'
+    | '/features/engagement'
+    | '/features/hiring-onboarding'
+    | '/features/hr-automation'
+    | '/features/hr-chatbot'
+    | '/features/integrations'
+    | '/features/mobile-app'
+    | '/features/payroll'
+    | '/features/performance'
+    | '/features/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CustomersRoute: typeof CustomersRoute
   PricingRoute: typeof PricingRoute
+  RequestDemoRoute: typeof RequestDemoRoute
+  RequestQuoteRoute: typeof RequestQuoteRoute
+  FeaturesCoreHrRoute: typeof FeaturesCoreHrRoute
+  FeaturesCustomServicesRoute: typeof FeaturesCustomServicesRoute
+  FeaturesEngagementRoute: typeof FeaturesEngagementRoute
+  FeaturesHiringOnboardingRoute: typeof FeaturesHiringOnboardingRoute
+  FeaturesHrAutomationRoute: typeof FeaturesHrAutomationRoute
+  FeaturesHrChatbotRoute: typeof FeaturesHrChatbotRoute
+  FeaturesIntegrationsRoute: typeof FeaturesIntegrationsRoute
+  FeaturesMobileAppRoute: typeof FeaturesMobileAppRoute
+  FeaturesPayrollRoute: typeof FeaturesPayrollRoute
+  FeaturesPerformanceRoute: typeof FeaturesPerformanceRoute
   FeaturesIndexRoute: typeof FeaturesIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/request-quote': {
+      id: '/request-quote'
+      path: '/request-quote'
+      fullPath: '/request-quote'
+      preLoaderRoute: typeof RequestQuoteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/request-demo': {
+      id: '/request-demo'
+      path: '/request-demo'
+      fullPath: '/request-demo'
+      preLoaderRoute: typeof RequestDemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -99,6 +283,76 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/features/performance': {
+      id: '/features/performance'
+      path: '/features/performance'
+      fullPath: '/features/performance'
+      preLoaderRoute: typeof FeaturesPerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/payroll': {
+      id: '/features/payroll'
+      path: '/features/payroll'
+      fullPath: '/features/payroll'
+      preLoaderRoute: typeof FeaturesPayrollRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/mobile-app': {
+      id: '/features/mobile-app'
+      path: '/features/mobile-app'
+      fullPath: '/features/mobile-app'
+      preLoaderRoute: typeof FeaturesMobileAppRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/integrations': {
+      id: '/features/integrations'
+      path: '/features/integrations'
+      fullPath: '/features/integrations'
+      preLoaderRoute: typeof FeaturesIntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/hr-chatbot': {
+      id: '/features/hr-chatbot'
+      path: '/features/hr-chatbot'
+      fullPath: '/features/hr-chatbot'
+      preLoaderRoute: typeof FeaturesHrChatbotRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/hr-automation': {
+      id: '/features/hr-automation'
+      path: '/features/hr-automation'
+      fullPath: '/features/hr-automation'
+      preLoaderRoute: typeof FeaturesHrAutomationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/hiring-onboarding': {
+      id: '/features/hiring-onboarding'
+      path: '/features/hiring-onboarding'
+      fullPath: '/features/hiring-onboarding'
+      preLoaderRoute: typeof FeaturesHiringOnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/engagement': {
+      id: '/features/engagement'
+      path: '/features/engagement'
+      fullPath: '/features/engagement'
+      preLoaderRoute: typeof FeaturesEngagementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/custom-services': {
+      id: '/features/custom-services'
+      path: '/features/custom-services'
+      fullPath: '/features/custom-services'
+      preLoaderRoute: typeof FeaturesCustomServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/core-hr': {
+      id: '/features/core-hr'
+      path: '/features/core-hr'
+      fullPath: '/features/core-hr'
+      preLoaderRoute: typeof FeaturesCoreHrRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -106,6 +360,18 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CustomersRoute: CustomersRoute,
   PricingRoute: PricingRoute,
+  RequestDemoRoute: RequestDemoRoute,
+  RequestQuoteRoute: RequestQuoteRoute,
+  FeaturesCoreHrRoute: FeaturesCoreHrRoute,
+  FeaturesCustomServicesRoute: FeaturesCustomServicesRoute,
+  FeaturesEngagementRoute: FeaturesEngagementRoute,
+  FeaturesHiringOnboardingRoute: FeaturesHiringOnboardingRoute,
+  FeaturesHrAutomationRoute: FeaturesHrAutomationRoute,
+  FeaturesHrChatbotRoute: FeaturesHrChatbotRoute,
+  FeaturesIntegrationsRoute: FeaturesIntegrationsRoute,
+  FeaturesMobileAppRoute: FeaturesMobileAppRoute,
+  FeaturesPayrollRoute: FeaturesPayrollRoute,
+  FeaturesPerformanceRoute: FeaturesPerformanceRoute,
   FeaturesIndexRoute: FeaturesIndexRoute,
 }
 export const routeTree = rootRouteImport
