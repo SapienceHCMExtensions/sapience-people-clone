@@ -15,6 +15,14 @@ import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeaturesIndexRouteImport } from './routes/features/index'
+import { Route as SolutionsSmallBusinessRouteImport } from './routes/solutions/small-business'
+import { Route as SolutionsMediumBusinessRouteImport } from './routes/solutions/medium-business'
+import { Route as SolutionsMediaRouteImport } from './routes/solutions/media'
+import { Route as SolutionsItRouteImport } from './routes/solutions/it'
+import { Route as SolutionsHealthcareRouteImport } from './routes/solutions/healthcare'
+import { Route as SolutionsFinanceRouteImport } from './routes/solutions/finance'
+import { Route as SolutionsEnterpriseRouteImport } from './routes/solutions/enterprise'
+import { Route as SolutionsEducationRouteImport } from './routes/solutions/education'
 import { Route as FeaturesPerformanceRouteImport } from './routes/features/performance'
 import { Route as FeaturesPayrollRouteImport } from './routes/features/payroll'
 import { Route as FeaturesMobileAppRouteImport } from './routes/features/mobile-app'
@@ -54,6 +62,46 @@ const IndexRoute = IndexRouteImport.update({
 const FeaturesIndexRoute = FeaturesIndexRouteImport.update({
   id: '/features/',
   path: '/features/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsSmallBusinessRoute = SolutionsSmallBusinessRouteImport.update({
+  id: '/solutions/small-business',
+  path: '/solutions/small-business',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsMediumBusinessRoute = SolutionsMediumBusinessRouteImport.update({
+  id: '/solutions/medium-business',
+  path: '/solutions/medium-business',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsMediaRoute = SolutionsMediaRouteImport.update({
+  id: '/solutions/media',
+  path: '/solutions/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsItRoute = SolutionsItRouteImport.update({
+  id: '/solutions/it',
+  path: '/solutions/it',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsHealthcareRoute = SolutionsHealthcareRouteImport.update({
+  id: '/solutions/healthcare',
+  path: '/solutions/healthcare',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsFinanceRoute = SolutionsFinanceRouteImport.update({
+  id: '/solutions/finance',
+  path: '/solutions/finance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsEnterpriseRoute = SolutionsEnterpriseRouteImport.update({
+  id: '/solutions/enterprise',
+  path: '/solutions/enterprise',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsEducationRoute = SolutionsEducationRouteImport.update({
+  id: '/solutions/education',
+  path: '/solutions/education',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeaturesPerformanceRoute = FeaturesPerformanceRouteImport.update({
@@ -124,6 +172,14 @@ export interface FileRoutesByFullPath {
   '/features/mobile-app': typeof FeaturesMobileAppRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/solutions/education': typeof SolutionsEducationRoute
+  '/solutions/enterprise': typeof SolutionsEnterpriseRoute
+  '/solutions/finance': typeof SolutionsFinanceRoute
+  '/solutions/healthcare': typeof SolutionsHealthcareRoute
+  '/solutions/it': typeof SolutionsItRoute
+  '/solutions/media': typeof SolutionsMediaRoute
+  '/solutions/medium-business': typeof SolutionsMediumBusinessRoute
+  '/solutions/small-business': typeof SolutionsSmallBusinessRoute
   '/features/': typeof FeaturesIndexRoute
 }
 export interface FileRoutesByTo {
@@ -142,6 +198,14 @@ export interface FileRoutesByTo {
   '/features/mobile-app': typeof FeaturesMobileAppRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/solutions/education': typeof SolutionsEducationRoute
+  '/solutions/enterprise': typeof SolutionsEnterpriseRoute
+  '/solutions/finance': typeof SolutionsFinanceRoute
+  '/solutions/healthcare': typeof SolutionsHealthcareRoute
+  '/solutions/it': typeof SolutionsItRoute
+  '/solutions/media': typeof SolutionsMediaRoute
+  '/solutions/medium-business': typeof SolutionsMediumBusinessRoute
+  '/solutions/small-business': typeof SolutionsSmallBusinessRoute
   '/features': typeof FeaturesIndexRoute
 }
 export interface FileRoutesById {
@@ -161,6 +225,14 @@ export interface FileRoutesById {
   '/features/mobile-app': typeof FeaturesMobileAppRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/solutions/education': typeof SolutionsEducationRoute
+  '/solutions/enterprise': typeof SolutionsEnterpriseRoute
+  '/solutions/finance': typeof SolutionsFinanceRoute
+  '/solutions/healthcare': typeof SolutionsHealthcareRoute
+  '/solutions/it': typeof SolutionsItRoute
+  '/solutions/media': typeof SolutionsMediaRoute
+  '/solutions/medium-business': typeof SolutionsMediumBusinessRoute
+  '/solutions/small-business': typeof SolutionsSmallBusinessRoute
   '/features/': typeof FeaturesIndexRoute
 }
 export interface FileRouteTypes {
@@ -181,6 +253,14 @@ export interface FileRouteTypes {
     | '/features/mobile-app'
     | '/features/payroll'
     | '/features/performance'
+    | '/solutions/education'
+    | '/solutions/enterprise'
+    | '/solutions/finance'
+    | '/solutions/healthcare'
+    | '/solutions/it'
+    | '/solutions/media'
+    | '/solutions/medium-business'
+    | '/solutions/small-business'
     | '/features/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -199,6 +279,14 @@ export interface FileRouteTypes {
     | '/features/mobile-app'
     | '/features/payroll'
     | '/features/performance'
+    | '/solutions/education'
+    | '/solutions/enterprise'
+    | '/solutions/finance'
+    | '/solutions/healthcare'
+    | '/solutions/it'
+    | '/solutions/media'
+    | '/solutions/medium-business'
+    | '/solutions/small-business'
     | '/features'
   id:
     | '__root__'
@@ -217,6 +305,14 @@ export interface FileRouteTypes {
     | '/features/mobile-app'
     | '/features/payroll'
     | '/features/performance'
+    | '/solutions/education'
+    | '/solutions/enterprise'
+    | '/solutions/finance'
+    | '/solutions/healthcare'
+    | '/solutions/it'
+    | '/solutions/media'
+    | '/solutions/medium-business'
+    | '/solutions/small-business'
     | '/features/'
   fileRoutesById: FileRoutesById
 }
@@ -236,6 +332,14 @@ export interface RootRouteChildren {
   FeaturesMobileAppRoute: typeof FeaturesMobileAppRoute
   FeaturesPayrollRoute: typeof FeaturesPayrollRoute
   FeaturesPerformanceRoute: typeof FeaturesPerformanceRoute
+  SolutionsEducationRoute: typeof SolutionsEducationRoute
+  SolutionsEnterpriseRoute: typeof SolutionsEnterpriseRoute
+  SolutionsFinanceRoute: typeof SolutionsFinanceRoute
+  SolutionsHealthcareRoute: typeof SolutionsHealthcareRoute
+  SolutionsItRoute: typeof SolutionsItRoute
+  SolutionsMediaRoute: typeof SolutionsMediaRoute
+  SolutionsMediumBusinessRoute: typeof SolutionsMediumBusinessRoute
+  SolutionsSmallBusinessRoute: typeof SolutionsSmallBusinessRoute
   FeaturesIndexRoute: typeof FeaturesIndexRoute
 }
 
@@ -281,6 +385,62 @@ declare module '@tanstack/react-router' {
       path: '/features'
       fullPath: '/features/'
       preLoaderRoute: typeof FeaturesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/small-business': {
+      id: '/solutions/small-business'
+      path: '/solutions/small-business'
+      fullPath: '/solutions/small-business'
+      preLoaderRoute: typeof SolutionsSmallBusinessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/medium-business': {
+      id: '/solutions/medium-business'
+      path: '/solutions/medium-business'
+      fullPath: '/solutions/medium-business'
+      preLoaderRoute: typeof SolutionsMediumBusinessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/media': {
+      id: '/solutions/media'
+      path: '/solutions/media'
+      fullPath: '/solutions/media'
+      preLoaderRoute: typeof SolutionsMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/it': {
+      id: '/solutions/it'
+      path: '/solutions/it'
+      fullPath: '/solutions/it'
+      preLoaderRoute: typeof SolutionsItRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/healthcare': {
+      id: '/solutions/healthcare'
+      path: '/solutions/healthcare'
+      fullPath: '/solutions/healthcare'
+      preLoaderRoute: typeof SolutionsHealthcareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/finance': {
+      id: '/solutions/finance'
+      path: '/solutions/finance'
+      fullPath: '/solutions/finance'
+      preLoaderRoute: typeof SolutionsFinanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/enterprise': {
+      id: '/solutions/enterprise'
+      path: '/solutions/enterprise'
+      fullPath: '/solutions/enterprise'
+      preLoaderRoute: typeof SolutionsEnterpriseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions/education': {
+      id: '/solutions/education'
+      path: '/solutions/education'
+      fullPath: '/solutions/education'
+      preLoaderRoute: typeof SolutionsEducationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/features/performance': {
@@ -372,6 +532,14 @@ const rootRouteChildren: RootRouteChildren = {
   FeaturesMobileAppRoute: FeaturesMobileAppRoute,
   FeaturesPayrollRoute: FeaturesPayrollRoute,
   FeaturesPerformanceRoute: FeaturesPerformanceRoute,
+  SolutionsEducationRoute: SolutionsEducationRoute,
+  SolutionsEnterpriseRoute: SolutionsEnterpriseRoute,
+  SolutionsFinanceRoute: SolutionsFinanceRoute,
+  SolutionsHealthcareRoute: SolutionsHealthcareRoute,
+  SolutionsItRoute: SolutionsItRoute,
+  SolutionsMediaRoute: SolutionsMediaRoute,
+  SolutionsMediumBusinessRoute: SolutionsMediumBusinessRoute,
+  SolutionsSmallBusinessRoute: SolutionsSmallBusinessRoute,
   FeaturesIndexRoute: FeaturesIndexRoute,
 }
 export const routeTree = rootRouteImport
