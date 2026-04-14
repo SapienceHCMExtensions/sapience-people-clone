@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Users, Clock, CalendarDays, FileText, BarChart3, Headphones, FolderOpen, UserMinus, Briefcase, Award, BookOpen, DollarSign, Plane, MessageSquare, Heart, Bot, Smartphone, Plug, Settings, Zap, Layers } from "lucide-react";
+import { Users, Briefcase, Award, DollarSign, Heart, Bot, Smartphone, Plug, Settings, Zap } from "lucide-react";
 import { FeatureCard } from "@/components/shared/FeatureCard";
 
 export const Route = createFileRoute("/features/")({
   head: () => ({
     meta: [
       { title: "All Features — Sapience HCM" },
-      { name: "description", content: "Explore the complete suite of HR features offered by Sapience HCM." },
+      { name: "description", content: "Explore the complete suite of HR features offered by Sapience HCM — from hire to retire." },
       { property: "og:title", content: "All Features — Sapience HCM" },
       { property: "og:description", content: "Explore the complete suite of HR features offered by Sapience HCM." },
     ],
@@ -15,16 +15,16 @@ export const Route = createFileRoute("/features/")({
 });
 
 const allFeatures = [
-  { icon: Briefcase, title: "Hiring & Onboarding", description: "Integrated recruitment and seamless employee onboarding.", link: "/features/hiring-onboarding" },
-  { icon: Users, title: "Core HR", description: "Employee management, attendance, leave, timesheets, and more.", link: "/features/core-hr" },
-  { icon: Award, title: "Performance & Development", description: "Performance reviews, compensation, and learning management.", link: "/features/performance" },
-  { icon: DollarSign, title: "Payroll & Expense", description: "Automated payroll processing and expense management.", link: "/features/payroll" },
-  { icon: Heart, title: "Employee Engagement", description: "Engagement surveys, recognition, and business chat.", link: "/features/engagement" },
-  { icon: Zap, title: "HR Automation", description: "Smart workflows and automated HR processes.", link: "/features/hr-automation" },
-  { icon: Settings, title: "Custom Services", description: "Tailored HR solutions for your unique needs.", link: "/features/custom-services" },
+  { icon: Briefcase, title: "Hiring & Onboarding", description: "Position requisition, interview scheduling, career page integration, and automated onboarding cycles.", link: "/features/hiring-onboarding" },
+  { icon: Users, title: "Core HR", description: "Employee management, biometric attendance, shift rostering, leave, timesheets, HR help desk, and analytics.", link: "/features/core-hr" },
+  { icon: Award, title: "Performance & Development", description: "360° feedback, goal cascading, compensation & benefits, and skill-based training management.", link: "/features/performance" },
+  { icon: DollarSign, title: "Payroll & Expense", description: "GCC-localized payroll with WPS compliance, multi-currency support, and travel & expense claims.", link: "/features/payroll" },
+  { icon: Heart, title: "Employee Engagement", description: "Pulse surveys, eNPS, peer recognition, and a mobile-ready self-service portal.", link: "/features/engagement" },
+  { icon: Zap, title: "HR Automation", description: "Approval workflows, conditional logic, escalation rules, and smart notifications.", link: "/features/hr-automation" },
+  { icon: Settings, title: "Custom Services", description: "Project labor costing, custom configurations, and white-label solutions.", link: "/features/custom-services" },
   { icon: Bot, title: "HR Chatbot", description: "AI-powered assistant for instant HR support.", link: "/features/hr-chatbot" },
   { icon: Smartphone, title: "Mobile App", description: "Full HR capabilities on iOS and Android.", link: "/features/mobile-app" },
-  { icon: Plug, title: "Integrations", description: "Connect with your favorite business tools.", link: "/features/integrations" },
+  { icon: Plug, title: "Integrations", description: "Sage 300, SAP, Dynamics 365, biometric devices, and REST API.", link: "/features/integrations" },
 ];
 
 function AllFeaturesPage() {

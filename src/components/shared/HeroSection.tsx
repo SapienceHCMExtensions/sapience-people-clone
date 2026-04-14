@@ -8,6 +8,8 @@ interface HeroSectionProps {
   ctaSecondaryText?: string;
   ctaSecondaryLink?: string;
   badge?: string;
+  screenshotUrl?: string;
+  screenshotAlt?: string;
 }
 
 export function HeroSection({
@@ -18,6 +20,8 @@ export function HeroSection({
   ctaSecondaryText = "Request Demo",
   ctaSecondaryLink = "/request-demo",
   badge,
+  screenshotUrl,
+  screenshotAlt = "Sapience HCM product screenshot",
 }: HeroSectionProps) {
   return (
     <section className="relative bg-soft-gray overflow-hidden">
@@ -50,6 +54,16 @@ export function HeroSection({
             </Link>
           </div>
         </div>
+        {screenshotUrl && (
+          <div className="mt-12 max-w-5xl mx-auto">
+            <img
+              src={screenshotUrl}
+              alt={screenshotAlt}
+              className="w-full rounded-xl shadow-2xl border border-border"
+              loading="lazy"
+            />
+          </div>
+        )}
       </div>
     </section>
   );
