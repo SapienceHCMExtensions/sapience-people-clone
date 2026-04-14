@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Users, Briefcase, Award, DollarSign, Heart, Bot, Smartphone, Plug, Settings, Zap } from "lucide-react";
+import { Users, Briefcase, Award, DollarSign, Heart, Bot, Smartphone, Plug, Settings, Zap, Plane } from "lucide-react";
 import { FeatureCard } from "@/components/shared/FeatureCard";
 
 export const Route = createFileRoute("/features/")({
@@ -18,7 +18,8 @@ const allFeatures = [
   { icon: Briefcase, title: "Hiring & Onboarding", description: "Position requisition, interview scheduling, career page integration, and automated onboarding cycles.", link: "/features/hiring-onboarding" },
   { icon: Users, title: "Core HR", description: "Employee management, biometric attendance, shift rostering, leave, timesheets, HR help desk, and analytics.", link: "/features/core-hr" },
   { icon: Award, title: "Performance & Development", description: "360° feedback, goal cascading, compensation & benefits, and skill-based training management.", link: "/features/performance" },
-  { icon: DollarSign, title: "Payroll & Expense", description: "GCC-localized payroll with WPS compliance, multi-currency support, and travel & expense claims.", link: "/features/payroll" },
+  { icon: DollarSign, title: "Payroll", description: "GCC-localized payroll with WPS compliance, multi-currency support, GL integration, and end of service benefits.", link: "/features/payroll" },
+  { icon: Plane, title: "Travel & Expense", description: "Automated travel requests, multi-currency expense tracking, per diem calculations, and receipt management.", link: "/features/travel-expense" },
   { icon: Heart, title: "Employee Engagement", description: "Pulse surveys, eNPS, peer recognition, and a mobile-ready self-service portal.", link: "/features/engagement" },
   { icon: Zap, title: "HR Automation", description: "Approval workflows, conditional logic, escalation rules, and smart notifications.", link: "/features/hr-automation" },
   { icon: Settings, title: "Custom Services", description: "Project labor costing, custom configurations, and white-label solutions.", link: "/features/custom-services" },
