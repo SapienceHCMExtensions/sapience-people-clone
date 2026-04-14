@@ -24,6 +24,7 @@ import { Route as SolutionsHealthcareRouteImport } from './routes/solutions/heal
 import { Route as SolutionsFinanceRouteImport } from './routes/solutions/finance'
 import { Route as SolutionsEnterpriseRouteImport } from './routes/solutions/enterprise'
 import { Route as SolutionsEducationRouteImport } from './routes/solutions/education'
+import { Route as FeaturesTravelExpenseRouteImport } from './routes/features/travel-expense'
 import { Route as FeaturesPerformanceRouteImport } from './routes/features/performance'
 import { Route as FeaturesPayrollRouteImport } from './routes/features/payroll'
 import { Route as FeaturesMobileAppRouteImport } from './routes/features/mobile-app'
@@ -110,6 +111,11 @@ const SolutionsEducationRoute = SolutionsEducationRouteImport.update({
   path: '/solutions/education',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeaturesTravelExpenseRoute = FeaturesTravelExpenseRouteImport.update({
+  id: '/features/travel-expense',
+  path: '/features/travel-expense',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeaturesPerformanceRoute = FeaturesPerformanceRouteImport.update({
   id: '/features/performance',
   path: '/features/performance',
@@ -179,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/features/mobile-app': typeof FeaturesMobileAppRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/features/travel-expense': typeof FeaturesTravelExpenseRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
   '/solutions/finance': typeof SolutionsFinanceRoute
@@ -206,6 +213,7 @@ export interface FileRoutesByTo {
   '/features/mobile-app': typeof FeaturesMobileAppRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/features/travel-expense': typeof FeaturesTravelExpenseRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
   '/solutions/finance': typeof SolutionsFinanceRoute
@@ -234,6 +242,7 @@ export interface FileRoutesById {
   '/features/mobile-app': typeof FeaturesMobileAppRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/features/travel-expense': typeof FeaturesTravelExpenseRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
   '/solutions/finance': typeof SolutionsFinanceRoute
@@ -263,6 +272,7 @@ export interface FileRouteTypes {
     | '/features/mobile-app'
     | '/features/payroll'
     | '/features/performance'
+    | '/features/travel-expense'
     | '/solutions/education'
     | '/solutions/enterprise'
     | '/solutions/finance'
@@ -290,6 +300,7 @@ export interface FileRouteTypes {
     | '/features/mobile-app'
     | '/features/payroll'
     | '/features/performance'
+    | '/features/travel-expense'
     | '/solutions/education'
     | '/solutions/enterprise'
     | '/solutions/finance'
@@ -317,6 +328,7 @@ export interface FileRouteTypes {
     | '/features/mobile-app'
     | '/features/payroll'
     | '/features/performance'
+    | '/features/travel-expense'
     | '/solutions/education'
     | '/solutions/enterprise'
     | '/solutions/finance'
@@ -345,6 +357,7 @@ export interface RootRouteChildren {
   FeaturesMobileAppRoute: typeof FeaturesMobileAppRoute
   FeaturesPayrollRoute: typeof FeaturesPayrollRoute
   FeaturesPerformanceRoute: typeof FeaturesPerformanceRoute
+  FeaturesTravelExpenseRoute: typeof FeaturesTravelExpenseRoute
   SolutionsEducationRoute: typeof SolutionsEducationRoute
   SolutionsEnterpriseRoute: typeof SolutionsEnterpriseRoute
   SolutionsFinanceRoute: typeof SolutionsFinanceRoute
@@ -463,6 +476,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsEducationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/features/travel-expense': {
+      id: '/features/travel-expense'
+      path: '/features/travel-expense'
+      fullPath: '/features/travel-expense'
+      preLoaderRoute: typeof FeaturesTravelExpenseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/features/performance': {
       id: '/features/performance'
       path: '/features/performance'
@@ -553,6 +573,7 @@ const rootRouteChildren: RootRouteChildren = {
   FeaturesMobileAppRoute: FeaturesMobileAppRoute,
   FeaturesPayrollRoute: FeaturesPayrollRoute,
   FeaturesPerformanceRoute: FeaturesPerformanceRoute,
+  FeaturesTravelExpenseRoute: FeaturesTravelExpenseRoute,
   SolutionsEducationRoute: SolutionsEducationRoute,
   SolutionsEnterpriseRoute: SolutionsEnterpriseRoute,
   SolutionsFinanceRoute: SolutionsFinanceRoute,

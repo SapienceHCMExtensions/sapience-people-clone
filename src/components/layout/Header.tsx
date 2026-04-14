@@ -23,10 +23,16 @@ const featureItems = [
     items: ["Performance management", "Compensation", "Learning management"],
   },
   {
-    category: "Payroll & Expense",
+    category: "Payroll",
     link: "/features/payroll",
     icon: DollarSign,
-    items: ["Integrated payroll", "Travel & expense"],
+    items: ["Integrated payroll", "WPS compliance", "GL integration"],
+  },
+  {
+    category: "Travel & Expense",
+    link: "/features/travel-expense",
+    icon: Plane,
+    items: ["Expense claims", "Per diem", "Receipt management"],
   },
   {
     category: "Employee Engagement",
