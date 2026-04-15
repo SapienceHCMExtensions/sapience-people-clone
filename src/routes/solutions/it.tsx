@@ -1,20 +1,24 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SolutionTemplate } from "@/components/shared/SolutionTemplate";
 import { Globe, Shield, Code, Zap } from "lucide-react";
+import { useT } from "@/i18n/context";
 
 export const Route = createFileRoute("/solutions/it")({
   head: () => ({ meta: [{ title: "HR for IT Industry — Sapience HCM" }, { name: "description", content: "HR solutions designed for IT companies." }, { property: "og:title", content: "HR for IT Industry — Sapience HCM" }, { property: "og:description", content: "HR solutions designed for IT companies." }] }),
-  component: () => (
-    <SolutionTemplate
-      badge="IT Industry"
-      headline="HR built for tech teams"
-      subHeadline="Manage distributed engineering teams, track project-based timesheets, and automate compliance for the fast-paced IT industry."
-      features={[
-        { icon: Code, title: "Project-based Timesheets", description: "Track billable hours across projects, clients, and sprints with seamless timesheet integration." },
-        { icon: Globe, title: "Remote Workforce Management", description: "Manage distributed teams across time zones with geo-fenced attendance and virtual onboarding." },
-        { icon: Shield, title: "Compliance Automation", description: "Stay compliant with industry regulations, data privacy laws, and certification tracking." },
-        { icon: Zap, title: "Agile HR Workflows", description: "Configure approval workflows that match your agile processes and sprint cycles." },
-      ]}
-    />
-  ),
+  component: () => {
+    const t = useT();
+    return (
+      <SolutionTemplate
+        badge={t("solutions.it.badge")}
+        headline={t("solutions.it.headline")}
+        subHeadline={t("solutions.it.subHeadline")}
+        features={[
+          { icon: Code, title: t("solutions.it.projectTimesheets"), description: t("solutions.it.projectTimesheetsDesc") },
+          { icon: Globe, title: t("solutions.it.remoteWorkforce"), description: t("solutions.it.remoteWorkforceDesc") },
+          { icon: Shield, title: t("solutions.it.compliance"), description: t("solutions.it.complianceDesc") },
+          { icon: Zap, title: t("solutions.it.agileHr"), description: t("solutions.it.agileHrDesc") },
+        ]}
+      />
+    );
+  },
 });

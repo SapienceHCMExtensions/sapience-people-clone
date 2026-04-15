@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { useT } from "@/i18n/context";
 
 interface HeroSectionProps {
   headline: string;
@@ -15,14 +16,15 @@ interface HeroSectionProps {
 export function HeroSection({
   headline,
   subHeadline,
-  ctaPrimaryText = "Sign up for free trial",
+  ctaPrimaryText,
   ctaPrimaryLink = "/request-demo",
-  ctaSecondaryText = "Request Demo",
+  ctaSecondaryText,
   ctaSecondaryLink = "/request-demo",
   badge,
   screenshotUrl,
   screenshotAlt = "Sapience HCM product screenshot",
 }: HeroSectionProps) {
+  const t = useT();
   return (
     <section className="relative bg-soft-gray overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-bright-blue/5 to-vibrant-orange/5" />
@@ -44,13 +46,13 @@ export function HeroSection({
               to={ctaPrimaryLink}
               className="inline-flex items-center justify-center rounded-lg bg-vibrant-orange px-6 py-3 text-sm font-semibold text-vibrant-orange-foreground shadow-lg hover:opacity-90 transition-opacity"
             >
-              {ctaPrimaryText}
+              {ctaPrimaryText ?? t("common.cta.signUpFree")}
             </Link>
             <Link
               to={ctaSecondaryLink}
               className="inline-flex items-center justify-center rounded-lg border-2 border-navy bg-transparent px-6 py-3 text-sm font-semibold text-navy hover:bg-navy hover:text-navy-foreground transition-colors"
             >
-              {ctaSecondaryText}
+              {ctaSecondaryText ?? t("common.cta.requestDemo")}
             </Link>
           </div>
         </div>

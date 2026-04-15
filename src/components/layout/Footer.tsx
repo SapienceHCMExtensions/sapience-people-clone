@@ -1,59 +1,59 @@
 import { Link } from "@tanstack/react-router";
 import logo from "@/assets/SapienceHCMLogo.svg";
-
-const footerLinks = {
-  features: [
-    { name: "Core HR", href: "/features/core-hr" },
-    { name: "Hiring & Onboarding", href: "/features/hiring-onboarding" },
-    { name: "Performance", href: "/features/performance" },
-    { name: "Payroll & Expense", href: "/features/payroll" },
-    { name: "Employee Engagement", href: "/features/engagement" },
-    { name: "HR Automation", href: "/features/hr-automation" },
-    { name: "HR Chatbot", href: "/features/hr-chatbot" },
-    { name: "Integrations", href: "/features/integrations" },
-    { name: "All Features", href: "/features" },
-  ],
-  solutions: [
-    { name: "IT", href: "/solutions/it" },
-    { name: "Healthcare", href: "/solutions/healthcare" },
-    { name: "Education", href: "/solutions/education" },
-    { name: "Finance", href: "/solutions/finance" },
-    { name: "Small Business", href: "/solutions/small-business" },
-    { name: "Enterprise", href: "/solutions/enterprise" },
-  ],
-  resources: [
-    { name: "Request Demo", href: "/request-demo" },
-    { name: "Request Quote", href: "/request-quote" },
-    { name: "Customers", href: "/customers" },
-    { name: "Pricing", href: "/pricing" },
-  ],
-  legal: [
-    { name: "Terms of Service", href: "#" },
-    { name: "Privacy Policy", href: "#" },
-    { name: "Cookie Policy", href: "#" },
-    { name: "GDPR Compliance", href: "#" },
-    { name: "Anti-spam Policy", href: "#" },
-  ],
-};
+import { useT } from "@/i18n/context";
 
 export function Footer() {
+  const t = useT();
+
+  const footerLinks = {
+    features: [
+      { name: t("common.footer.coreHr"), href: "/features/core-hr" },
+      { name: t("common.footer.hiringOnboarding"), href: "/features/hiring-onboarding" },
+      { name: t("common.footer.performance"), href: "/features/performance" },
+      { name: t("common.footer.payrollExpense"), href: "/features/payroll" },
+      { name: t("common.footer.engagement"), href: "/features/engagement" },
+      { name: t("common.footer.hrAutomation"), href: "/features/hr-automation" },
+      { name: t("common.footer.hrChatbot"), href: "/features/hr-chatbot" },
+      { name: t("common.footer.integrations"), href: "/features/integrations" },
+      { name: t("common.nav.allFeatures"), href: "/features" },
+    ],
+    solutions: [
+      { name: t("common.footer.it"), href: "/solutions/it" },
+      { name: t("common.footer.healthcare"), href: "/solutions/healthcare" },
+      { name: t("common.footer.education"), href: "/solutions/education" },
+      { name: t("common.footer.finance"), href: "/solutions/finance" },
+      { name: t("common.footer.smallBusiness"), href: "/solutions/small-business" },
+      { name: t("common.footer.enterprise"), href: "/solutions/enterprise" },
+    ],
+    resources: [
+      { name: t("common.nav.requestDemo"), href: "/request-demo" },
+      { name: t("common.nav.requestQuote"), href: "/request-quote" },
+      { name: t("common.footer.customers"), href: "/customers" },
+      { name: t("common.footer.pricing"), href: "/pricing" },
+    ],
+    legal: [
+      { name: t("common.footer.termsOfService"), href: "#" },
+      { name: t("common.footer.privacyPolicy"), href: "#" },
+      { name: t("common.footer.cookiePolicy"), href: "#" },
+      { name: t("common.footer.gdprCompliance"), href: "#" },
+      { name: t("common.footer.antiSpam"), href: "#" },
+    ],
+  };
+
   return (
     <footer className="bg-navy text-navy-foreground">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
-          {/* Brand */}
           <div className="col-span-2 md:col-span-4 lg:col-span-1">
             <img src={logo} alt="Sapience HCM" className="h-8 w-auto brightness-0 invert mb-4" />
-            <p className="text-sm text-navy-foreground/70 mb-4">
-              Comprehensive human capital management for modern businesses.
-            </p>
+            <p className="text-sm text-navy-foreground/70 mb-4">{t("common.footer.tagline")}</p>
             <div className="flex items-center gap-2 text-xs text-navy-foreground/50">
-              <span>Powered by Sapience Technology</span>
+              <span>{t("common.footer.poweredBy")}</span>
             </div>
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-navy-foreground/90">Features</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-navy-foreground/90">{t("common.footer.features")}</h3>
             <ul className="space-y-2">
               {footerLinks.features.map((link) => (
                 <li key={link.href}>
@@ -64,7 +64,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-navy-foreground/90">Solutions</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-navy-foreground/90">{t("common.footer.solutions")}</h3>
             <ul className="space-y-2">
               {footerLinks.solutions.map((link) => (
                 <li key={link.href}>
@@ -75,7 +75,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-navy-foreground/90">Resources</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-navy-foreground/90">{t("common.footer.resources")}</h3>
             <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.href}>
@@ -86,7 +86,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-navy-foreground/90">Security & Privacy</h3>
+            <h3 className="text-sm font-semibold uppercase tracking-wider mb-4 text-navy-foreground/90">{t("common.footer.securityPrivacy")}</h3>
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
@@ -106,14 +106,14 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-navy-foreground/10 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-navy-foreground/50">
-            © {new Date().getFullYear()} Sapience Technology. All rights reserved.
+            © {new Date().getFullYear()} Sapience Technology. {t("common.footer.allRights")}
           </p>
           <div className="flex items-center gap-3 text-xs text-navy-foreground/50">
-            <span>AES-256 Encryption</span>
+            <span>{t("common.footer.aes256")}</span>
             <span>·</span>
-            <span>Multi-factor Authentication</span>
+            <span>{t("common.footer.mfa")}</span>
             <span>·</span>
-            <span>99.9% Uptime SLA</span>
+            <span>{t("common.footer.uptime")}</span>
           </div>
         </div>
       </div>
