@@ -25,8 +25,10 @@ import { Route as SolutionsFinanceRouteImport } from './routes/solutions/finance
 import { Route as SolutionsEnterpriseRouteImport } from './routes/solutions/enterprise'
 import { Route as SolutionsEducationRouteImport } from './routes/solutions/education'
 import { Route as FeaturesTravelExpenseRouteImport } from './routes/features/travel-expense'
+import { Route as FeaturesRetirementSeparationRouteImport } from './routes/features/retirement-separation'
 import { Route as FeaturesPerformanceRouteImport } from './routes/features/performance'
 import { Route as FeaturesPayrollRouteImport } from './routes/features/payroll'
+import { Route as FeaturesOrganizationManagementRouteImport } from './routes/features/organization-management'
 import { Route as FeaturesMobileAppRouteImport } from './routes/features/mobile-app'
 import { Route as FeaturesIntegrationsRouteImport } from './routes/features/integrations'
 import { Route as FeaturesHrChatbotRouteImport } from './routes/features/hr-chatbot'
@@ -116,6 +118,12 @@ const FeaturesTravelExpenseRoute = FeaturesTravelExpenseRouteImport.update({
   path: '/features/travel-expense',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeaturesRetirementSeparationRoute =
+  FeaturesRetirementSeparationRouteImport.update({
+    id: '/features/retirement-separation',
+    path: '/features/retirement-separation',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const FeaturesPerformanceRoute = FeaturesPerformanceRouteImport.update({
   id: '/features/performance',
   path: '/features/performance',
@@ -126,6 +134,12 @@ const FeaturesPayrollRoute = FeaturesPayrollRouteImport.update({
   path: '/features/payroll',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeaturesOrganizationManagementRoute =
+  FeaturesOrganizationManagementRouteImport.update({
+    id: '/features/organization-management',
+    path: '/features/organization-management',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const FeaturesMobileAppRoute = FeaturesMobileAppRouteImport.update({
   id: '/features/mobile-app',
   path: '/features/mobile-app',
@@ -183,8 +197,10 @@ export interface FileRoutesByFullPath {
   '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
   '/features/integrations': typeof FeaturesIntegrationsRoute
   '/features/mobile-app': typeof FeaturesMobileAppRoute
+  '/features/organization-management': typeof FeaturesOrganizationManagementRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/features/retirement-separation': typeof FeaturesRetirementSeparationRoute
   '/features/travel-expense': typeof FeaturesTravelExpenseRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
@@ -211,8 +227,10 @@ export interface FileRoutesByTo {
   '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
   '/features/integrations': typeof FeaturesIntegrationsRoute
   '/features/mobile-app': typeof FeaturesMobileAppRoute
+  '/features/organization-management': typeof FeaturesOrganizationManagementRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/features/retirement-separation': typeof FeaturesRetirementSeparationRoute
   '/features/travel-expense': typeof FeaturesTravelExpenseRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
@@ -240,8 +258,10 @@ export interface FileRoutesById {
   '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
   '/features/integrations': typeof FeaturesIntegrationsRoute
   '/features/mobile-app': typeof FeaturesMobileAppRoute
+  '/features/organization-management': typeof FeaturesOrganizationManagementRoute
   '/features/payroll': typeof FeaturesPayrollRoute
   '/features/performance': typeof FeaturesPerformanceRoute
+  '/features/retirement-separation': typeof FeaturesRetirementSeparationRoute
   '/features/travel-expense': typeof FeaturesTravelExpenseRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
@@ -270,8 +290,10 @@ export interface FileRouteTypes {
     | '/features/hr-chatbot'
     | '/features/integrations'
     | '/features/mobile-app'
+    | '/features/organization-management'
     | '/features/payroll'
     | '/features/performance'
+    | '/features/retirement-separation'
     | '/features/travel-expense'
     | '/solutions/education'
     | '/solutions/enterprise'
@@ -298,8 +320,10 @@ export interface FileRouteTypes {
     | '/features/hr-chatbot'
     | '/features/integrations'
     | '/features/mobile-app'
+    | '/features/organization-management'
     | '/features/payroll'
     | '/features/performance'
+    | '/features/retirement-separation'
     | '/features/travel-expense'
     | '/solutions/education'
     | '/solutions/enterprise'
@@ -326,8 +350,10 @@ export interface FileRouteTypes {
     | '/features/hr-chatbot'
     | '/features/integrations'
     | '/features/mobile-app'
+    | '/features/organization-management'
     | '/features/payroll'
     | '/features/performance'
+    | '/features/retirement-separation'
     | '/features/travel-expense'
     | '/solutions/education'
     | '/solutions/enterprise'
@@ -355,8 +381,10 @@ export interface RootRouteChildren {
   FeaturesHrChatbotRoute: typeof FeaturesHrChatbotRoute
   FeaturesIntegrationsRoute: typeof FeaturesIntegrationsRoute
   FeaturesMobileAppRoute: typeof FeaturesMobileAppRoute
+  FeaturesOrganizationManagementRoute: typeof FeaturesOrganizationManagementRoute
   FeaturesPayrollRoute: typeof FeaturesPayrollRoute
   FeaturesPerformanceRoute: typeof FeaturesPerformanceRoute
+  FeaturesRetirementSeparationRoute: typeof FeaturesRetirementSeparationRoute
   FeaturesTravelExpenseRoute: typeof FeaturesTravelExpenseRoute
   SolutionsEducationRoute: typeof SolutionsEducationRoute
   SolutionsEnterpriseRoute: typeof SolutionsEnterpriseRoute
@@ -483,6 +511,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesTravelExpenseRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/features/retirement-separation': {
+      id: '/features/retirement-separation'
+      path: '/features/retirement-separation'
+      fullPath: '/features/retirement-separation'
+      preLoaderRoute: typeof FeaturesRetirementSeparationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/features/performance': {
       id: '/features/performance'
       path: '/features/performance'
@@ -495,6 +530,13 @@ declare module '@tanstack/react-router' {
       path: '/features/payroll'
       fullPath: '/features/payroll'
       preLoaderRoute: typeof FeaturesPayrollRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/features/organization-management': {
+      id: '/features/organization-management'
+      path: '/features/organization-management'
+      fullPath: '/features/organization-management'
+      preLoaderRoute: typeof FeaturesOrganizationManagementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/features/mobile-app': {
@@ -571,8 +613,10 @@ const rootRouteChildren: RootRouteChildren = {
   FeaturesHrChatbotRoute: FeaturesHrChatbotRoute,
   FeaturesIntegrationsRoute: FeaturesIntegrationsRoute,
   FeaturesMobileAppRoute: FeaturesMobileAppRoute,
+  FeaturesOrganizationManagementRoute: FeaturesOrganizationManagementRoute,
   FeaturesPayrollRoute: FeaturesPayrollRoute,
   FeaturesPerformanceRoute: FeaturesPerformanceRoute,
+  FeaturesRetirementSeparationRoute: FeaturesRetirementSeparationRoute,
   FeaturesTravelExpenseRoute: FeaturesTravelExpenseRoute,
   SolutionsEducationRoute: SolutionsEducationRoute,
   SolutionsEnterpriseRoute: SolutionsEnterpriseRoute,
