@@ -36,8 +36,8 @@ function PerformancePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-foreground text-center mb-10">{t("common.moreReasons")}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {moreReasons.map((r) => (
-              <div key={r} className="flex items-start gap-3"><CheckCircle className="h-5 w-5 text-bright-blue shrink-0 mt-0.5" /><span className="text-sm text-foreground">{r}</span></div>
+            {moreReasons.map((r, i) => (
+              <div key={i} className="flex items-start gap-3"><CheckCircle className="h-5 w-5 text-bright-blue shrink-0 mt-0.5" /><span className="text-sm text-foreground">{r}</span></div>
             ))}
           </div>
         </div>
