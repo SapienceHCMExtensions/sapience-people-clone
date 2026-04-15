@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Users, Briefcase, Award, DollarSign, Heart, Bot, Smartphone, Plug, Settings, Zap, Plane } from "lucide-react";
+import { Users, Briefcase, Award, DollarSign, Heart, Bot, Smartphone, Plug, Settings, Zap, Plane, Building2, UserMinus } from "lucide-react";
 import { FeatureCard } from "@/components/shared/FeatureCard";
 
 export const Route = createFileRoute("/features/")({
@@ -15,17 +15,19 @@ export const Route = createFileRoute("/features/")({
 });
 
 const allFeatures = [
-  { icon: Briefcase, title: "Hiring & Onboarding", description: "Position requisition, interview scheduling, career page integration, and automated onboarding cycles.", link: "/features/hiring-onboarding" },
-  { icon: Users, title: "Core HR", description: "Employee management, biometric attendance, shift rostering, leave, timesheets, HR help desk, and analytics.", link: "/features/core-hr" },
-  { icon: Award, title: "Performance & Development", description: "360° feedback, goal cascading, compensation & benefits, and skill-based training management.", link: "/features/performance" },
-  { icon: DollarSign, title: "Payroll", description: "GCC-localized payroll with WPS compliance, multi-currency support, GL integration, and end of service benefits.", link: "/features/payroll" },
-  { icon: Plane, title: "Travel & Expense", description: "Automated travel requests, multi-currency expense tracking, per diem calculations, and receipt management.", link: "/features/travel-expense" },
-  { icon: Heart, title: "Employee Engagement", description: "Pulse surveys, eNPS, peer recognition, and a mobile-ready self-service portal.", link: "/features/engagement" },
+  { icon: Building2, title: "Organization Management", description: "Organizational hierarchy, org charts, job descriptions, multiple roles, and company document expiry alerts.", link: "/features/organization-management" },
+  { icon: Briefcase, title: "Hiring & Onboarding", description: "Manpower planning, position requisition, candidate management, resume search, recruitment agency tracking, and automated onboarding.", link: "/features/hiring-onboarding" },
+  { icon: Users, title: "Core HR", description: "Employee management, biometric attendance, shift & duty rosters, leave management, timesheets, HR help desk, document management, and analytics.", link: "/features/core-hr" },
+  { icon: Award, title: "Performance & Development", description: "Workflow-based evaluations, competency matrix, goal management, succession planning, compensation reviews, and training management.", link: "/features/performance" },
+  { icon: DollarSign, title: "Payroll", description: "GCC & Levant payroll with WPS compliance, multi-currency support, GL integration, pay groups, accruals, and retro pay calculation.", link: "/features/payroll" },
+  { icon: Plane, title: "Travel & Expense", description: "Expense wallet, multi-currency tracking, trip allowance by destination, advance eligibility, and payroll-linked reimbursement.", link: "/features/travel-expense" },
+  { icon: Heart, title: "Employee Engagement", description: "Pulse surveys, eNPS, peer recognition, and comprehensive self-service portal with managerial approvals.", link: "/features/engagement" },
+  { icon: UserMinus, title: "Retirement & Separation", description: "Automated gratuity calculations, leave settlement, asset clearance, exit management, and end of service settlements.", link: "/features/retirement-separation" },
   { icon: Zap, title: "HR Automation", description: "Approval workflows, conditional logic, escalation rules, and smart notifications.", link: "/features/hr-automation" },
   { icon: Settings, title: "Custom Services", description: "Project labor costing, custom configurations, and white-label solutions.", link: "/features/custom-services" },
   { icon: Bot, title: "HR Chatbot", description: "AI-powered assistant for instant HR support.", link: "/features/hr-chatbot" },
   { icon: Smartphone, title: "Mobile App", description: "Full HR capabilities on iOS and Android.", link: "/features/mobile-app" },
-  { icon: Plug, title: "Integrations", description: "Sage 300, SAP, Dynamics 365, biometric devices, and REST API.", link: "/features/integrations" },
+  { icon: Plug, title: "Integrations", description: "SAP, Dynamics 365, Sage X3/300, Infor, QuickBooks, biometric devices, and REST API.", link: "/features/integrations" },
 ];
 
 function AllFeaturesPage() {

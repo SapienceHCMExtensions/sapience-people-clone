@@ -5,40 +5,52 @@ import logo from "@/assets/SapienceHCMLogo.svg";
 
 const featureItems = [
   {
+    category: "Organization Management",
+    link: "/features/organization-management",
+    icon: Building2,
+    items: ["Org hierarchy", "Org chart", "Job descriptions"],
+  },
+  {
     category: "Hiring & Onboarding",
     link: "/features/hiring-onboarding",
     icon: Briefcase,
-    items: ["Integrated recruitment", "Onboarding"],
+    items: ["Manpower planning", "Recruitment", "Onboarding"],
   },
   {
     category: "Core HR",
     link: "/features/core-hr",
     icon: Users,
-    items: ["Employee management", "Attendance", "Shift management", "Leave management", "Timesheets", "HR help desk", "Document management", "HR analytics", "Offboarding"],
+    items: ["Employee management", "Attendance", "Shifts", "Leave", "Timesheets", "Documents"],
   },
   {
     category: "Performance & Development",
     link: "/features/performance",
     icon: Award,
-    items: ["Performance management", "Compensation", "Learning management"],
+    items: ["Evaluations", "Compensation", "Training"],
   },
   {
     category: "Payroll",
     link: "/features/payroll",
     icon: DollarSign,
-    items: ["Integrated payroll", "WPS compliance", "GL integration"],
+    items: ["WPS compliance", "GL integration", "Multi-currency"],
   },
   {
     category: "Travel & Expense",
     link: "/features/travel-expense",
     icon: Plane,
-    items: ["Expense claims", "Per diem", "Receipt management"],
+    items: ["Expense wallet", "Trip allowance", "Payroll link"],
   },
   {
     category: "Employee Engagement",
     link: "/features/engagement",
     icon: Heart,
-    items: ["Employee engagement", "Business chat"],
+    items: ["Surveys", "Self-service portal"],
+  },
+  {
+    category: "Retirement & Separation",
+    link: "/features/retirement-separation",
+    icon: UserMinus,
+    items: ["Gratuity", "Exit management", "End of service"],
   },
 ];
 
