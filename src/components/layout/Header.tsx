@@ -2,81 +2,71 @@ import { useState, useRef, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X, ChevronDown, Users, Clock, CalendarDays, FileText, BarChart3, Headphones, FolderOpen, UserMinus, Briefcase, Award, BookOpen, DollarSign, Plane, MessageSquare, Heart, Bot, Smartphone, Plug, Settings, Zap, Building2, Film, GraduationCap, Stethoscope, Landmark, Building, Layers, Globe } from "lucide-react";
 import logo from "@/assets/SapienceHCMLogo.svg";
+import { useLanguage, useT, type Locale } from "@/i18n/context";
 
-const featureItems = [
-  {
-    category: "Organization Management",
-    link: "/features/organization-management",
-    icon: Building2,
-    items: ["Org hierarchy", "Org chart", "Job descriptions"],
-  },
-  {
-    category: "Hiring & Onboarding",
-    link: "/features/hiring-onboarding",
-    icon: Briefcase,
-    items: ["Manpower planning", "Recruitment", "Onboarding"],
-  },
-  {
-    category: "Core HR",
-    link: "/features/core-hr",
-    icon: Users,
-    items: ["Employee management", "Attendance", "Shifts", "Leave", "Timesheets", "Documents"],
-  },
-  {
-    category: "Performance & Development",
-    link: "/features/performance",
-    icon: Award,
-    items: ["Evaluations", "Compensation", "Training"],
-  },
-  {
-    category: "Payroll",
-    link: "/features/payroll",
-    icon: DollarSign,
-    items: ["WPS compliance", "GL integration", "Multi-currency"],
-  },
-  {
-    category: "Travel & Expense",
-    link: "/features/travel-expense",
-    icon: Plane,
-    items: ["Expense wallet", "Trip allowance", "Payroll link"],
-  },
-  {
-    category: "Employee Engagement",
-    link: "/features/engagement",
-    icon: Heart,
-    items: ["Surveys", "Self-service portal"],
-  },
-  {
-    category: "Retirement & Separation",
-    link: "/features/retirement-separation",
-    icon: UserMinus,
-    items: ["Gratuity", "Exit management", "End of service"],
-  },
+const languages: { code: Locale; label: string; short: string }[] = [
+  { code: "en", label: "English", short: "EN" },
+  { code: "ar", label: "العربية", short: "AR" },
+  { code: "es", label: "Español", short: "ES" },
 ];
 
-const moreFeatures = [
-  { name: "HR Automation", link: "/features/hr-automation", icon: Zap },
-  { name: "Custom Services", link: "/features/custom-services", icon: Settings },
-  { name: "HR Chatbot", link: "/features/hr-chatbot", icon: Bot },
-  { name: "Mobile App", link: "/features/mobile-app", icon: Smartphone },
-  { name: "Integrations", link: "/features/integrations", icon: Plug },
-  { name: "All Features", link: "/features", icon: Layers },
-];
+function LanguageSwitcher({ mobile = false }: { mobile?: boolean }) {
+  const { locale, setLocale } = useLanguage();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
-const solutionItems = {
-  byIndustry: [
-    { name: "IT", link: "/solutions/it", icon: Globe },
-    { name: "Media", link: "/solutions/media", icon: Film },
-    { name: "Education", link: "/solutions/education", icon: GraduationCap },
-    { name: "Healthcare", link: "/solutions/healthcare", icon: Stethoscope },
-    { name: "Finance", link: "/solutions/finance", icon: Landmark },
-  ],
-  bySize: [
-    { name: "Small Business", link: "/solutions/small-business", icon: Building },
-    { name: "Medium Business", link: "/solutions/medium-business", icon: Building2 },
-    { name: "Enterprise", link: "/solutions/enterprise", icon: Globe },
-  ],
-};
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    if (open) document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open]);
+
+  const current = languages.find((l) => l.code === locale) ?? languages[0];
+
+  if (mobile) {
+    return (
+      <div className="flex gap-2">
+        {languages.map((l) => (
+          <button
+            key={l.code}
+            onClick={() => setLocale(l.code)}
+            className={`px-3 py-1.5 text-sm rounded-md transition-colors ${locale === l.code ? "bg-bright-blue text-bright-blue-foreground" : "text-foreground hover:bg-soft-gray"}`}
+          >
+            {l.label}
+          </button>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center gap-1.5 px-2 py-1.5 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md"
+      >
+        <Globe className="h-4 w-4" />
+        <span>{current.short}</span>
+        <ChevronDown className={`h-3 w-3 transition-transform ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <div className="absolute top-full end-0 mt-1 bg-background border border-border rounded-lg shadow-lg py-1 min-w-[140px] z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+          {languages.map((l) => (
+            <button
+              key={l.code}
+              onClick={() => { setLocale(l.code); setOpen(false); }}
+              className={`w-full text-start px-3 py-2 text-sm transition-colors ${locale === l.code ? "text-bright-blue bg-bright-blue/5" : "text-foreground hover:bg-soft-gray"}`}
+            >
+              {l.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 
 function MegaDropdown({ isOpen, onClose, children }: { isOpen: boolean; onClose: () => void; children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -99,81 +89,96 @@ function MegaDropdown({ isOpen, onClose, children }: { isOpen: boolean; onClose:
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const t = useT();
 
   const toggleDropdown = (name: string) => {
     setActiveDropdown(activeDropdown === name ? null : name);
+  };
+
+  const featureItems = [
+    { category: t("features.allFeatures.orgMgmt"), link: "/features/organization-management", icon: Building2, items: [t("header.orgHierarchy"), t("header.orgChart"), t("header.jobDescriptions")] },
+    { category: t("features.allFeatures.hiring"), link: "/features/hiring-onboarding", icon: Briefcase, items: [t("header.manpowerPlanning"), t("header.recruitment"), t("header.onboarding")] },
+    { category: t("features.allFeatures.coreHr"), link: "/features/core-hr", icon: Users, items: [t("header.employeeMgmt"), t("header.attendance"), t("header.shifts"), t("header.leave"), t("header.timesheets"), t("header.documents")] },
+    { category: t("features.allFeatures.performance"), link: "/features/performance", icon: Award, items: [t("header.evaluations"), t("header.compensation"), t("header.training")] },
+    { category: t("features.allFeatures.payroll"), link: "/features/payroll", icon: DollarSign, items: [t("header.wpsCompliance"), t("header.glIntegration"), t("header.multiCurrency")] },
+    { category: t("features.allFeatures.travelExpense"), link: "/features/travel-expense", icon: Plane, items: [t("header.expenseWallet"), t("header.tripAllowance"), t("header.payrollLink")] },
+    { category: t("features.allFeatures.engagement"), link: "/features/engagement", icon: Heart, items: [t("header.surveys"), t("header.selfServicePortal")] },
+    { category: t("features.allFeatures.retirement"), link: "/features/retirement-separation", icon: UserMinus, items: [t("header.gratuity"), t("header.exitManagement"), t("header.endOfService")] },
+  ];
+
+  const moreFeatures = [
+    { name: t("header.hrAutomation"), link: "/features/hr-automation", icon: Zap },
+    { name: t("header.customServices"), link: "/features/custom-services", icon: Settings },
+    { name: t("header.hrChatbot"), link: "/features/hr-chatbot", icon: Bot },
+    { name: t("header.mobileApp"), link: "/features/mobile-app", icon: Smartphone },
+    { name: t("header.integrations"), link: "/features/integrations", icon: Plug },
+    { name: t("header.allFeatures"), link: "/features", icon: Layers },
+  ];
+
+  const solutionItems = {
+    byIndustry: [
+      { name: t("header.it"), link: "/solutions/it", icon: Globe },
+      { name: t("header.media"), link: "/solutions/media", icon: Film },
+      { name: t("header.education"), link: "/solutions/education", icon: GraduationCap },
+      { name: t("header.healthcare"), link: "/solutions/healthcare", icon: Stethoscope },
+      { name: t("header.finance"), link: "/solutions/finance", icon: Landmark },
+    ],
+    bySize: [
+      { name: t("header.smallBusiness"), link: "/solutions/small-business", icon: Building },
+      { name: t("header.mediumBusiness"), link: "/solutions/medium-business", icon: Building2 },
+      { name: t("header.enterprise"), link: "/solutions/enterprise", icon: Globe },
+    ],
   };
 
   return (
     <header className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <Link to="/" className="flex-shrink-0">
             <img src={logo} alt="Sapience HCM" className="h-8 w-auto" />
           </Link>
 
-          {/* Desktop Nav */}
           <nav className="hidden lg:flex items-center gap-1">
-            <button
-              onClick={() => toggleDropdown("features")}
-              className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md"
-            >
-              Features <ChevronDown className={`h-4 w-4 transition-transform ${activeDropdown === "features" ? "rotate-180" : ""}`} />
+            <button onClick={() => toggleDropdown("features")} className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md">
+              {t("common.nav.features")} <ChevronDown className={`h-4 w-4 transition-transform ${activeDropdown === "features" ? "rotate-180" : ""}`} />
             </button>
-            <button
-              onClick={() => toggleDropdown("solutions")}
-              className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md"
-            >
-              Solutions <ChevronDown className={`h-4 w-4 transition-transform ${activeDropdown === "solutions" ? "rotate-180" : ""}`} />
+            <button onClick={() => toggleDropdown("solutions")} className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md">
+              {t("common.nav.solutions")} <ChevronDown className={`h-4 w-4 transition-transform ${activeDropdown === "solutions" ? "rotate-180" : ""}`} />
             </button>
             <Link to="/pricing" className="px-3 py-2 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md">
-              Pricing
+              {t("common.nav.pricing")}
             </Link>
             <Link to="/customers" className="px-3 py-2 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md">
-              Customers
+              {t("common.nav.customers")}
             </Link>
-            <button
-              onClick={() => toggleDropdown("resources")}
-              className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md"
-            >
-              Resources <ChevronDown className={`h-4 w-4 transition-transform ${activeDropdown === "resources" ? "rotate-180" : ""}`} />
+            <button onClick={() => toggleDropdown("resources")} className="flex items-center gap-1 px-3 py-2 text-sm font-medium text-foreground hover:text-bright-blue transition-colors rounded-md">
+              {t("common.nav.resources")} <ChevronDown className={`h-4 w-4 transition-transform ${activeDropdown === "resources" ? "rotate-180" : ""}`} />
             </button>
           </nav>
 
-          {/* Right side */}
           <div className="hidden lg:flex items-center gap-3">
             <Link to="/sign-in" className="text-sm font-medium text-foreground hover:text-bright-blue transition-colors">
-              Sign In
+              {t("common.nav.signIn")}
             </Link>
-            <Link
-              to="/request-demo"
-              className="inline-flex items-center justify-center rounded-md bg-vibrant-orange px-5 py-2 text-sm font-semibold text-vibrant-orange-foreground shadow-sm hover:opacity-90 transition-opacity"
-            >
-              Get Started
+            <LanguageSwitcher />
+            <Link to="/request-demo" className="inline-flex items-center justify-center rounded-md bg-vibrant-orange px-5 py-2 text-sm font-semibold text-vibrant-orange-foreground shadow-sm hover:opacity-90 transition-opacity">
+              {t("common.nav.getStarted")}
             </Link>
           </div>
 
-          {/* Mobile hamburger */}
           <button className="lg:hidden p-2" onClick={() => setMobileOpen(!mobileOpen)}>
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
       </div>
 
-      {/* Features Mega Dropdown */}
       <MegaDropdown isOpen={activeDropdown === "features"} onClose={() => setActiveDropdown(null)}>
         <div className="grid grid-cols-3 gap-8">
           <div className="col-span-2">
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Feature Categories</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t("common.nav.featureCategories")}</h3>
             <div className="grid grid-cols-2 gap-4">
               {featureItems.map((f) => (
-                <Link
-                  key={f.link}
-                  to={f.link}
-                  onClick={() => setActiveDropdown(null)}
-                  className="group flex items-start gap-3 p-3 rounded-lg hover:bg-soft-gray transition-colors"
-                >
+                <Link key={f.link} to={f.link} onClick={() => setActiveDropdown(null)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-soft-gray transition-colors">
                   <f.icon className="h-5 w-5 text-bright-blue mt-0.5 shrink-0" />
                   <div>
                     <div className="text-sm font-semibold text-foreground group-hover:text-bright-blue">{f.category}</div>
@@ -184,15 +189,10 @@ export function Header() {
             </div>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">More</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t("common.nav.more")}</h3>
             <div className="space-y-1">
               {moreFeatures.map((f) => (
-                <Link
-                  key={f.link}
-                  to={f.link}
-                  onClick={() => setActiveDropdown(null)}
-                  className="flex items-center gap-2.5 px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors"
-                >
+                <Link key={f.link} to={f.link} onClick={() => setActiveDropdown(null)} className="flex items-center gap-2.5 px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">
                   <f.icon className="h-4 w-4 text-bright-blue" />
                   {f.name}
                 </Link>
@@ -202,11 +202,10 @@ export function Header() {
         </div>
       </MegaDropdown>
 
-      {/* Solutions Mega Dropdown */}
       <MegaDropdown isOpen={activeDropdown === "solutions"} onClose={() => setActiveDropdown(null)}>
         <div className="grid grid-cols-2 gap-8">
           <div>
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">By Industry</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t("common.nav.byIndustry")}</h3>
             <div className="space-y-1">
               {solutionItems.byIndustry.map((s) => (
                 <Link key={s.link} to={s.link} onClick={() => setActiveDropdown(null)} className="flex items-center gap-2.5 px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">
@@ -216,7 +215,7 @@ export function Header() {
             </div>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">By Size</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t("common.nav.bySize")}</h3>
             <div className="space-y-1">
               {solutionItems.bySize.map((s) => (
                 <Link key={s.link} to={s.link} onClick={() => setActiveDropdown(null)} className="flex items-center gap-2.5 px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">
@@ -228,43 +227,45 @@ export function Header() {
         </div>
       </MegaDropdown>
 
-      {/* Resources Mega Dropdown */}
       <MegaDropdown isOpen={activeDropdown === "resources"} onClose={() => setActiveDropdown(null)}>
         <div className="grid grid-cols-3 gap-8">
           <div>
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">HR Toolkit</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t("common.hrToolkit")}</h3>
             <div className="space-y-1">
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">HR Knowledge Base</a>
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">Blogs</a>
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">HR Glossary</a>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.hrKnowledgeBase")}</a>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.blogs")}</a>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.hrGlossary")}</a>
             </div>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Help Documentation</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t("common.nav.helpDocs")}</h3>
             <div className="space-y-1">
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">Administrator Guide</a>
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">Employee Handbook</a>
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">API Guide</a>
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">Help Videos</a>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.adminGuide")}</a>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.employeeHandbook")}</a>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.apiGuide")}</a>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.helpVideos")}</a>
             </div>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">Connect with Us</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t("common.nav.connectWithUs")}</h3>
             <div className="space-y-1">
-              <Link to="/request-demo" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">Request Demo</Link>
-              <Link to="/request-quote" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">Request a Price Quote</Link>
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">Webinars</a>
-              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">Training Program</a>
+              <Link to="/request-demo" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.requestDemo")}</Link>
+              <Link to="/request-quote" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.requestQuote")}</Link>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.webinars")}</a>
+              <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.trainingProgram")}</a>
             </div>
           </div>
         </div>
       </MegaDropdown>
 
-      {/* Mobile Nav */}
       {mobileOpen && (
         <div className="lg:hidden bg-background border-t border-border max-h-[80vh] overflow-y-auto">
           <div className="p-4 space-y-2">
-            <Link to="/features" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">All Features</Link>
+            <div className="pb-2">
+              <LanguageSwitcher mobile />
+            </div>
+            <div className="border-t border-border my-2" />
+            <Link to="/features" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.allFeatures")}</Link>
             {featureItems.map((f) => (
               <Link key={f.link} to={f.link} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-foreground hover:bg-soft-gray rounded-md">
                 {f.category}
@@ -275,16 +276,12 @@ export function Header() {
               <Link key={s.link} to={s.link} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-foreground hover:bg-soft-gray rounded-md">{s.name}</Link>
             ))}
             <div className="border-t border-border my-2" />
-            <Link to="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">Pricing</Link>
-            <Link to="/customers" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">Customers</Link>
-            <Link to="/request-demo" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">Request Demo</Link>
+            <Link to="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.pricing")}</Link>
+            <Link to="/customers" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.customers")}</Link>
+            <Link to="/request-demo" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.requestDemo")}</Link>
             <div className="border-t border-border my-2" />
-            <Link
-              to="/request-demo"
-              onClick={() => setMobileOpen(false)}
-              className="block w-full text-center rounded-md bg-vibrant-orange px-5 py-2.5 text-sm font-semibold text-vibrant-orange-foreground"
-            >
-              Get Started
+            <Link to="/request-demo" onClick={() => setMobileOpen(false)} className="block w-full text-center rounded-md bg-vibrant-orange px-5 py-2.5 text-sm font-semibold text-vibrant-orange-foreground">
+              {t("common.nav.getStarted")}
             </Link>
           </div>
         </div>
