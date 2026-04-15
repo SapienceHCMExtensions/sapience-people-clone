@@ -1,51 +1,74 @@
 
 
-# Wire i18n Translations into All Page Content
+# Fix Arabic (and Spanish) Language Not Changing on Route Pages
 
-## Problem
-The translation dictionaries (`en.ts`, `ar.ts`, `es.ts`) and the `useT()` hook exist, but only the Header uses them. All 29 route pages and 6 shared components still render hardcoded English strings, so switching languages only changes the menu text.
+## Problem Identified
 
-## Approach
-Replace hardcoded strings in every route component and shared component with `useT("key")` calls, using the translation keys already defined in the dictionaries. Props-based shared components (HeroSection, FeatureCard, etc.) stay props-based — the translation happens at the caller level in each route file.
+After investigation, the core i18n wiring (`useT()` hook, LanguageProvider, translation dictionaries) is correctly set up and all route files already use `useT()` for string translations. However, there is a **critical bug in `getNestedValue`** that prevents arrays from being resolved, causing large sections of every page to appear untranslated.
 
-## Files to Modify
+### The Bug
 
-### Shared Components (3 files)
-1. **`src/components/shared/CTABanner.tsx`** — Replace default prop values with `useT()` calls for headline and subheadline
-2. **`src/components/layout/Footer.tsx`** — Replace all hardcoded section headers, link labels, and tagline with `useT()` calls
-3. **`src/components/layout/CookieConsent.tsx`** — Replace all cookie consent text with `useT()` calls
-
-### Homepage (1 file)
-4. **`src/routes/index.tsx`** — Replace all hardcoded hero text, dashboard section, feature cards, "Why Sapience" section, and testimonial with `useT()` calls using `home.*` keys
-
-### Feature Routes (14 files)
-5-18. Each feature route (`core-hr`, `payroll`, `hiring-onboarding`, `performance`, `travel-expense`, `engagement`, `hr-automation`, `hr-chatbot`, `integrations`, `mobile-app`, `custom-services`, `organization-management`, `retirement-separation`, `features/index`) — Import `useT`, replace all hardcoded text (hero props, FeatureCard props, MoreReasons items, FAQ items, TestimonialBlock props) with corresponding `useT("features.xxx.key")` calls
-
-### Solution Routes (8 files)
-19-26. Each solution route (`it`, `healthcare`, `education`, `finance`, `media`, `small-business`, `medium-business`, `enterprise`) — Import `useT`, replace SolutionTemplate props with `useT("solutions.xxx.key")` calls
-
-### Other Pages (4 files)
-27-30. `pricing.tsx`, `customers.tsx`, `request-demo.tsx`, `request-quote.tsx`, `sign-in.tsx` — Replace hardcoded text with `useT()` calls
-
-### Translation File Gaps
-31. **`src/i18n/en.ts`** — Verify all keys exist for every string being replaced; add any missing keys (e.g., solution page content, pricing page content)
-32. **`src/i18n/ar.ts`** — Add matching Arabic translations for any new keys added to `en.ts`
-33. **`src/i18n/es.ts`** — Add matching Spanish translations for any new keys added to `en.ts`
-
-## Pattern (example for a route)
-```tsx
-// Before
-<HeroSection headline="Manage your workforce" subHeadline="Centralize..." badge="Core HR" />
-
-// After
-const t = useT();
-<HeroSection headline={t("features.coreHr.heroHeadline")} subHeadline={t("features.coreHr.heroSub")} badge={t("features.coreHr.badge")} />
+In `src/i18n/context.tsx`, the `getNestedValue` function (line 64):
+```ts
+return typeof current === "string" ? current : path;
 ```
 
+This **only returns strings**. When the value at the path is an array (e.g., `moreReasons`, `faq` items), it returns the path key string instead. Then `useTranslatedArray` checks `Array.isArray(value)` which is always `false`, so it returns `[]` — an empty array. This means:
+
+- **"More Reasons" sections** on all feature pages render nothing
+- **FAQ sections** on all feature pages render nothing
+- These are large, visible sections on every feature route
+
+This makes it appear as if language switching "doesn't work" on route pages, even though the hero headlines, feature card titles, and other string-based content do change.
+
+### Secondary Issue: Duplicate Key Warnings
+
+Console shows "Encountered two children with the same key" errors. This comes from lists using translated text as React `key` props (e.g., `key={r}` in moreReasons). When two translated items have the same text, React warns about duplicate keys.
+
+## Fix Plan
+
+### 1. Fix `getNestedValue` in `src/i18n/context.tsx`
+
+Change the function to return `any` type instead of `string`, so it can return arrays and objects too. Add a separate `getNestedString` for `useT()` that preserves the string-only behavior:
+
+```ts
+function getNestedValue(obj: any, path: string): any {
+  const keys = path.split(".");
+  let current = obj;
+  for (const key of keys) {
+    if (current === undefined || current === null) return undefined;
+    current = current[key];
+  }
+  return current;
+}
+```
+
+Update `useT()` to check `typeof value === "string"` before returning.
+
+Update `useTranslatedArray()` to work with the corrected return value.
+
+### 2. Fix duplicate key warnings across all feature routes
+
+In all feature route files that render `moreReasons.map((r) => ...)`, change from `key={r}` to `key={index}` (using the map index) to avoid duplicate key issues when two translated items have the same text. Similarly for FAQ items, use `key={index}` or a unique identifier.
+
+**Files affected** (approximately 7 feature routes with moreReasons/FAQ lists):
+- `src/routes/features/core-hr.tsx`
+- `src/routes/features/payroll.tsx`
+- `src/routes/features/hiring-onboarding.tsx`
+- `src/routes/features/performance.tsx`
+- `src/routes/features/engagement.tsx`
+- `src/routes/features/retirement-separation.tsx`
+- `src/routes/features/organization-management.tsx`
+- `src/routes/features/custom-services.tsx`
+
+### 3. Add RTL CSS adjustments in `src/styles.css`
+
+Add `[dir="rtl"]` overrides for edge cases not handled by CSS logical properties (chevron rotation, icon positioning in the header dropdown).
+
 ## What Will NOT Change
-- Translation file structure and `useT()` hook implementation
-- Header component (already translated)
-- Route paths and page structure
-- Images, screenshots, and visual assets
-- Component props interfaces
+
+- Translation dictionary content (en.ts, ar.ts, es.ts) — already complete
+- Route file structure and component architecture
+- Header language switcher functionality
+- LanguageProvider setup in __root.tsx
 
