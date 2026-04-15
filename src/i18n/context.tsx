@@ -54,14 +54,14 @@ export function useLanguage() {
 }
 
 // Deep access helper: t("common.nav.features") => translations[locale].common.nav.features
-function getNestedValue(obj: any, path: string): string {
+function getNestedValue(obj: any, path: string): any {
   const keys = path.split(".");
   let current = obj;
   for (const key of keys) {
-    if (current === undefined || current === null) return path;
+    if (current === undefined || current === null) return undefined;
     current = current[key];
   }
-  return typeof current === "string" ? current : path;
+  return current;
 }
 
 export function useT() {
@@ -69,11 +69,11 @@ export function useT() {
   const t = useCallback(
     (key: string, fallback?: string): string => {
       const value = getNestedValue(translations[locale], key);
-      if (value !== key) return value;
+      if (typeof value === "string") return value;
       // Fallback to English
       if (locale !== "en") {
         const enValue = getNestedValue(translations.en, key);
-        if (enValue !== key) return enValue;
+        if (typeof enValue === "string") return enValue;
       }
       return fallback ?? key;
     },
@@ -83,7 +83,7 @@ export function useT() {
 }
 
 // Hook to get arrays of translated strings
-export function useTranslatedArray(key: string): string[] {
+export function useTranslatedArray(key: string): any[] {
   const { locale } = useLanguage();
   const value = getNestedValue(translations[locale], key);
   if (Array.isArray(value)) return value;
