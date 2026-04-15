@@ -1,95 +1,51 @@
 
 
-# Multi-Language Support (English, Arabic, Spanish) with RTL
+# Wire i18n Translations into All Page Content
 
-## Overview
+## Problem
+The translation dictionaries (`en.ts`, `ar.ts`, `es.ts`) and the `useT()` hook exist, but only the Header uses them. All 29 route pages and 6 shared components still render hardcoded English strings, so switching languages only changes the menu text.
 
-Add full internationalization (i18n) to the site with a language switcher next to "Get Started" in the header. Arabic will use RTL layout. All hardcoded text across ~30 files will be replaced with translation keys.
-
-## Architecture
-
-- Use React Context for language state (no external i18n library needed for a static content site)
-- Store language preference in localStorage, default to English
-- Translation files as TypeScript objects in `src/i18n/`
-- RTL handled by setting `dir="rtl"` and `lang` attribute on `<html>` dynamically
-
-```text
-src/i18n/
-  ├── context.tsx        # LanguageProvider, useLanguage hook, useTranslation hook
-  ├── en.ts              # English translations
-  ├── ar.ts              # Arabic translations
-  └── es.ts              # Spanish translations
-```
-
-## Translation Structure
-
-Each translation file exports a nested object covering:
-- **Common**: Nav items (Features, Solutions, Pricing, Customers, Resources, Sign In, Get Started), footer labels, CTA defaults
-- **Home**: Hero headline/subheadline, dashboard section, feature cards, "Why Sapience" items, testimonial
-- **Features**: Each feature page's hero, feature cards, more reasons, FAQs
-- **Solutions**: Each solution page content
-- **Pages**: Pricing, Customers, Request Demo, Request Quote, Sign In
-
-Keys will be organized as `home.hero.headline`, `features.coreHr.title`, `common.nav.features`, etc.
-
-## Files to Create
-
-1. **`src/i18n/context.tsx`** — `LanguageProvider` with React Context, `useLanguage()` hook (get/set language), `useT()` hook to access translations. Persists to localStorage.
-
-2. **`src/i18n/en.ts`** — All English strings extracted from current hardcoded content across every route and shared component.
-
-3. **`src/i18n/ar.ts`** — Arabic translations for all keys. Professional Arabic translations for HR/HCM terminology.
-
-4. **`src/i18n/es.ts`** — Spanish translations for all keys.
+## Approach
+Replace hardcoded strings in every route component and shared component with `useT("key")` calls, using the translation keys already defined in the dictionaries. Props-based shared components (HeroSection, FeatureCard, etc.) stay props-based — the translation happens at the caller level in each route file.
 
 ## Files to Modify
 
-5. **`src/routes/__root.tsx`** — Wrap `RootComponent` children with `LanguageProvider`. Update `RootShell` to dynamically set `<html lang={locale} dir={dir}>` based on active language.
+### Shared Components (3 files)
+1. **`src/components/shared/CTABanner.tsx`** — Replace default prop values with `useT()` calls for headline and subheadline
+2. **`src/components/layout/Footer.tsx`** — Replace all hardcoded section headers, link labels, and tagline with `useT()` calls
+3. **`src/components/layout/CookieConsent.tsx`** — Replace all cookie consent text with `useT()` calls
 
-6. **`src/styles.css`** — Add RTL utility styles (e.g., `[dir="rtl"]` overrides for margins, paddings, and text alignment where needed).
+### Homepage (1 file)
+4. **`src/routes/index.tsx`** — Replace all hardcoded hero text, dashboard section, feature cards, "Why Sapience" section, and testimonial with `useT()` calls using `home.*` keys
 
-7. **`src/components/layout/Header.tsx`** — Add language switcher dropdown (globe icon + language code) between "Sign In" and "Get Started". Dropdown shows English, العربية, Español. Replace all hardcoded nav strings with translation keys. Add language switcher to mobile nav too.
+### Feature Routes (14 files)
+5-18. Each feature route (`core-hr`, `payroll`, `hiring-onboarding`, `performance`, `travel-expense`, `engagement`, `hr-automation`, `hr-chatbot`, `integrations`, `mobile-app`, `custom-services`, `organization-management`, `retirement-separation`, `features/index`) — Import `useT`, replace all hardcoded text (hero props, FeatureCard props, MoreReasons items, FAQ items, TestimonialBlock props) with corresponding `useT("features.xxx.key")` calls
 
-8. **`src/components/layout/Footer.tsx`** — Replace hardcoded section headers and link names with translated strings.
+### Solution Routes (8 files)
+19-26. Each solution route (`it`, `healthcare`, `education`, `finance`, `media`, `small-business`, `medium-business`, `enterprise`) — Import `useT`, replace SolutionTemplate props with `useT("solutions.xxx.key")` calls
 
-9. **`src/components/shared/HeroSection.tsx`** — Accept translated strings (already props-based, no change needed except default prop values).
+### Other Pages (4 files)
+27-30. `pricing.tsx`, `customers.tsx`, `request-demo.tsx`, `request-quote.tsx`, `sign-in.tsx` — Replace hardcoded text with `useT()` calls
 
-10. **`src/components/shared/CTABanner.tsx`** — Replace default prop values with translations from context.
+### Translation File Gaps
+31. **`src/i18n/en.ts`** — Verify all keys exist for every string being replaced; add any missing keys (e.g., solution page content, pricing page content)
+32. **`src/i18n/ar.ts`** — Add matching Arabic translations for any new keys added to `en.ts`
+33. **`src/i18n/es.ts`** — Add matching Spanish translations for any new keys added to `en.ts`
 
-11. **`src/components/shared/FAQAccordion.tsx`** — FAQ items are passed as props, so callers will pass translated content.
+## Pattern (example for a route)
+```tsx
+// Before
+<HeroSection headline="Manage your workforce" subHeadline="Centralize..." badge="Core HR" />
 
-12. **`src/components/shared/FeatureCard.tsx`** — Already props-based, no changes needed.
-
-13. **`src/components/shared/TestimonialBlock.tsx`** — Already props-based, callers pass translated content.
-
-14. **`src/components/layout/CookieConsent.tsx`** — Replace hardcoded text with translations.
-
-15. **`src/routes/index.tsx`** — Replace all hardcoded strings with `useT()` calls.
-
-16-29. **All feature routes** (14 files) — Replace hardcoded hero text, feature card titles/descriptions, more reasons lists, FAQ content, and testimonial text with `useT()` calls.
-
-30-37. **All solution routes** (8 files) — Replace hardcoded content with translations.
-
-38-41. **Remaining pages** (`pricing.tsx`, `customers.tsx`, `request-demo.tsx`, `request-quote.tsx`, `sign-in.tsx`) — Replace hardcoded text with translations.
-
-## Language Switcher Design
-
-- Position: Between "Sign In" and "Get Started" in the desktop header
-- Appearance: Globe icon + current language code (EN/AR/ES), dropdown on click
-- Mobile: Shown at top of mobile menu
-- Selecting Arabic sets `dir="rtl"` on `<html>` and flips layout automatically via CSS logical properties and Tailwind's RTL support
-
-## RTL Implementation
-
-- Set `dir="rtl"` on `<html>` element when Arabic is active
-- Tailwind CSS v4 logical properties (`ps-`, `pe-`, `ms-`, `me-`) handle most layout flips automatically
-- Add targeted `[dir="rtl"]` CSS overrides in `styles.css` for any edge cases (e.g., chevron rotation, icon positioning)
-- The mega dropdown and mobile menu will mirror correctly
+// After
+const t = useT();
+<HeroSection headline={t("features.coreHr.heroHeadline")} subHeadline={t("features.coreHr.heroSub")} badge={t("features.coreHr.badge")} />
+```
 
 ## What Will NOT Change
-
-- Route paths (no `/ar/` or `/es/` prefixes — language is client-side state)
-- Page structure and layout patterns
+- Translation file structure and `useT()` hook implementation
+- Header component (already translated)
+- Route paths and page structure
 - Images, screenshots, and visual assets
-- Component architecture (props-based components stay props-based)
+- Component props interfaces
 
