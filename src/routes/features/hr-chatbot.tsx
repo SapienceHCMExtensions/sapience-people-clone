@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
-import { FeatureCard } from "@/components/shared/FeatureCard";
+import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
-import { Bot, MessageCircle, Brain } from "lucide-react";
 import { useT, useTranslatedArray } from "@/i18n/context";
 
 export const Route = createFileRoute("/features/hr-chatbot")({
@@ -15,16 +14,16 @@ function HRChatbotPage() {
   const t = useT();
   const faq = (useTranslatedArray("features.hrChatbot.faq") as unknown) as { question: string; answer: string }[];
 
+  const features = [
+    { number: "01", title: t("features.hrChatbot.aiResponses"), description: t("features.hrChatbot.aiResponsesDesc") },
+    { number: "02", title: t("features.hrChatbot.selfServiceReq"), description: t("features.hrChatbot.selfServiceReqDesc") },
+    { number: "03", title: t("features.hrChatbot.smartEscalation"), description: t("features.hrChatbot.smartEscalationDesc") },
+  ];
+
   return (
     <>
       <HeroSection headline={t("features.hrChatbot.heroHeadline")} subHeadline={t("features.hrChatbot.heroSub")} badge={t("features.hrChatbot.badge")} />
-      <section className="py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <FeatureCard icon={Bot} title={t("features.hrChatbot.aiResponses")} description={t("features.hrChatbot.aiResponsesDesc")} />
-          <FeatureCard icon={MessageCircle} title={t("features.hrChatbot.selfServiceReq")} description={t("features.hrChatbot.selfServiceReqDesc")} />
-          <FeatureCard icon={Brain} title={t("features.hrChatbot.smartEscalation")} description={t("features.hrChatbot.smartEscalationDesc")} />
-        </div>
-      </section>
+      <NumberedFeatureBlock features={features} />
       <FAQAccordion items={faq} />
       <CTABanner />
     </>

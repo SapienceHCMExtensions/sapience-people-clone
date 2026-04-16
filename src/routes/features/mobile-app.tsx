@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
-import { FeatureCard } from "@/components/shared/FeatureCard";
+import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
 import { CTABanner } from "@/components/shared/CTABanner";
-import { Smartphone, Bell, MapPin } from "lucide-react";
 import { useT } from "@/i18n/context";
 
 export const Route = createFileRoute("/features/mobile-app")({
@@ -12,16 +11,17 @@ export const Route = createFileRoute("/features/mobile-app")({
 
 function MobileAppPage() {
   const t = useT();
+
+  const features = [
+    { number: "01", title: t("features.mobileApp.fullHr"), description: t("features.mobileApp.fullHrDesc") },
+    { number: "02", title: t("features.mobileApp.pushNotif"), description: t("features.mobileApp.pushNotifDesc") },
+    { number: "03", title: t("features.mobileApp.geoAttendance"), description: t("features.mobileApp.geoAttendanceDesc") },
+  ];
+
   return (
     <>
       <HeroSection headline={t("features.mobileApp.heroHeadline")} subHeadline={t("features.mobileApp.heroSub")} badge={t("features.mobileApp.badge")} />
-      <section className="py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <FeatureCard icon={Smartphone} title={t("features.mobileApp.fullHr")} description={t("features.mobileApp.fullHrDesc")} />
-          <FeatureCard icon={Bell} title={t("features.mobileApp.pushNotif")} description={t("features.mobileApp.pushNotifDesc")} />
-          <FeatureCard icon={MapPin} title={t("features.mobileApp.geoAttendance")} description={t("features.mobileApp.geoAttendanceDesc")} />
-        </div>
-      </section>
+      <NumberedFeatureBlock features={features} />
       <CTABanner />
     </>
   );
