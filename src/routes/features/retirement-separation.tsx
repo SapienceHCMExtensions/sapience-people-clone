@@ -32,7 +32,7 @@ function RetirementSeparationPage() {
   return (
     <>
       <HeroSection headline={t("features.retirement.heroHeadline")} subHeadline={t("features.retirement.heroSub")} badge={t("features.retirement.badge")} />
-      <StickyFeatureNav features={features} />
+      
       <NumberedFeatureBlock features={features} />
       <section ref={reasonsRef} className={`bg-soft-gray py-16 transition-all duration-700 ${reasonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
