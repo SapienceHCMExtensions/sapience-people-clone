@@ -1,9 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
-import { FeatureCard } from "@/components/shared/FeatureCard";
+import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
 import { CTABanner } from "@/components/shared/CTABanner";
-import { Settings, Palette, Calculator, CheckCircle } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { useT, useTranslatedArray } from "@/i18n/context";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export const Route = createFileRoute("/features/custom-services")({
   head: () => ({ meta: [{ title: "Custom HR Services — Sapience HCM" }, { name: "description", content: "Project labor costing with unlimited project/job/activity creation, custom configurations, and white-label HR solutions tailored to your business." }, { property: "og:title", content: "Custom HR Services — Sapience HCM" }, { property: "og:description", content: "Project labor costing, custom configurations, and white-label solutions." }] }),
@@ -13,18 +14,19 @@ export const Route = createFileRoute("/features/custom-services")({
 function CustomServicesPage() {
   const t = useT();
   const moreReasons = useTranslatedArray("features.customServices.moreReasons");
+  const { ref: reasonsRef, isVisible: reasonsVisible } = useScrollAnimation();
+
+  const features = [
+    { number: "01", title: t("features.customServices.projectLabor"), description: t("features.customServices.projectLaborDesc") },
+    { number: "02", title: t("features.customServices.customConfig"), description: t("features.customServices.customConfigDesc") },
+    { number: "03", title: t("features.customServices.whiteLabel"), description: t("features.customServices.whiteLabelDesc") },
+  ];
 
   return (
     <>
       <HeroSection headline={t("features.customServices.heroHeadline")} subHeadline={t("features.customServices.heroSub")} badge={t("features.customServices.badge")} />
-      <section className="py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <FeatureCard icon={Calculator} title={t("features.customServices.projectLabor")} description={t("features.customServices.projectLaborDesc")} />
-          <FeatureCard icon={Settings} title={t("features.customServices.customConfig")} description={t("features.customServices.customConfigDesc")} />
-          <FeatureCard icon={Palette} title={t("features.customServices.whiteLabel")} description={t("features.customServices.whiteLabelDesc")} />
-        </div>
-      </section>
-      <section className="bg-soft-gray py-16">
+      <NumberedFeatureBlock features={features} />
+      <section ref={reasonsRef} className={`bg-soft-gray py-16 transition-all duration-700 ${reasonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl font-bold text-foreground text-center mb-10">{t("common.moreReasons")}</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
