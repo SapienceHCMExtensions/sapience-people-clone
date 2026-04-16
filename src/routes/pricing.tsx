@@ -9,6 +9,7 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { Link } from "@tanstack/react-router";
+import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/pricing")({
