@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
 import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
-import { StickyFeatureNav } from "@/components/shared/StickyFeatureNav";
+
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { useT, useTranslatedArray } from "@/i18n/context";
@@ -24,7 +24,7 @@ function HRAutomationPage() {
   return (
     <>
       <HeroSection headline={t("features.hrAutomation.heroHeadline")} subHeadline={t("features.hrAutomation.heroSub")} badge={t("features.hrAutomation.badge")} />
-      <StickyFeatureNav features={features} />
+      
       <NumberedFeatureBlock features={features} />
       <FAQAccordion items={faq} />
       <CTABanner />

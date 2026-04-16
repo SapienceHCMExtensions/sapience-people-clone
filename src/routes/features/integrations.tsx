@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
 import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
-import { StickyFeatureNav } from "@/components/shared/StickyFeatureNav";
+
 import { CTABanner } from "@/components/shared/CTABanner";
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
@@ -23,7 +23,7 @@ function IntegrationsPage() {
   return (
     <>
       <HeroSection headline={t("features.integrations.heroHeadline")} subHeadline={t("features.integrations.heroSub")} badge={t("features.integrations.badge")} />
-      <StickyFeatureNav features={features} />
+      
       <NumberedFeatureBlock features={features} />
       <CTABanner />
     </>
