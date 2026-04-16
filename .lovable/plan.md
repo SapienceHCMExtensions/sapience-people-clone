@@ -1,22 +1,103 @@
 
 
-# Update Fonts: Aptos (EN/ES) + Cairo (AR)
+# Redesign Feature Pages with Numbered Zigzag Layout and Animations
 
-## Changes
+## Overview
 
-### 1. Add Cairo from Google Fonts
-**File: `src/routes/__root.tsx`**
-- Add Cairo font to the Google Fonts stylesheet URL: `family=Cairo:wght@400;500;600;700;800`
+Replace the current grid-of-cards layout on all feature pages with a numbered, alternating zigzag layout matching the reference screenshot. Each feature gets a large numbered block (01, 02, 03...) with title on one side and descriptive text on the other, alternating left/right. Add scroll-triggered animations throughout.
 
-### 2. Update font-family in CSS
-**File: `src/styles.css`**
-- Change `body` font-family to: `'Aptos', 'Inter', system-ui, -apple-system, sans-serif` — Aptos renders for users who have it (Windows 11/Office 365), falls back to Inter for others
-- Add `[dir="rtl"] body` rule with: `font-family: 'Cairo', 'Aptos', system-ui, sans-serif` — Cairo for Arabic, Aptos fallback for any Latin characters in Arabic pages
+## Design Pattern (from screenshot)
 
-### 3. Remove Inter Google Font load (optional)
-Keep Inter in the Google Fonts link as the web fallback for users without Aptos installed. No removal needed.
+```text
+┌─────────────────────────────────────────────┐
+│  Hero Section (badge, headline, sub, CTAs)  │
+├─────────────────────────────────────────────┤
+│                                             │
+│  [Text: Title + Desc]    [Card: 01 Title]   │  ← odd rows
+│                                             │
+│  [Card: 02 Title]    [Text: Title + Desc]   │  ← even rows
+│                                             │
+│  [Text: Title + Desc]    [Card: 03 Title]   │  ← odd rows
+│                                             │
+│  [Card: 04 Title]    [Text: Title + Desc]   │  ← even rows
+│                                             │
+├─────────────────────────────────────────────┤
+│  "More reasons" section (checkmark grid)    │
+├─────────────────────────────────────────────┤
+│  Testimonial                                │
+├─────────────────────────────────────────────┤
+│  FAQ Accordion                              │
+├─────────────────────────────────────────────┤
+│  CTA Banner                                 │
+└─────────────────────────────────────────────┘
+```
 
-## Result
-- **English/Spanish users**: See Aptos if installed locally, otherwise Inter (already loaded via Google Fonts)
-- **Arabic users**: See Cairo (loaded via Google Fonts) for Arabic text, with Aptos/Inter fallback for any Latin text
+## New Components
+
+### 1. `src/components/shared/NumberedFeatureBlock.tsx`
+A reusable component that renders the zigzag numbered feature list. Props:
+```ts
+interface NumberedFeature {
+  number: string;   // "01", "02", etc.
+  title: string;
+  description: string;
+}
+
+interface NumberedFeatureBlockProps {
+  features: NumberedFeature[];
+}
+```
+
+Each feature renders as a two-column row:
+- **Numbered card**: Rounded rectangle with light teal/blue background, large number, and title beneath
+- **Text side**: Bold heading + paragraph description
+- Odd items: text left, card right. Even items: card left, text right
+- RTL-aware (flips automatically via CSS logical properties)
+- On mobile: stacks vertically
+
+### 2. `src/hooks/useScrollAnimation.tsx`
+A custom hook using Intersection Observer to trigger CSS animations when elements scroll into view. Returns a ref and a boolean `isVisible`. Each numbered block, the "more reasons" section, testimonial, and FAQ will animate in on scroll.
+
+## Animations (CSS in `src/styles.css`)
+
+- **Fade-up on scroll**: Each numbered feature block fades in and slides up when entering viewport
+- **Staggered delays**: Each successive numbered block has a slight delay (100ms increments)
+- **Card hover**: Numbered cards scale slightly on hover with a subtle shadow lift
+- **Hero section**: Headline fades in, subheadline fades in with delay, CTAs slide up
+- **More Reasons pills**: Staggered fade-in for each checkmark item
+- **Testimonial**: Fade-in from left
+
+## Files to Modify
+
+### New files (2)
+1. **`src/components/shared/NumberedFeatureBlock.tsx`** — Zigzag numbered layout component with scroll-triggered animations
+2. **`src/hooks/useScrollAnimation.tsx`** — Intersection Observer hook
+
+### Updated files (14 feature routes)
+Each feature route will:
+- Remove the `FeatureCard` grid section
+- Remove the `ScreenshotSection` (replaced by the numbered blocks which are more visual)
+- Add the `NumberedFeatureBlock` component with the existing feature data restructured as numbered items
+- Keep Hero, MoreReasons, Testimonial, FAQ, and CTA sections
+
+Files: `core-hr.tsx`, `payroll.tsx`, `hiring-onboarding.tsx`, `performance.tsx`, `engagement.tsx`, `hr-automation.tsx`, `hr-chatbot.tsx`, `travel-expense.tsx`, `organization-management.tsx`, `retirement-separation.tsx`, `custom-services.tsx`, `integrations.tsx`, `mobile-app.tsx`
+
+### CSS updates (1)
+3. **`src/styles.css`** — Add scroll animation keyframes (`fade-up`, `slide-in-left`, `slide-in-right`), stagger utility classes, and the numbered card styling
+
+### Translation files (3)
+No new keys needed — the existing feature titles and descriptions will be reused, just rendered in the new layout.
+
+## Technical Details
+
+- Intersection Observer with `threshold: 0.15` and `rootMargin: "0px 0px -50px 0px"` for natural trigger timing
+- CSS `@keyframes fade-up` with transform translateY(30px) to translateY(0) + opacity 0 to 1
+- Numbered card uses brand `bright-blue/10` background with `bright-blue` text for the number
+- RTL support: use `flex-row-reverse` for even items, which auto-flips in RTL via the existing `[dir="rtl"] .flex-row` override, or use CSS logical order
+
+## What Will NOT Change
+- HeroSection component (stays as-is)
+- CTABanner, TestimonialBlock, FAQAccordion components
+- Translation dictionaries structure
+- Route paths and SEO metadata
 
