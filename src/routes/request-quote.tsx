@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
-import { countryCodes } from "@/lib/countryCodes";
+import { countryCodes, countryFlag } from "@/lib/countryCodes";
 
 export const Route = createFileRoute("/request-quote")({
   head: () => ({ meta: [{ title: "Request a Price Quote — Sapience HCM" }, { name: "description", content: "Get a custom price quote tailored to your organization's needs." }, { property: "og:title", content: "Request a Price Quote — Sapience HCM" }, { property: "og:description", content: "Get a custom price quote for Sapience HCM." }], links: getHreflangLinks("/request-quote") }),
@@ -56,7 +56,7 @@ function RequestQuotePage() {
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
                   <Label>{t("pages.requestQuote.countryCode")}</Label>
-                  <Select defaultValue="+1 United States"><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{countryCodes.map((c) => (<SelectItem key={`${c.code}-${c.name}`} value={`${c.code} ${c.name}`}>{c.code} {c.name}</SelectItem>))}</SelectContent></Select>
+                  <Select defaultValue="+1 United States"><SelectTrigger><SelectValue /></SelectTrigger><Select defaultValue="+1 United States"><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{countryCodes.map((c) => (<SelectItem key={`${c.code}-${c.name}`} value={`${c.code} ${c.name}`}>{countryFlag(c.iso)} {c.code} {c.name}</SelectItem>))}</SelectContent></Select></Select>
                 </div>
                 <div className="sm:col-span-2 space-y-1.5"><Label htmlFor="phone">{t("pages.requestQuote.phone")}</Label><Input id="phone" required /></div>
               </div>

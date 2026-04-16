@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
-import { countryCodes } from "@/lib/countryCodes";
+import { countryCodes, countryFlag } from "@/lib/countryCodes";
 
 export const Route = createFileRoute("/getting-started")({
   head: () => ({
@@ -75,7 +75,7 @@ function GettingStartedPage() {
                   <Label>{t("pages.gettingStarted.countryCode")}</Label>
                   <Select defaultValue="+1 United States">
                     <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>{countryCodes.map((c) => (<SelectItem key={`${c.code}-${c.name}`} value={`${c.code} ${c.name}`}>{c.code} {c.name}</SelectItem>))}</SelectContent>
+                    <SelectContent>{countryCodes.map((c) => (<SelectItem key={`${c.code}-${c.name}`} value={`${c.code} ${c.name}`}>{countryFlag(c.iso)} {c.code} {c.name}</SelectItem>))}</SelectContent>
                   </Select>
                 </div>
                 <div className="sm:col-span-2 space-y-1.5"><Label htmlFor="phone">{t("pages.gettingStarted.phone")}</Label><Input id="phone" required /></div>
