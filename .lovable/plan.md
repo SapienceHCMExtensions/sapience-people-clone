@@ -1,103 +1,85 @@
 
 
-# Redesign Feature Pages with Numbered Zigzag Layout and Animations
+# Add Rich Animations to the Home Page
 
 ## Overview
 
-Replace the current grid-of-cards layout on all feature pages with a numbered, alternating zigzag layout matching the reference screenshot. Each feature gets a large numbered block (01, 02, 03...) with title on one side and descriptive text on the other, alternating left/right. Add scroll-triggered animations throughout.
+Add a combination of scroll-triggered entrance animations, interactive hover effects, and continuous micro-animations across all sections of the home page. The goal is a polished, modern SaaS feel with subtle interactivity.
 
-## Design Pattern (from screenshot)
+## Animation Breakdown by Section
 
-```text
-┌─────────────────────────────────────────────┐
-│  Hero Section (badge, headline, sub, CTAs)  │
-├─────────────────────────────────────────────┤
-│                                             │
-│  [Text: Title + Desc]    [Card: 01 Title]   │  ← odd rows
-│                                             │
-│  [Card: 02 Title]    [Text: Title + Desc]   │  ← even rows
-│                                             │
-│  [Text: Title + Desc]    [Card: 03 Title]   │  ← odd rows
-│                                             │
-│  [Card: 04 Title]    [Text: Title + Desc]   │  ← even rows
-│                                             │
-├─────────────────────────────────────────────┤
-│  "More reasons" section (checkmark grid)    │
-├─────────────────────────────────────────────┤
-│  Testimonial                                │
-├─────────────────────────────────────────────┤
-│  FAQ Accordion                              │
-├─────────────────────────────────────────────┤
-│  CTA Banner                                 │
-└─────────────────────────────────────────────┘
-```
+### 1. Hero Section (`HeroSection.tsx`)
+- **Badge**: Fade-in + slight scale-up on load (200ms delay)
+- **Headline**: Fade-up from below with 400ms delay
+- **Subheadline**: Fade-up with 600ms delay (staggered after headline)
+- **CTA buttons**: Slide-up with 800ms delay; primary button gets a subtle continuous pulse glow on its shadow
+- **Screenshot**: Fade-up + scale from 0.95 to 1.0 with 1000ms delay; on hover, slight 3D tilt effect using CSS perspective + rotateX/rotateY (interactive — follows cursor position via a lightweight mouse-move handler)
+- **Background**: Add subtle floating gradient orbs that drift slowly (CSS animation, purely decorative)
 
-## New Components
+### 2. Dashboard Screenshot Section (in `index.tsx`)
+- **Heading + description**: Scroll-triggered fade-up using `useScrollAnimation`
+- **Dashboard image**: Scroll-triggered scale-in (0.9 to 1.0) with parallax-lite effect — the image translates slightly on scroll (CSS `transform: translateY(calc(...))` via a scroll listener or pure CSS with `scroll-timeline` fallback)
+- **Interactive**: On hover, the image lifts with increased shadow (3D card lift)
 
-### 1. `src/components/shared/NumberedFeatureBlock.tsx`
-A reusable component that renders the zigzag numbered feature list. Props:
-```ts
-interface NumberedFeature {
-  number: string;   // "01", "02", etc.
-  title: string;
-  description: string;
-}
+### 3. Feature Cards Grid (in `index.tsx` + `FeatureCard.tsx`)
+- **Section heading**: Scroll-triggered fade-up
+- **Cards**: Staggered scroll-triggered fade-up (each card delayed by 100ms * index)
+- **Interactive hover** (enhance existing): Icon container rotates 360 degrees on hover; card border gets a gradient sweep animation (a moving highlight along the border); card lifts with `translateY(-4px)` and shadow increase
+- **Icon pulse**: On card hover, the icon does a single "bounce" keyframe
 
-interface NumberedFeatureBlockProps {
-  features: NumberedFeature[];
-}
-```
+### 4. Why Sapience Section (in `index.tsx`)
+- **Each stat block**: Scroll-triggered fade-up with stagger
+- **Interactive**: Icon circles scale + rotate slightly on hover; a counting/number animation if any numeric stats are added later
+- **Connecting line**: A subtle horizontal line or dot pattern that draws itself in on scroll (CSS `stroke-dashoffset` animation on an SVG)
 
-Each feature renders as a two-column row:
-- **Numbered card**: Rounded rectangle with light teal/blue background, large number, and title beneath
-- **Text side**: Bold heading + paragraph description
-- Odd items: text left, card right. Even items: card left, text right
-- RTL-aware (flips automatically via CSS logical properties)
-- On mobile: stacks vertically
+### 5. Testimonial Block (`TestimonialBlock.tsx`)
+- **Quote icon**: Scroll-triggered rotate-in (starts rotated -12deg, animates to 0)
+- **Quote text**: Scroll-triggered fade-in with a typewriter-style reveal (words fade in sequentially using staggered `<span>` wrappers — interactive feel)
+- **Author info**: Fade-up after quote finishes
 
-### 2. `src/hooks/useScrollAnimation.tsx`
-A custom hook using Intersection Observer to trigger CSS animations when elements scroll into view. Returns a ref and a boolean `isVisible`. Each numbered block, the "more reasons" section, testimonial, and FAQ will animate in on scroll.
+### 6. CTA Banner (`CTABanner.tsx`)
+- **Heading**: Scroll-triggered fade-up
+- **Buttons**: Scroll-triggered slide-up with stagger
+- **Interactive**: Primary button shimmer effect — a diagonal light sweep that plays on hover (CSS gradient animation)
+- **Background**: Subtle particle/dot grid pattern that shifts on scroll
 
-## Animations (CSS in `src/styles.css`)
+## Technical Approach
 
-- **Fade-up on scroll**: Each numbered feature block fades in and slides up when entering viewport
-- **Staggered delays**: Each successive numbered block has a slight delay (100ms increments)
-- **Card hover**: Numbered cards scale slightly on hover with a subtle shadow lift
-- **Hero section**: Headline fades in, subheadline fades in with delay, CTAs slide up
-- **More Reasons pills**: Staggered fade-in for each checkmark item
-- **Testimonial**: Fade-in from left
+### Files to modify (5)
+1. **`src/components/shared/HeroSection.tsx`** — Add load animations (CSS classes + `useState` for mount trigger), floating gradient orbs, interactive tilt on screenshot via `onMouseMove`
+2. **`src/components/shared/FeatureCard.tsx`** — Enhanced hover animations (icon spin, border gradient sweep), accept `delay` prop for staggered entrance
+3. **`src/components/shared/TestimonialBlock.tsx`** — Scroll-triggered entrance with `useScrollAnimation`
+4. **`src/components/shared/CTABanner.tsx`** — Scroll-triggered entrance, button shimmer effect
+5. **`src/routes/index.tsx`** — Add `useScrollAnimation` to dashboard and feature sections, pass stagger delays to cards
 
-## Files to Modify
+### Files to create (0) — reuses existing `useScrollAnimation` hook
 
-### New files (2)
-1. **`src/components/shared/NumberedFeatureBlock.tsx`** — Zigzag numbered layout component with scroll-triggered animations
-2. **`src/hooks/useScrollAnimation.tsx`** — Intersection Observer hook
-
-### Updated files (14 feature routes)
-Each feature route will:
-- Remove the `FeatureCard` grid section
-- Remove the `ScreenshotSection` (replaced by the numbered blocks which are more visual)
-- Add the `NumberedFeatureBlock` component with the existing feature data restructured as numbered items
-- Keep Hero, MoreReasons, Testimonial, FAQ, and CTA sections
-
-Files: `core-hr.tsx`, `payroll.tsx`, `hiring-onboarding.tsx`, `performance.tsx`, `engagement.tsx`, `hr-automation.tsx`, `hr-chatbot.tsx`, `travel-expense.tsx`, `organization-management.tsx`, `retirement-separation.tsx`, `custom-services.tsx`, `integrations.tsx`, `mobile-app.tsx`
-
-### CSS updates (1)
-3. **`src/styles.css`** — Add scroll animation keyframes (`fade-up`, `slide-in-left`, `slide-in-right`), stagger utility classes, and the numbered card styling
-
-### Translation files (3)
-No new keys needed — the existing feature titles and descriptions will be reused, just rendered in the new layout.
-
-## Technical Details
-
-- Intersection Observer with `threshold: 0.15` and `rootMargin: "0px 0px -50px 0px"` for natural trigger timing
-- CSS `@keyframes fade-up` with transform translateY(30px) to translateY(0) + opacity 0 to 1
-- Numbered card uses brand `bright-blue/10` background with `bright-blue` text for the number
-- RTL support: use `flex-row-reverse` for even items, which auto-flips in RTL via the existing `[dir="rtl"] .flex-row` override, or use CSS logical order
+### CSS additions (`src/styles.css`)
+- `@keyframes float` — slow vertical drift for background orbs
+- `@keyframes shimmer` — diagonal light sweep for CTA button
+- `@keyframes icon-bounce` — single bounce for feature card icons on hover
+- `@keyframes border-sweep` — moving highlight along card border
+- `.tilt-card` — perspective container for 3D hover tilt
+- Utility classes for staggered delays (`.delay-100`, `.delay-200`, etc.)
 
 ## What Will NOT Change
-- HeroSection component (stays as-is)
-- CTABanner, TestimonialBlock, FAQAccordion components
-- Translation dictionaries structure
-- Route paths and SEO metadata
+- Page structure and content
+- Translation keys
+- Route configuration
+- Component prop interfaces (only additive changes)
+- Feature page animations (already done)
+
+## Interactive vs Passive Summary
+
+| Animation | Type | Trigger |
+|-----------|------|---------|
+| Hero text stagger | Passive | Page load |
+| Screenshot 3D tilt | **Interactive** | Mouse move |
+| CTA pulse glow | Passive | Continuous |
+| Feature card icon spin | **Interactive** | Hover |
+| Feature card border sweep | **Interactive** | Hover |
+| CTA button shimmer | **Interactive** | Hover |
+| Dashboard parallax lift | **Interactive** | Hover |
+| All section entrances | Passive | Scroll into view |
+| Quote icon rotate-in | Passive | Scroll into view |
 
