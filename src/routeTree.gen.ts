@@ -34,9 +34,11 @@ import { Route as FeaturesIntegrationsRouteImport } from './routes/features/inte
 import { Route as FeaturesHrChatbotRouteImport } from './routes/features/hr-chatbot'
 import { Route as FeaturesHrAutomationRouteImport } from './routes/features/hr-automation'
 import { Route as FeaturesHiringOnboardingRouteImport } from './routes/features/hiring-onboarding'
+import { Route as FeaturesErpIntegrationsRouteImport } from './routes/features/erp-integrations'
 import { Route as FeaturesEngagementRouteImport } from './routes/features/engagement'
 import { Route as FeaturesCustomServicesRouteImport } from './routes/features/custom-services'
 import { Route as FeaturesCoreHrRouteImport } from './routes/features/core-hr'
+import { Route as FeaturesBiometricIntegrationsRouteImport } from './routes/features/biometric-integrations'
 
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
@@ -166,6 +168,11 @@ const FeaturesHiringOnboardingRoute =
     path: '/features/hiring-onboarding',
     getParentRoute: () => rootRouteImport,
   } as any)
+const FeaturesErpIntegrationsRoute = FeaturesErpIntegrationsRouteImport.update({
+  id: '/features/erp-integrations',
+  path: '/features/erp-integrations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeaturesEngagementRoute = FeaturesEngagementRouteImport.update({
   id: '/features/engagement',
   path: '/features/engagement',
@@ -181,6 +188,12 @@ const FeaturesCoreHrRoute = FeaturesCoreHrRouteImport.update({
   path: '/features/core-hr',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FeaturesBiometricIntegrationsRoute =
+  FeaturesBiometricIntegrationsRouteImport.update({
+    id: '/features/biometric-integrations',
+    path: '/features/biometric-integrations',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -189,9 +202,11 @@ export interface FileRoutesByFullPath {
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/sign-in': typeof SignInRoute
+  '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
   '/features/engagement': typeof FeaturesEngagementRoute
+  '/features/erp-integrations': typeof FeaturesErpIntegrationsRoute
   '/features/hiring-onboarding': typeof FeaturesHiringOnboardingRoute
   '/features/hr-automation': typeof FeaturesHrAutomationRoute
   '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
@@ -219,9 +234,11 @@ export interface FileRoutesByTo {
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/sign-in': typeof SignInRoute
+  '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
   '/features/engagement': typeof FeaturesEngagementRoute
+  '/features/erp-integrations': typeof FeaturesErpIntegrationsRoute
   '/features/hiring-onboarding': typeof FeaturesHiringOnboardingRoute
   '/features/hr-automation': typeof FeaturesHrAutomationRoute
   '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
@@ -250,9 +267,11 @@ export interface FileRoutesById {
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/sign-in': typeof SignInRoute
+  '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
   '/features/engagement': typeof FeaturesEngagementRoute
+  '/features/erp-integrations': typeof FeaturesErpIntegrationsRoute
   '/features/hiring-onboarding': typeof FeaturesHiringOnboardingRoute
   '/features/hr-automation': typeof FeaturesHrAutomationRoute
   '/features/hr-chatbot': typeof FeaturesHrChatbotRoute
@@ -282,9 +301,11 @@ export interface FileRouteTypes {
     | '/request-demo'
     | '/request-quote'
     | '/sign-in'
+    | '/features/biometric-integrations'
     | '/features/core-hr'
     | '/features/custom-services'
     | '/features/engagement'
+    | '/features/erp-integrations'
     | '/features/hiring-onboarding'
     | '/features/hr-automation'
     | '/features/hr-chatbot'
@@ -312,9 +333,11 @@ export interface FileRouteTypes {
     | '/request-demo'
     | '/request-quote'
     | '/sign-in'
+    | '/features/biometric-integrations'
     | '/features/core-hr'
     | '/features/custom-services'
     | '/features/engagement'
+    | '/features/erp-integrations'
     | '/features/hiring-onboarding'
     | '/features/hr-automation'
     | '/features/hr-chatbot'
@@ -342,9 +365,11 @@ export interface FileRouteTypes {
     | '/request-demo'
     | '/request-quote'
     | '/sign-in'
+    | '/features/biometric-integrations'
     | '/features/core-hr'
     | '/features/custom-services'
     | '/features/engagement'
+    | '/features/erp-integrations'
     | '/features/hiring-onboarding'
     | '/features/hr-automation'
     | '/features/hr-chatbot'
@@ -373,9 +398,11 @@ export interface RootRouteChildren {
   RequestDemoRoute: typeof RequestDemoRoute
   RequestQuoteRoute: typeof RequestQuoteRoute
   SignInRoute: typeof SignInRoute
+  FeaturesBiometricIntegrationsRoute: typeof FeaturesBiometricIntegrationsRoute
   FeaturesCoreHrRoute: typeof FeaturesCoreHrRoute
   FeaturesCustomServicesRoute: typeof FeaturesCustomServicesRoute
   FeaturesEngagementRoute: typeof FeaturesEngagementRoute
+  FeaturesErpIntegrationsRoute: typeof FeaturesErpIntegrationsRoute
   FeaturesHiringOnboardingRoute: typeof FeaturesHiringOnboardingRoute
   FeaturesHrAutomationRoute: typeof FeaturesHrAutomationRoute
   FeaturesHrChatbotRoute: typeof FeaturesHrChatbotRoute
@@ -574,6 +601,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesHiringOnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/features/erp-integrations': {
+      id: '/features/erp-integrations'
+      path: '/features/erp-integrations'
+      fullPath: '/features/erp-integrations'
+      preLoaderRoute: typeof FeaturesErpIntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/features/engagement': {
       id: '/features/engagement'
       path: '/features/engagement'
@@ -595,6 +629,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FeaturesCoreHrRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/features/biometric-integrations': {
+      id: '/features/biometric-integrations'
+      path: '/features/biometric-integrations'
+      fullPath: '/features/biometric-integrations'
+      preLoaderRoute: typeof FeaturesBiometricIntegrationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -605,9 +646,11 @@ const rootRouteChildren: RootRouteChildren = {
   RequestDemoRoute: RequestDemoRoute,
   RequestQuoteRoute: RequestQuoteRoute,
   SignInRoute: SignInRoute,
+  FeaturesBiometricIntegrationsRoute: FeaturesBiometricIntegrationsRoute,
   FeaturesCoreHrRoute: FeaturesCoreHrRoute,
   FeaturesCustomServicesRoute: FeaturesCustomServicesRoute,
   FeaturesEngagementRoute: FeaturesEngagementRoute,
+  FeaturesErpIntegrationsRoute: FeaturesErpIntegrationsRoute,
   FeaturesHiringOnboardingRoute: FeaturesHiringOnboardingRoute,
   FeaturesHrAutomationRoute: FeaturesHrAutomationRoute,
   FeaturesHrChatbotRoute: FeaturesHrChatbotRoute,
