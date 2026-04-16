@@ -2,7 +2,9 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/layout/CookieConsent";
+import { PageTransition } from "@/components/layout/PageTransition";
 import { LanguageProvider } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
@@ -41,6 +43,7 @@ export const Route = createRootRoute({
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" },
+      ...getHreflangLinks("/"),
     ],
   }),
   shellComponent: RootShell,
@@ -68,7 +71,9 @@ function RootComponent() {
       <div className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">
-          <Outlet />
+          <PageTransition>
+            <Outlet />
+          </PageTransition>
         </main>
         <Footer />
         <CookieConsent />
