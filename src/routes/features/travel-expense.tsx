@@ -1,15 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
 import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
+import { StickyFeatureNav } from "@/components/shared/StickyFeatureNav";
 import { TestimonialBlock } from "@/components/shared/TestimonialBlock";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { CheckCircle } from "lucide-react";
 import { useT, useTranslatedArray } from "@/i18n/context";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/features/travel-expense")({
-  head: () => ({ meta: [{ title: "Travel & Expense Claims — Sapience HCM" }, { name: "description", content: "Streamline travel requests, multi-currency expense tracking, per diem calculations, receipt management, and policy-based approvals with Sapience HCM." }, { property: "og:title", content: "Travel & Expense Claims — Sapience HCM" }, { property: "og:description", content: "Automated travel & expense claim workflows with multi-currency tracking and policy-based approvals." }] }),
+  head: () => ({ meta: [{ title: "Travel & Expense Claims — Sapience HCM" }, { name: "description", content: "Streamline travel requests, multi-currency expense tracking, per diem calculations, receipt management, and policy-based approvals with Sapience HCM." }, { property: "og:title", content: "Travel & Expense Claims — Sapience HCM" }, { property: "og:description", content: "Automated travel & expense claim workflows with multi-currency tracking and policy-based approvals." }], links: getHreflangLinks("/features/travel-expense") }),
   component: TravelExpensePage,
 });
 
@@ -30,6 +32,7 @@ function TravelExpensePage() {
   return (
     <>
       <HeroSection headline={t("features.travelExpense.heroHeadline")} subHeadline={t("features.travelExpense.heroSub")} badge={t("features.travelExpense.badge")} />
+      <StickyFeatureNav features={features} />
       <NumberedFeatureBlock features={features} />
       <section ref={reasonsRef} className={`bg-soft-gray py-16 transition-all duration-700 ${reasonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

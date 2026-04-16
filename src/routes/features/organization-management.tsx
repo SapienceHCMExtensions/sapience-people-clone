@@ -1,14 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
 import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
+import { StickyFeatureNav } from "@/components/shared/StickyFeatureNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { CheckCircle } from "lucide-react";
 import { useT, useTranslatedArray } from "@/i18n/context";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/features/organization-management")({
-  head: () => ({ meta: [{ title: "Organization Management — Sapience HCM" }, { name: "description", content: "Manage organizational hierarchies, org charts, job descriptions, multiple roles, and company document expiry alerts in one platform." }, { property: "og:title", content: "Organization Management — Sapience HCM" }, { property: "og:description", content: "Organizational hierarchy, org charts, and job description management." }] }),
+  head: () => ({ meta: [{ title: "Organization Management — Sapience HCM" }, { name: "description", content: "Manage organizational hierarchies, org charts, job descriptions, multiple roles, and company document expiry alerts in one platform." }, { property: "og:title", content: "Organization Management — Sapience HCM" }, { property: "og:description", content: "Organizational hierarchy, org charts, and job description management." }], links: getHreflangLinks("/features/organization-management") }),
   component: OrganizationManagementPage,
 });
 
@@ -29,6 +31,7 @@ function OrganizationManagementPage() {
   return (
     <>
       <HeroSection headline={t("features.orgMgmt.heroHeadline")} subHeadline={t("features.orgMgmt.heroSub")} badge={t("features.orgMgmt.badge")} />
+      <StickyFeatureNav features={features} />
       <NumberedFeatureBlock features={features} />
       <section ref={reasonsRef} className={`py-16 transition-all duration-700 ${reasonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
