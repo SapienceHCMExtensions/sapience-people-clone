@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
 import { countryCodes, countryFlag } from "@/lib/countryCodes";
+import { submitFormData } from "@/lib/submissions.functions";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/webinars")({
   head: () => ({
@@ -35,7 +37,34 @@ const webinarTopics = [
 function WebinarsPage() {
   const t = useT();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!privacyAgreed) return;
+    setSubmitting(true);
+    try {
+      const form = e.currentTarget;
+      const formData = {
+        name: (form.elements.namedItem("name") as HTMLInputElement).value,
+        email: (form.elements.namedItem("email") as HTMLInputElement).value,
+        phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+        company: (form.elements.namedItem("company") as HTMLInputElement).value,
+        role: (form.elements.namedItem("role") as HTMLInputElement).value,
+      };
+      const result = await submitFormData({ data: { formType: "webinar", data: formData } });
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   if (submitted) {
     return (
@@ -66,7 +95,7 @@ function WebinarsPage() {
           </div>
 
           <div className="bg-background rounded-xl border border-border p-8 shadow-sm">
-            <form onSubmit={(e) => { e.preventDefault(); if (privacyAgreed) setSubmitted(true); }} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5"><Label htmlFor="name">{t("pages.webinars.fullName")}</Label><Input id="name" required /></div>
                 <div className="space-y-1.5"><Label htmlFor="email">{t("pages.webinars.businessEmail")}</Label><Input id="email" type="email" required /></div>
@@ -96,7 +125,9 @@ function WebinarsPage() {
                 <Checkbox checked={privacyAgreed} onCheckedChange={(v) => setPrivacyAgreed(v === true)} className="mt-0.5" />
                 <span className="text-muted-foreground">{t("pages.webinars.privacyAgree")} <a href="#" className="text-bright-blue underline">{t("pages.webinars.privacyPolicy")}</a>. *</span>
               </label>
-              <Button type="submit" disabled={!privacyAgreed} className="w-full bg-vibrant-orange text-vibrant-orange-foreground hover:opacity-90">{t("pages.webinars.register")}</Button>
+              <Button type="submit" disabled={!privacyAgreed || submitting} className="w-full bg-vibrant-orange text-vibrant-orange-foreground hover:opacity-90">
+                {submitting ? "Submitting…" : t("pages.webinars.register")}
+              </Button>
             </form>
           </div>
         </div>

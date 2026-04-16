@@ -8,12 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
 import { countryCodes, countryFlag } from "@/lib/countryCodes";
+import { submitFormData } from "@/lib/submissions.functions";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/request-quote")({
   head: () => ({ meta: [{ title: "Request a Price Quote — Sapience HCM" }, { name: "description", content: "Get a custom price quote tailored to your organization's needs." }, { property: "og:title", content: "Request a Price Quote — Sapience HCM" }, { property: "og:description", content: "Get a custom price quote for Sapience HCM." }], links: getHreflangLinks("/request-quote") }),
   component: RequestQuotePage,
 });
-
 
 const employeeRanges = ["1-50", "51-200", "201-500", "501-1000", "1001-5000", "5000+"];
 const services = ["Core HR", "Hiring & Onboarding", "Performance Management", "Payroll", "Employee Engagement", "HR Automation", "HR Chatbot", "Mobile App", "Integrations"];
@@ -21,11 +22,39 @@ const services = ["Core HR", "Hiring & Onboarding", "Performance Management", "P
 function RequestQuotePage() {
   const t = useT();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   const toggleService = (s: string) => {
     setSelectedServices((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!privacyAgreed) return;
+    setSubmitting(true);
+    try {
+      const form = e.currentTarget;
+      const formData = {
+        name: (form.elements.namedItem("name") as HTMLInputElement).value,
+        email: (form.elements.namedItem("email") as HTMLInputElement).value,
+        phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+        company: (form.elements.namedItem("company") as HTMLInputElement).value,
+        role: (form.elements.namedItem("role") as HTMLInputElement).value,
+        services: selectedServices,
+      };
+      const result = await submitFormData({ data: { formType: "request-quote", data: formData } });
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -48,7 +77,7 @@ function RequestQuotePage() {
             <p className="mt-4 text-lg text-muted-foreground">{t("pages.requestQuote.subtitle")}</p>
           </div>
           <div className="bg-background rounded-xl border border-border p-8 shadow-sm">
-            <form onSubmit={(e) => { e.preventDefault(); if (privacyAgreed) setSubmitted(true); }} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5"><Label htmlFor="name">{t("pages.requestQuote.fullName")}</Label><Input id="name" required /></div>
                 <div className="space-y-1.5"><Label htmlFor="email">{t("pages.requestQuote.businessEmail")}</Label><Input id="email" type="email" required /></div>
@@ -56,7 +85,10 @@ function RequestQuotePage() {
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
                   <Label>{t("pages.requestQuote.countryCode")}</Label>
-                  <Select defaultValue="+1 United States"><SelectTrigger><SelectValue /></SelectTrigger><Select defaultValue="+1 United States"><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{countryCodes.map((c) => (<SelectItem key={`${c.code}-${c.name}`} value={`${c.code} ${c.name}`}>{countryFlag(c.iso)} {c.code} {c.name}</SelectItem>))}</SelectContent></Select></Select>
+                  <Select defaultValue="+1 United States">
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>{countryCodes.map((c) => (<SelectItem key={`${c.code}-${c.name}`} value={`${c.code} ${c.name}`}>{countryFlag(c.iso)} {c.code} {c.name}</SelectItem>))}</SelectContent>
+                  </Select>
                 </div>
                 <div className="sm:col-span-2 space-y-1.5"><Label htmlFor="phone">{t("pages.requestQuote.phone")}</Label><Input id="phone" required /></div>
               </div>
@@ -78,7 +110,9 @@ function RequestQuotePage() {
                 <Checkbox checked={privacyAgreed} onCheckedChange={(v) => setPrivacyAgreed(v === true)} className="mt-0.5" />
                 <span className="text-muted-foreground">{t("pages.requestQuote.privacyAgree")} <a href="#" className="text-bright-blue underline">{t("pages.requestQuote.privacyPolicy")}</a>. *</span>
               </label>
-              <Button type="submit" disabled={!privacyAgreed} className="w-full bg-vibrant-orange text-vibrant-orange-foreground hover:opacity-90">{t("pages.requestQuote.submitQuoteRequest")}</Button>
+              <Button type="submit" disabled={!privacyAgreed || submitting} className="w-full bg-vibrant-orange text-vibrant-orange-foreground hover:opacity-90">
+                {submitting ? "Submitting…" : t("pages.requestQuote.submitQuoteRequest")}
+              </Button>
             </form>
           </div>
         </div>

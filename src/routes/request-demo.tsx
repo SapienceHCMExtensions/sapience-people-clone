@@ -8,12 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
 import { countryCodes, countryFlag } from "@/lib/countryCodes";
+import { submitFormData } from "@/lib/submissions.functions";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/request-demo")({
   head: () => ({ meta: [{ title: "Request a Demo — Sapience HCM" }, { name: "description", content: "Schedule a personalized demo of Sapience HCM and see how it can transform your HR operations." }, { property: "og:title", content: "Request a Demo — Sapience HCM" }, { property: "og:description", content: "Schedule a personalized demo of Sapience HCM." }], links: getHreflangLinks("/request-demo") }),
   component: RequestDemoPage,
 });
-
 
 const employeeRanges = ["1-50", "51-200", "201-500", "501-1000", "1001-5000", "5000+"];
 const existingProviders = ["None", "SAP SuccessFactors", "Workday", "BambooHR", "Zoho People", "ADP", "Oracle HCM", "Other"];
@@ -22,6 +23,7 @@ const services = ["Core HR", "Hiring & Onboarding", "Performance Management", "P
 function RequestDemoPage() {
   const t = useT();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [marketingOptIn, setMarketingOptIn] = useState(false);
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
@@ -30,10 +32,32 @@ function RequestDemoPage() {
     setSelectedServices((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!privacyAgreed) return;
-    setSubmitted(true);
+    setSubmitting(true);
+    try {
+      const form = e.currentTarget;
+      const formData = {
+        name: (form.elements.namedItem("name") as HTMLInputElement).value,
+        email: (form.elements.namedItem("email") as HTMLInputElement).value,
+        phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+        company: (form.elements.namedItem("company") as HTMLInputElement).value,
+        role: (form.elements.namedItem("role") as HTMLInputElement).value,
+        services: selectedServices,
+        marketingOptIn,
+      };
+      const result = await submitFormData({ data: { formType: "request-demo", data: formData } });
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -137,7 +161,9 @@ function RequestDemoPage() {
                     <span className="text-muted-foreground">{t("pages.requestDemo.privacyAgree")} <a href="#" className="text-bright-blue underline">{t("pages.requestDemo.privacyPolicy")}</a>. *</span>
                   </label>
                 </div>
-                <Button type="submit" disabled={!privacyAgreed} className="w-full bg-vibrant-orange text-vibrant-orange-foreground hover:opacity-90">{t("pages.requestDemo.submitRequest")}</Button>
+                <Button type="submit" disabled={!privacyAgreed || submitting} className="w-full bg-vibrant-orange text-vibrant-orange-foreground hover:opacity-90">
+                  {submitting ? "Submitting…" : t("pages.requestDemo.submitRequest")}
+                </Button>
               </form>
             </div>
           </div>
