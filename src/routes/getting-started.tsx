@@ -8,6 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
 import { countryCodes, countryFlag } from "@/lib/countryCodes";
+import { submitFormData } from "@/lib/submissions.functions";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/getting-started")({
   head: () => ({
@@ -29,11 +31,39 @@ const services = ["Core HR", "Hiring & Onboarding", "Performance Management", "P
 function GettingStartedPage() {
   const t = useT();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
   const [privacyAgreed, setPrivacyAgreed] = useState(false);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   const toggleService = (s: string) => {
     setSelectedServices((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!privacyAgreed) return;
+    setSubmitting(true);
+    try {
+      const form = e.currentTarget;
+      const formData = {
+        name: (form.elements.namedItem("name") as HTMLInputElement).value,
+        email: (form.elements.namedItem("email") as HTMLInputElement).value,
+        phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
+        company: (form.elements.namedItem("company") as HTMLInputElement).value,
+        role: (form.elements.namedItem("role") as HTMLInputElement).value,
+        services: selectedServices,
+      };
+      const result = await submitFormData({ data: { formType: "getting-started", data: formData } });
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        toast.error("Something went wrong. Please try again.");
+      }
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -65,7 +95,7 @@ function GettingStartedPage() {
           </div>
 
           <div className="bg-background rounded-xl border border-border p-8 shadow-sm">
-            <form onSubmit={(e) => { e.preventDefault(); if (privacyAgreed) setSubmitted(true); }} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="space-y-1.5"><Label htmlFor="name">{t("pages.gettingStarted.fullName")}</Label><Input id="name" required /></div>
                 <div className="space-y-1.5"><Label htmlFor="email">{t("pages.gettingStarted.businessEmail")}</Label><Input id="email" type="email" required /></div>
@@ -104,7 +134,9 @@ function GettingStartedPage() {
                 <Checkbox checked={privacyAgreed} onCheckedChange={(v) => setPrivacyAgreed(v === true)} className="mt-0.5" />
                 <span className="text-muted-foreground">{t("pages.gettingStarted.privacyAgree")} <a href="#" className="text-bright-blue underline">{t("pages.gettingStarted.privacyPolicy")}</a>. *</span>
               </label>
-              <Button type="submit" disabled={!privacyAgreed} className="w-full bg-vibrant-orange text-vibrant-orange-foreground hover:opacity-90">{t("pages.gettingStarted.submitRequest")}</Button>
+              <Button type="submit" disabled={!privacyAgreed || submitting} className="w-full bg-vibrant-orange text-vibrant-orange-foreground hover:opacity-90">
+                {submitting ? "Submitting…" : t("pages.gettingStarted.submitRequest")}
+              </Button>
             </form>
           </div>
         </div>
