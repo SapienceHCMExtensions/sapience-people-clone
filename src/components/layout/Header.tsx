@@ -112,6 +112,8 @@ export function Header() {
     { name: t("header.hrChatbot"), link: "/features/hr-chatbot", icon: Bot },
     { name: t("header.mobileApp"), link: "/features/mobile-app", icon: Smartphone },
     { name: t("header.integrations"), link: "/features/integrations", icon: Plug },
+    { name: t("header.erpIntegrations"), link: "/features/erp-integrations", icon: Plug },
+    { name: t("header.biometricIntegrations"), link: "/features/biometric-integrations", icon: Smartphone },
     { name: t("header.allFeatures"), link: "/features", icon: Layers },
   ];
 

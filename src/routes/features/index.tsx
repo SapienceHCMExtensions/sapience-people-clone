@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Users, Briefcase, Award, DollarSign, Heart, Bot, Smartphone, Plug, Settings, Zap, Plane, Building2, UserMinus } from "lucide-react";
+import { Users, Briefcase, Award, DollarSign, Heart, Bot, Smartphone, Plug, Settings, Zap, Plane, Building2, UserMinus, Server, Fingerprint } from "lucide-react";
 import { FeatureCard } from "@/components/shared/FeatureCard";
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
@@ -26,6 +26,8 @@ function AllFeaturesPage() {
     { icon: Bot, title: t("features.allFeatures.hrChatbot"), description: t("features.allFeatures.hrChatbotDesc"), link: "/features/hr-chatbot" },
     { icon: Smartphone, title: t("features.allFeatures.mobileApp"), description: t("features.allFeatures.mobileAppDesc"), link: "/features/mobile-app" },
     { icon: Plug, title: t("features.allFeatures.integrations"), description: t("features.allFeatures.integrationsDesc"), link: "/features/integrations" },
+    { icon: Server, title: t("features.allFeatures.erpIntegrations"), description: t("features.allFeatures.erpIntegrationsDesc"), link: "/features/erp-integrations" },
+    { icon: Fingerprint, title: t("features.allFeatures.biometricIntegrations"), description: t("features.allFeatures.biometricIntegrationsDesc"), link: "/features/biometric-integrations" },
   ];
 
   return (
