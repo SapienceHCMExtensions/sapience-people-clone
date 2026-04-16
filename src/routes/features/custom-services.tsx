@@ -1,13 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
 import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
+import { StickyFeatureNav } from "@/components/shared/StickyFeatureNav";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { CheckCircle } from "lucide-react";
 import { useT, useTranslatedArray } from "@/i18n/context";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/features/custom-services")({
-  head: () => ({ meta: [{ title: "Custom HR Services — Sapience HCM" }, { name: "description", content: "Project labor costing with unlimited project/job/activity creation, custom configurations, and white-label HR solutions tailored to your business." }, { property: "og:title", content: "Custom HR Services — Sapience HCM" }, { property: "og:description", content: "Project labor costing, custom configurations, and white-label solutions." }] }),
+  head: () => ({ meta: [{ title: "Custom HR Services — Sapience HCM" }, { name: "description", content: "Project labor costing with unlimited project/job/activity creation, custom configurations, and white-label HR solutions tailored to your business." }, { property: "og:title", content: "Custom HR Services — Sapience HCM" }, { property: "og:description", content: "Project labor costing, custom configurations, and white-label solutions." }], links: getHreflangLinks("/features/custom-services") }),
   component: CustomServicesPage,
 });
 
@@ -25,6 +27,7 @@ function CustomServicesPage() {
   return (
     <>
       <HeroSection headline={t("features.customServices.heroHeadline")} subHeadline={t("features.customServices.heroSub")} badge={t("features.customServices.badge")} />
+      <StickyFeatureNav features={features} />
       <NumberedFeatureBlock features={features} />
       <section ref={reasonsRef} className={`bg-soft-gray py-16 transition-all duration-700 ${reasonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

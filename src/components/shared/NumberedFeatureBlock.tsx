@@ -16,8 +16,9 @@ function FeatureRow({ feature, index }: { feature: NumberedFeature; index: numbe
 
   return (
     <div
+      id={`feature-${feature.number}`}
       ref={ref}
-      className={`flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16 transition-all duration-700 ${
+      className={`scroll-mt-32 flex flex-col md:flex-row items-center gap-8 md:gap-12 lg:gap-16 transition-all duration-700 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
       style={{ transitionDelay: `${index * 100}ms` }}

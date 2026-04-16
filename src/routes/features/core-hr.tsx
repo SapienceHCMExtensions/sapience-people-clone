@@ -1,12 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
 import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
+import { StickyFeatureNav } from "@/components/shared/StickyFeatureNav";
 import { TestimonialBlock } from "@/components/shared/TestimonialBlock";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { CheckCircle } from "lucide-react";
 import { useT, useTranslatedArray } from "@/i18n/context";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/features/core-hr")({
   head: () => ({
@@ -16,6 +18,7 @@ export const Route = createFileRoute("/features/core-hr")({
       { property: "og:title", content: "Core HR Software — Sapience HCM" },
       { property: "og:description", content: "Centralize employee data and automate core HR operations." },
     ],
+    links: getHreflangLinks("/features/core-hr"),
   }),
   component: CoreHRPage,
 });
@@ -46,6 +49,7 @@ function CoreHRPage() {
         screenshotUrl="https://gdm-catalog-fmapi-prod.imgix.net/ProductScreenshot/fb7068d1-4226-40b3-bf18-9a5daf35ff8d.png"
         screenshotAlt="Sapience HCM Core HR dashboard with employee analytics"
       />
+      <StickyFeatureNav features={features} />
       <NumberedFeatureBlock features={features} />
       <section ref={reasonsRef} className={`py-16 transition-all duration-700 ${reasonsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

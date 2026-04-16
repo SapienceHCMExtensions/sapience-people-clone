@@ -1,12 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { HeroSection } from "@/components/shared/HeroSection";
 import { NumberedFeatureBlock } from "@/components/shared/NumberedFeatureBlock";
+import { StickyFeatureNav } from "@/components/shared/StickyFeatureNav";
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { useT, useTranslatedArray } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/features/hr-chatbot")({
-  head: () => ({ meta: [{ title: "HR Chatbot — Sapience HCM" }, { name: "description", content: "AI-powered HR chatbot for instant employee support and self-service." }, { property: "og:title", content: "HR Chatbot — Sapience HCM" }, { property: "og:description", content: "AI-powered chatbot for instant HR support." }] }),
+  head: () => ({ meta: [{ title: "HR Chatbot — Sapience HCM" }, { name: "description", content: "AI-powered HR chatbot for instant employee support and self-service." }, { property: "og:title", content: "HR Chatbot — Sapience HCM" }, { property: "og:description", content: "AI-powered chatbot for instant HR support." }], links: getHreflangLinks("/features/hr-chatbot") }),
   component: HRChatbotPage,
 });
 
@@ -23,6 +25,7 @@ function HRChatbotPage() {
   return (
     <>
       <HeroSection headline={t("features.hrChatbot.heroHeadline")} subHeadline={t("features.hrChatbot.heroSub")} badge={t("features.hrChatbot.badge")} />
+      <StickyFeatureNav features={features} />
       <NumberedFeatureBlock features={features} />
       <FAQAccordion items={faq} />
       <CTABanner />
