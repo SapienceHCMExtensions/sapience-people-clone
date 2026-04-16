@@ -2,9 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SolutionTemplate } from "@/components/shared/SolutionTemplate";
 import { Globe, Shield, BarChart3, Plug } from "lucide-react";
 import { useT } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/solutions/enterprise")({
-  head: () => ({ meta: [{ title: "Enterprise HR — Sapience HCM" }, { name: "description", content: "Enterprise-grade HR platform for large organizations." }, { property: "og:title", content: "Enterprise HR — Sapience HCM" }, { property: "og:description", content: "Enterprise-grade HR for large organizations." }] }),
+  head: () => ({ meta: [{ title: "Enterprise HR — Sapience HCM" }, { name: "description", content: "Enterprise-grade HR platform for large organizations." }, { property: "og:title", content: "Enterprise HR — Sapience HCM" }, { property: "og:description", content: "Enterprise-grade HR for large organizations." }], links: getHreflangLinks("/solutions/enterprise") }),
   component: () => {
     const t = useT();
     return (

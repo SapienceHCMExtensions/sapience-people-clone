@@ -2,9 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SolutionTemplate } from "@/components/shared/SolutionTemplate";
 import { Stethoscope, Shield, Clock, FileText } from "lucide-react";
 import { useT } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/solutions/healthcare")({
-  head: () => ({ meta: [{ title: "HR for Healthcare — Sapience HCM" }, { name: "description", content: "HR solutions for healthcare organizations." }, { property: "og:title", content: "HR for Healthcare — Sapience HCM" }, { property: "og:description", content: "HR solutions for healthcare organizations." }] }),
+  head: () => ({ meta: [{ title: "HR for Healthcare — Sapience HCM" }, { name: "description", content: "HR solutions for healthcare organizations." }, { property: "og:title", content: "HR for Healthcare — Sapience HCM" }, { property: "og:description", content: "HR solutions for healthcare organizations." }], links: getHreflangLinks("/solutions/healthcare") }),
   component: () => {
     const t = useT();
     return (

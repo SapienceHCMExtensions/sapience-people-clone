@@ -2,9 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SolutionTemplate } from "@/components/shared/SolutionTemplate";
 import { Globe, Shield, Code, Zap } from "lucide-react";
 import { useT } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/solutions/it")({
-  head: () => ({ meta: [{ title: "HR for IT Industry — Sapience HCM" }, { name: "description", content: "HR solutions designed for IT companies." }, { property: "og:title", content: "HR for IT Industry — Sapience HCM" }, { property: "og:description", content: "HR solutions designed for IT companies." }] }),
+  head: () => ({ meta: [{ title: "HR for IT Industry — Sapience HCM" }, { name: "description", content: "HR solutions designed for IT companies." }, { property: "og:title", content: "HR for IT Industry — Sapience HCM" }, { property: "og:description", content: "HR solutions designed for IT companies." }], links: getHreflangLinks("/solutions/it") }),
   component: () => {
     const t = useT();
     return (
