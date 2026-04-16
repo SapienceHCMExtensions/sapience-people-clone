@@ -2,9 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Users, Briefcase, Award, DollarSign, Heart, Bot, Smartphone, Plug, Settings, Zap, Plane, Building2, UserMinus } from "lucide-react";
 import { FeatureCard } from "@/components/shared/FeatureCard";
 import { useT } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/features/")({
-  head: () => ({ meta: [{ title: "All Features — Sapience HCM" }, { name: "description", content: "Explore the complete suite of HR features offered by Sapience HCM — from hire to retire." }, { property: "og:title", content: "All Features — Sapience HCM" }, { property: "og:description", content: "Explore the complete suite of HR features offered by Sapience HCM." }] }),
+  head: () => ({ meta: [{ title: "All Features — Sapience HCM" }, { name: "description", content: "Explore the complete suite of HR features offered by Sapience HCM — from hire to retire." }, { property: "og:title", content: "All Features — Sapience HCM" }, { property: "og:description", content: "Explore the complete suite of HR features offered by Sapience HCM." }], links: getHreflangLinks("/features") }),
   component: AllFeaturesPage,
 });
 
