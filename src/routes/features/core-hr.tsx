@@ -9,7 +9,6 @@ import { CheckCircle } from "lucide-react";
 import { useT, useTranslatedArray } from "@/i18n/context";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { getHreflangLinks } from "@/lib/seo";
-import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export const Route = createFileRoute("/features/core-hr")({
   head: () => ({
