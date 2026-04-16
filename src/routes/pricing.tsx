@@ -9,10 +9,10 @@ import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@
 import { FAQAccordion } from "@/components/shared/FAQAccordion";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { Link } from "@tanstack/react-router";
-import { useT } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/pricing")({
-  head: () => ({ meta: [{ title: "Pricing — Sapience HCM" }, { name: "description", content: "Simple, transparent pricing for businesses of every size. Choose from Cloud, Customer Cloud, or On Premise plans." }, { property: "og:title", content: "Pricing — Sapience HCM" }, { property: "og:description", content: "Simple, transparent pricing for businesses of every size." }] }),
+  head: () => ({ meta: [{ title: "Pricing — Sapience HCM" }, { name: "description", content: "Simple, transparent pricing for businesses of every size. Choose from Cloud, Customer Cloud, or On Premise plans." }, { property: "og:title", content: "Pricing — Sapience HCM" }, { property: "og:description", content: "Simple, transparent pricing for businesses of every size." }], links: getHreflangLinks("/pricing") }),
   component: PricingPage,
 });
 

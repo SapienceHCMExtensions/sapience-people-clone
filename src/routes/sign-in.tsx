@@ -6,9 +6,10 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import logo from "@/assets/SapienceHCMLogo.svg";
 import { useT } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/sign-in")({
-  head: () => ({ meta: [{ title: "Sign In — Sapience HCM" }, { name: "description", content: "Sign in to your Sapience HCM account to manage HR, payroll, and workforce operations." }, { property: "og:title", content: "Sign In — Sapience HCM" }, { property: "og:description", content: "Sign in to your Sapience HCM account." }] }),
+  head: () => ({ meta: [{ title: "Sign In — Sapience HCM" }, { name: "description", content: "Sign in to your Sapience HCM account to manage HR, payroll, and workforce operations." }, { property: "og:title", content: "Sign In — Sapience HCM" }, { property: "og:description", content: "Sign in to your Sapience HCM account." }], links: getHreflangLinks("/sign-in") }),
   component: SignInPage,
 });
 

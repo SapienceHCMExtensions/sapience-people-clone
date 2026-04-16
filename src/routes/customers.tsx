@@ -2,9 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { TestimonialBlock } from "@/components/shared/TestimonialBlock";
 import { CTABanner } from "@/components/shared/CTABanner";
 import { useT } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/customers")({
-  head: () => ({ meta: [{ title: "Customer Stories — Sapience HCM" }, { name: "description", content: "See how leading companies use Sapience HCM to transform their HR operations." }, { property: "og:title", content: "Customer Stories — Sapience HCM" }, { property: "og:description", content: "See how leading companies use Sapience HCM to transform their HR operations." }] }),
+  head: () => ({ meta: [{ title: "Customer Stories — Sapience HCM" }, { name: "description", content: "See how leading companies use Sapience HCM to transform their HR operations." }, { property: "og:title", content: "Customer Stories — Sapience HCM" }, { property: "og:description", content: "See how leading companies use Sapience HCM to transform their HR operations." }], links: getHreflangLinks("/customers") }),
   component: CustomersPage,
 });
 

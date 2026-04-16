@@ -6,9 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useT } from "@/i18n/context";
+import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/request-demo")({
-  head: () => ({ meta: [{ title: "Request a Demo — Sapience HCM" }, { name: "description", content: "Schedule a personalized demo of Sapience HCM and see how it can transform your HR operations." }, { property: "og:title", content: "Request a Demo — Sapience HCM" }, { property: "og:description", content: "Schedule a personalized demo of Sapience HCM." }] }),
+  head: () => ({ meta: [{ title: "Request a Demo — Sapience HCM" }, { name: "description", content: "Schedule a personalized demo of Sapience HCM and see how it can transform your HR operations." }, { property: "og:title", content: "Request a Demo — Sapience HCM" }, { property: "og:description", content: "Schedule a personalized demo of Sapience HCM." }], links: getHreflangLinks("/request-demo") }),
   component: RequestDemoPage,
 });
 
