@@ -7,19 +7,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
+import { countryCodes } from "@/lib/countryCodes";
 
 export const Route = createFileRoute("/request-demo")({
   head: () => ({ meta: [{ title: "Request a Demo — Sapience HCM" }, { name: "description", content: "Schedule a personalized demo of Sapience HCM and see how it can transform your HR operations." }, { property: "og:title", content: "Request a Demo — Sapience HCM" }, { property: "og:description", content: "Schedule a personalized demo of Sapience HCM." }], links: getHreflangLinks("/request-demo") }),
   component: RequestDemoPage,
 });
 
-const countryCodes = [
-  { code: "+1", country: "US" }, { code: "+44", country: "UK" }, { code: "+91", country: "IN" },
-  { code: "+61", country: "AU" }, { code: "+49", country: "DE" }, { code: "+33", country: "FR" },
-  { code: "+81", country: "JP" }, { code: "+86", country: "CN" }, { code: "+971", country: "AE" },
-  { code: "+65", country: "SG" }, { code: "+234", country: "NG" }, { code: "+27", country: "ZA" },
-  { code: "+55", country: "BR" }, { code: "+52", country: "MX" }, { code: "+82", country: "KR" },
-];
 
 const employeeRanges = ["1-50", "51-200", "201-500", "501-1000", "1001-5000", "5000+"];
 const existingProviders = ["None", "SAP SuccessFactors", "Workday", "BambooHR", "Zoho People", "ADP", "Oracle HCM", "Other"];
@@ -86,9 +80,9 @@ function RequestDemoPage() {
                 <div className="grid sm:grid-cols-3 gap-4">
                   <div className="space-y-1.5">
                     <Label>{t("pages.requestDemo.countryCode")}</Label>
-                    <Select defaultValue="+1">
+                    <Select defaultValue="+1 United States">
                       <SelectTrigger><SelectValue /></SelectTrigger>
-                      <SelectContent>{countryCodes.map((c) => (<SelectItem key={c.code} value={c.code}>{c.code} {c.country}</SelectItem>))}</SelectContent>
+                      <SelectContent>{countryCodes.map((c) => (<SelectItem key={`${c.code}-${c.name}`} value={`${c.code} ${c.name}`}>{c.code} {c.name}</SelectItem>))}</SelectContent>
                     </Select>
                   </div>
                   <div className="sm:col-span-2 space-y-1.5">

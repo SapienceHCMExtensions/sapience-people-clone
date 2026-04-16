@@ -7,18 +7,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
+import { countryCodes } from "@/lib/countryCodes";
 
 export const Route = createFileRoute("/request-quote")({
   head: () => ({ meta: [{ title: "Request a Price Quote — Sapience HCM" }, { name: "description", content: "Get a custom price quote tailored to your organization's needs." }, { property: "og:title", content: "Request a Price Quote — Sapience HCM" }, { property: "og:description", content: "Get a custom price quote for Sapience HCM." }], links: getHreflangLinks("/request-quote") }),
   component: RequestQuotePage,
 });
 
-const countryCodes = [
-  { code: "+1", country: "US" }, { code: "+44", country: "UK" }, { code: "+91", country: "IN" },
-  { code: "+61", country: "AU" }, { code: "+49", country: "DE" }, { code: "+33", country: "FR" },
-  { code: "+81", country: "JP" }, { code: "+86", country: "CN" }, { code: "+971", country: "AE" },
-  { code: "+65", country: "SG" },
-];
 
 const employeeRanges = ["1-50", "51-200", "201-500", "501-1000", "1001-5000", "5000+"];
 const services = ["Core HR", "Hiring & Onboarding", "Performance Management", "Payroll", "Employee Engagement", "HR Automation", "HR Chatbot", "Mobile App", "Integrations"];
@@ -61,7 +56,7 @@ function RequestQuotePage() {
               <div className="grid sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
                   <Label>{t("pages.requestQuote.countryCode")}</Label>
-                  <Select defaultValue="+1"><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{countryCodes.map((c) => (<SelectItem key={c.code} value={c.code}>{c.code} {c.country}</SelectItem>))}</SelectContent></Select>
+                  <Select defaultValue="+1 United States"><SelectTrigger><SelectValue /></SelectTrigger><SelectContent>{countryCodes.map((c) => (<SelectItem key={`${c.code}-${c.name}`} value={`${c.code} ${c.name}`}>{c.code} {c.name}</SelectItem>))}</SelectContent></Select>
                 </div>
                 <div className="sm:col-span-2 space-y-1.5"><Label htmlFor="phone">{t("pages.requestQuote.phone")}</Label><Input id="phone" required /></div>
               </div>

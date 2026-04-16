@@ -9,10 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WebinarsRouteImport } from './routes/webinars'
+import { Route as TrainingProgramRouteImport } from './routes/training-program'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as RequestQuoteRouteImport } from './routes/request-quote'
 import { Route as RequestDemoRouteImport } from './routes/request-demo'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as GettingStartedRouteImport } from './routes/getting-started'
 import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeaturesIndexRouteImport } from './routes/features/index'
@@ -40,6 +43,16 @@ import { Route as FeaturesCustomServicesRouteImport } from './routes/features/cu
 import { Route as FeaturesCoreHrRouteImport } from './routes/features/core-hr'
 import { Route as FeaturesBiometricIntegrationsRouteImport } from './routes/features/biometric-integrations'
 
+const WebinarsRoute = WebinarsRouteImport.update({
+  id: '/webinars',
+  path: '/webinars',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrainingProgramRoute = TrainingProgramRouteImport.update({
+  id: '/training-program',
+  path: '/training-program',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
@@ -58,6 +71,11 @@ const RequestDemoRoute = RequestDemoRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GettingStartedRoute = GettingStartedRouteImport.update({
+  id: '/getting-started',
+  path: '/getting-started',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersRoute = CustomersRouteImport.update({
@@ -198,10 +216,13 @@ const FeaturesBiometricIntegrationsRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/customers': typeof CustomersRoute
+  '/getting-started': typeof GettingStartedRoute
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/sign-in': typeof SignInRoute
+  '/training-program': typeof TrainingProgramRoute
+  '/webinars': typeof WebinarsRoute
   '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
@@ -230,10 +251,13 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/customers': typeof CustomersRoute
+  '/getting-started': typeof GettingStartedRoute
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/sign-in': typeof SignInRoute
+  '/training-program': typeof TrainingProgramRoute
+  '/webinars': typeof WebinarsRoute
   '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
@@ -263,10 +287,13 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/customers': typeof CustomersRoute
+  '/getting-started': typeof GettingStartedRoute
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/sign-in': typeof SignInRoute
+  '/training-program': typeof TrainingProgramRoute
+  '/webinars': typeof WebinarsRoute
   '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
   '/features/core-hr': typeof FeaturesCoreHrRoute
   '/features/custom-services': typeof FeaturesCustomServicesRoute
@@ -297,10 +324,13 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/customers'
+    | '/getting-started'
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
     | '/sign-in'
+    | '/training-program'
+    | '/webinars'
     | '/features/biometric-integrations'
     | '/features/core-hr'
     | '/features/custom-services'
@@ -329,10 +359,13 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/customers'
+    | '/getting-started'
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
     | '/sign-in'
+    | '/training-program'
+    | '/webinars'
     | '/features/biometric-integrations'
     | '/features/core-hr'
     | '/features/custom-services'
@@ -361,10 +394,13 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/customers'
+    | '/getting-started'
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
     | '/sign-in'
+    | '/training-program'
+    | '/webinars'
     | '/features/biometric-integrations'
     | '/features/core-hr'
     | '/features/custom-services'
@@ -394,10 +430,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CustomersRoute: typeof CustomersRoute
+  GettingStartedRoute: typeof GettingStartedRoute
   PricingRoute: typeof PricingRoute
   RequestDemoRoute: typeof RequestDemoRoute
   RequestQuoteRoute: typeof RequestQuoteRoute
   SignInRoute: typeof SignInRoute
+  TrainingProgramRoute: typeof TrainingProgramRoute
+  WebinarsRoute: typeof WebinarsRoute
   FeaturesBiometricIntegrationsRoute: typeof FeaturesBiometricIntegrationsRoute
   FeaturesCoreHrRoute: typeof FeaturesCoreHrRoute
   FeaturesCustomServicesRoute: typeof FeaturesCustomServicesRoute
@@ -426,6 +465,20 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/webinars': {
+      id: '/webinars'
+      path: '/webinars'
+      fullPath: '/webinars'
+      preLoaderRoute: typeof WebinarsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/training-program': {
+      id: '/training-program'
+      path: '/training-program'
+      fullPath: '/training-program'
+      preLoaderRoute: typeof TrainingProgramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sign-in': {
       id: '/sign-in'
       path: '/sign-in'
@@ -452,6 +505,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/getting-started': {
+      id: '/getting-started'
+      path: '/getting-started'
+      fullPath: '/getting-started'
+      preLoaderRoute: typeof GettingStartedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customers': {
@@ -642,10 +702,13 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CustomersRoute: CustomersRoute,
+  GettingStartedRoute: GettingStartedRoute,
   PricingRoute: PricingRoute,
   RequestDemoRoute: RequestDemoRoute,
   RequestQuoteRoute: RequestQuoteRoute,
   SignInRoute: SignInRoute,
+  TrainingProgramRoute: TrainingProgramRoute,
+  WebinarsRoute: WebinarsRoute,
   FeaturesBiometricIntegrationsRoute: FeaturesBiometricIntegrationsRoute,
   FeaturesCoreHrRoute: FeaturesCoreHrRoute,
   FeaturesCustomServicesRoute: FeaturesCustomServicesRoute,
