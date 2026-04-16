@@ -1,27 +1,76 @@
 
 
-# Add Country Flags to Country Code Dropdowns
+# Store Form Submissions in PostgreSQL with Configurable Connection
 
-## Approach
+## Overview
 
-Use Unicode flag emojis derived from ISO 3166-1 alpha-2 country codes. This requires no external libraries or image assets — just adding a 2-letter `iso` field to each country entry and a small helper function to convert it to a flag emoji.
+Create a server-side layer that saves all form submissions (Request Demo, Request Quote, Webinars, Training Program, Getting Started) to a PostgreSQL database. A config file will hold the database connection string, which you can update later when hosting your own Postgres instance.
+
+## Architecture
+
+```text
+Browser Form → createServerFn (POST) → pg client → PostgreSQL
+                                            ↑
+                                    src/lib/db.config.ts
+                                    (connection string)
+```
 
 ## Changes
 
-### 1. Update `src/lib/countryCodes.ts`
-- Add an `iso` field (2-letter country code) to each entry, e.g. `{ code: "+1", name: "United States", iso: "US" }`
-- Add a helper function `countryFlag(iso: string): string` that converts ISO code to regional indicator emoji (e.g. "US" → 🇺🇸)
+### 1. Install `pg` npm package
+Add `pg` (node-postgres) as a dependency — it works in the server runtime.
 
-### 2. Update all 5 form pages
-In each file, change the SelectItem rendering from `{c.code} {c.name}` to `{countryFlag(c.iso)} {c.code} {c.name}`:
+### 2. Create `src/lib/db.config.ts`
+A config file where you set your PostgreSQL connection details later:
+```ts
+export const dbConfig = {
+  connectionString: process.env.DATABASE_URL || "postgresql://user:password@localhost:5432/sapiencehcm",
+};
+```
+Reads from `DATABASE_URL` env var at runtime, with a placeholder fallback you can edit.
 
-- `src/routes/request-demo.tsx`
-- `src/routes/request-quote.tsx`
-- `src/routes/webinars.tsx`
-- `src/routes/training-program.tsx`
-- `src/routes/getting-started.tsx`
+### 3. Create `src/lib/db.server.ts`
+A server-only module that exports a reusable `pg.Pool` instance using the config above.
 
-### Display format
-Dropdown items will show: 🇺🇸 +1 United States, 🇬🇧 +44 United Kingdom, etc.
-The selected value in the trigger will also show the flag.
+### 4. Create `src/lib/submissions.functions.ts`
+Server functions (one per form type) using `createServerFn` that:
+- Accept validated form data
+- Insert a row into a `form_submissions` table with columns: `id`, `form_type`, `data` (JSONB), `created_at`
+- Return success/error status
+
+### 5. Update all 5 form pages
+Each form's `onSubmit` will call the corresponding server function, passing the collected form data. On success, show the thank-you message. On error, show a toast.
+
+### 6. Provide SQL migration script
+A `migrations/001_create_submissions.sql` file you can run on your local Postgres:
+```sql
+CREATE TABLE IF NOT EXISTS form_submissions (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  form_type VARCHAR(50) NOT NULL,
+  data JSONB NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+```
+
+## Files
+
+| Action | File |
+|--------|------|
+| **New** | `src/lib/db.config.ts` — connection string config |
+| **New** | `src/lib/db.server.ts` — pg Pool instance |
+| **New** | `src/lib/submissions.functions.ts` — server functions for all 5 forms |
+| **New** | `migrations/001_create_submissions.sql` — table creation script |
+| **Edit** | `src/routes/request-demo.tsx` — call server function on submit |
+| **Edit** | `src/routes/request-quote.tsx` — call server function on submit |
+| **Edit** | `src/routes/webinars.tsx` — call server function on submit |
+| **Edit** | `src/routes/training-program.tsx` — call server function on submit |
+| **Edit** | `src/routes/getting-started.tsx` — call server function on submit |
+
+## Configuration
+
+Once you have your Postgres running, either:
+- Set `DATABASE_URL` as an environment variable, or
+- Edit the fallback string in `src/lib/db.config.ts`
+
+No code changes needed to switch databases — just update the connection string.
 
