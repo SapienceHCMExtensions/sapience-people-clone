@@ -8,8 +8,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
 import { countryCodes, countryFlag } from "@/lib/countryCodes";
-import { submitFormData } from "@/lib/submissions.functions";
-import { toast } from "sonner";
 
 export const Route = createFileRoute("/request-quote")({
   head: () => ({ meta: [{ title: "Request a Price Quote — Sapience HCM" }, { name: "description", content: "Get a custom price quote tailored to your organization's needs." }, { property: "og:title", content: "Request a Price Quote — Sapience HCM" }, { property: "og:description", content: "Get a custom price quote for Sapience HCM." }], links: getHreflangLinks("/request-quote") }),
@@ -30,31 +28,12 @@ function RequestQuotePage() {
     setSelectedServices((prev) => prev.includes(s) ? prev.filter((x) => x !== s) : [...prev, s]);
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!privacyAgreed) return;
     setSubmitting(true);
-    try {
-      const form = e.currentTarget;
-      const formData = {
-        name: (form.elements.namedItem("name") as HTMLInputElement).value,
-        email: (form.elements.namedItem("email") as HTMLInputElement).value,
-        phone: (form.elements.namedItem("phone") as HTMLInputElement).value,
-        company: (form.elements.namedItem("company") as HTMLInputElement).value,
-        role: (form.elements.namedItem("role") as HTMLInputElement).value,
-        services: selectedServices,
-      };
-      const result = await submitFormData({ data: { formType: "request-quote", data: formData } });
-      if (result.success) {
-        setSubmitted(true);
-      } else {
-        toast.error("Something went wrong. Please try again.");
-      }
-    } catch {
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setSubmitting(false);
-    }
+    setSubmitted(true);
+    setSubmitting(false);
   };
 
   if (submitted) {
