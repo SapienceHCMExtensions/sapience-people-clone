@@ -62,11 +62,11 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <img src={googlePlayBadge} alt="Get it on Google Play" className="h-10 w-auto" />
+                  <img src={googlePlayBadge} alt="Get it on Google Play" />
                 </a>
                 {/* TODO: replace # with the real App Store URL */}
                 <a href="#" target="_blank" rel="noopener noreferrer">
-                  <img src={appStoreBadge} alt="Download on the App Store" className="h-10 w-auto" />
+                  <img src={appStoreBadge} alt="Download on the App Store" />
                 </a>
               </div>
             </div>
