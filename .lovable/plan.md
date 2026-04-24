@@ -1,20 +1,41 @@
-# Add Google Play + App Store Badges to Footer
+# Restore missing app badges in Footer
 
-## Steps
+**Root cause:** badge image files exist in `src/assets/` but `Footer.tsx` never imports or renders them.
 
-1. Save badge assets to `src/assets/`:
-   - `google-play-badge.png` (Google Play badge)
-   - `app-store-badge.svg` (App Store badge from uploaded SVG)
+## Edits
 
-2. Update `src/components/layout/Footer.tsx`:
-   - Import both badges.
-   - Add a "Get the mobile app" block in the brand column (under the "powered by" line) with both badges side-by-side.
-   - Google Play link: `https://play.google.com/store/apps/details?id=com.sapience.hcm`
-   - App Store link: `#` (placeholder, with TODO comment)
-   - Both links open in new tab with `rel="noopener noreferrer"`.
-   - Badges sized at `h-10`.
+### 1. `src/components/layout/Footer.tsx`
 
-3. Add `common.footer.getTheApp` translation key to:
-   - `src/i18n/en.ts` → "Get the mobile app"
-   - `src/i18n/ar.ts` → "احصل على تطبيق الجوال"
-   - `src/i18n/es.ts` → "Obtén la app móvil"
+Add imports after the logo import:
+```ts
+import googlePlayBadge from "@/assets/google-play-badge.png";
+import appStoreBadge from "@/assets/app-store-badge.svg";
+```
+
+In the brand column, after the existing `<div>` containing `poweredBy`, append:
+```tsx
+<div className="mt-6">
+  <p className="text-xs font-semibold uppercase tracking-wider text-navy-foreground/70 mb-3">
+    {t("common.footer.getTheApp")}
+  </p>
+  <div className="flex flex-wrap items-center gap-2">
+    <a
+      href="https://play.google.com/store/apps/details?id=com.sapience.hcm"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <img src={googlePlayBadge} alt="Get it on Google Play" className="h-10 w-auto" />
+    </a>
+    {/* TODO: replace # with the real App Store URL */}
+    <a href="#" target="_blank" rel="noopener noreferrer">
+      <img src={appStoreBadge} alt="Download on the App Store" className="h-10 w-auto" />
+    </a>
+  </div>
+</div>
+```
+
+### 2. Translations — add `getTheApp` under `common.footer`
+
+- `src/i18n/en.ts` → `getTheApp: "Get the mobile app",`
+- `src/i18n/ar.ts` → `getTheApp: "احصل على تطبيق الجوال",`
+- `src/i18n/es.ts` → `getTheApp: "Obtén la app móvil",`
