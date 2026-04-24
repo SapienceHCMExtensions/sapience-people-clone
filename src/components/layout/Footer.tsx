@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import logo from "@/assets/SapienceHCMLogo.svg";
 import googlePlayBadge from "@/assets/google-play-badge.png";
-import appStoreBadge from "@/assets/app-store-badge.svg";
+import appStoreBadge from "@/assets/app-store-badge.png";
 import { useT } from "@/i18n/context";
 
 export function Footer() {
