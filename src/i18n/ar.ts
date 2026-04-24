@@ -29,6 +29,7 @@ export const ar = {
     footer: {
       tagline: "إدارة رأس المال البشري الشاملة للشركات الحديثة.",
       poweredBy: "مدعوم من Sapience Technology",
+      getTheApp: "احصل على تطبيق الجوال",
       features: "الميزات",
       solutions: "الحلول",
       resources: "الموارد",

@@ -1,5 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import logo from "@/assets/SapienceHCMLogo.svg";
+import googlePlayBadge from "@/assets/google-play-badge.png";
+import appStoreBadge from "@/assets/app-store-badge.svg";
 import { useT } from "@/i18n/context";
 
 export function Footer() {
@@ -49,6 +51,24 @@ export function Footer() {
             <p className="text-sm text-navy-foreground/70 mb-4">{t("common.footer.tagline")}</p>
             <div className="flex items-center gap-2 text-xs text-navy-foreground/50">
               <span>{t("common.footer.poweredBy")}</span>
+            </div>
+            <div className="mt-6">
+              <p className="text-xs font-semibold uppercase tracking-wider text-navy-foreground/70 mb-3">
+                {t("common.footer.getTheApp")}
+              </p>
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.sapience.hcm"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img src={googlePlayBadge} alt="Get it on Google Play" className="h-10 w-auto" />
+                </a>
+                {/* TODO: replace # with the real App Store URL */}
+                <a href="#" target="_blank" rel="noopener noreferrer">
+                  <img src={appStoreBadge} alt="Download on the App Store" className="h-10 w-auto" />
+                </a>
+              </div>
             </div>
           </div>
 

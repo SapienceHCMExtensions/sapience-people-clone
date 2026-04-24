@@ -29,6 +29,7 @@ export const es = {
     footer: {
       tagline: "Gestión integral del capital humano para empresas modernas.",
       poweredBy: "Desarrollado por Sapience Technology",
+      getTheApp: "Obtén la app móvil",
       features: "Características",
       solutions: "Soluciones",
       resources: "Recursos",
