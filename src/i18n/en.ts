@@ -29,6 +29,7 @@ export const en = {
     footer: {
       tagline: "Comprehensive human capital management for modern businesses.",
       poweredBy: "Powered by Sapience Technology",
+      getTheApp: "Get the mobile app",
       features: "Features",
       solutions: "Solutions",
       resources: "Resources",
