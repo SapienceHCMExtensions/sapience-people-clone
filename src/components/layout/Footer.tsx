@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/SapienceHCMLogo.svg";
+import logo from "@/assets/SapienceHCMLogo.png";
 import googlePlayBadge from "@/assets/google-play-badge.png";
 import appStoreBadge from "@/assets/app-store-badge.png";
 import { useT } from "@/i18n/context";
@@ -47,7 +47,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
           <div className="col-span-2 md:col-span-4 lg:col-span-1">
-            <img src={logo} alt="Sapience HCM" className="h-8 w-auto brightness-0 invert mb-4" />
+            <img src={logo} alt="Sapience HCM" className="h-16 w-auto mb-4 bg-white rounded p-2" />
             <p className="text-sm text-navy-foreground/70 mb-4">{t("common.footer.tagline")}</p>
             <div className="flex items-center gap-2 text-xs text-navy-foreground/50">
               <span>{t("common.footer.poweredBy")}</span>
