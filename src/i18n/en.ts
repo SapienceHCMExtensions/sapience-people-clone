@@ -731,6 +731,11 @@ export const en = {
       privacyPolicy: "Privacy Policy",
       submitRequest: "Submit Training Request",
     },
+    roiCalculator: {
+      eyebrow: "ROI Calculator",
+      title: "See your savings with Sapience HCM",
+      subtitle: "Adjust the inputs to estimate how much time and money your organization can reclaim by automating HR with Sapience.",
+    },
     gettingStarted: {
       title: "Getting Started",
       subtitle: "Begin your journey with Sapience HCM. Our team will guide you through setup, data migration, and go-live.",
