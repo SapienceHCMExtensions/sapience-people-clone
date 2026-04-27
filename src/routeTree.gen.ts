@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WebinarsRouteImport } from './routes/webinars'
 import { Route as TrainingProgramRouteImport } from './routes/training-program'
 import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as RoiCalculatorRouteImport } from './routes/roi-calculator'
 import { Route as RequestQuoteRouteImport } from './routes/request-quote'
 import { Route as RequestDemoRouteImport } from './routes/request-demo'
 import { Route as PricingRouteImport } from './routes/pricing'
@@ -56,6 +57,11 @@ const TrainingProgramRoute = TrainingProgramRouteImport.update({
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoiCalculatorRoute = RoiCalculatorRouteImport.update({
+  id: '/roi-calculator',
+  path: '/roi-calculator',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RequestQuoteRoute = RequestQuoteRouteImport.update({
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
+  '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
@@ -255,6 +262,7 @@ export interface FileRoutesByTo {
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
+  '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
@@ -291,6 +299,7 @@ export interface FileRoutesById {
   '/pricing': typeof PricingRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
+  '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
@@ -328,6 +337,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
+    | '/roi-calculator'
     | '/sign-in'
     | '/training-program'
     | '/webinars'
@@ -363,6 +373,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
+    | '/roi-calculator'
     | '/sign-in'
     | '/training-program'
     | '/webinars'
@@ -398,6 +409,7 @@ export interface FileRouteTypes {
     | '/pricing'
     | '/request-demo'
     | '/request-quote'
+    | '/roi-calculator'
     | '/sign-in'
     | '/training-program'
     | '/webinars'
@@ -434,6 +446,7 @@ export interface RootRouteChildren {
   PricingRoute: typeof PricingRoute
   RequestDemoRoute: typeof RequestDemoRoute
   RequestQuoteRoute: typeof RequestQuoteRoute
+  RoiCalculatorRoute: typeof RoiCalculatorRoute
   SignInRoute: typeof SignInRoute
   TrainingProgramRoute: typeof TrainingProgramRoute
   WebinarsRoute: typeof WebinarsRoute
@@ -484,6 +497,13 @@ declare module '@tanstack/react-router' {
       path: '/sign-in'
       fullPath: '/sign-in'
       preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/roi-calculator': {
+      id: '/roi-calculator'
+      path: '/roi-calculator'
+      fullPath: '/roi-calculator'
+      preLoaderRoute: typeof RoiCalculatorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/request-quote': {
@@ -706,6 +726,7 @@ const rootRouteChildren: RootRouteChildren = {
   PricingRoute: PricingRoute,
   RequestDemoRoute: RequestDemoRoute,
   RequestQuoteRoute: RequestQuoteRoute,
+  RoiCalculatorRoute: RoiCalculatorRoute,
   SignInRoute: SignInRoute,
   TrainingProgramRoute: TrainingProgramRoute,
   WebinarsRoute: WebinarsRoute,
