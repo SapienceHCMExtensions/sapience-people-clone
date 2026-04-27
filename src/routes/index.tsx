@@ -46,6 +46,11 @@ function Index() {
         badge={t("home.hero.badge")}
         screenshotUrl="https://marketing.zillancer.com/image%20for%20landing%20page.png"
         screenshotAlt="Sapience HCM platform overview"
+        variant="aurora"
+        showSpotlight
+        showGrid
+        showNoise
+        size="xl"
       />
 
       {/* Dashboard Section */}
