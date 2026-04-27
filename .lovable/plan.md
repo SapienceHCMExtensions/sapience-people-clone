@@ -1,41 +1,23 @@
-# Restore missing app badges in Footer
+## Update App Store badge link in Footer
 
-**Root cause:** badge image files exist in `src/assets/` but `Footer.tsx` never imports or renders them.
+Replace the placeholder `href="#"` on the App Store badge anchor in `src/components/layout/Footer.tsx` with the real URL.
 
-## Edits
+### Edit
 
-### 1. `src/components/layout/Footer.tsx`
+`src/components/layout/Footer.tsx` — in the brand column's "Get the app" block:
 
-Add imports after the logo import:
-```ts
-import googlePlayBadge from "@/assets/google-play-badge.png";
-import appStoreBadge from "@/assets/app-store-badge.svg";
-```
+- Remove the `{/* TODO: replace # with the real App Store URL */}` comment.
+- Change:
+  ```tsx
+  <a href="#" target="_blank" rel="noopener noreferrer">
+  ```
+  to:
+  ```tsx
+  <a
+    href="https://apps.apple.com/ae/app/sapience-hcm-ess/id6445889197"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+  ```
 
-In the brand column, after the existing `<div>` containing `poweredBy`, append:
-```tsx
-<div className="mt-6">
-  <p className="text-xs font-semibold uppercase tracking-wider text-navy-foreground/70 mb-3">
-    {t("common.footer.getTheApp")}
-  </p>
-  <div className="flex flex-wrap items-center gap-2">
-    <a
-      href="https://play.google.com/store/apps/details?id=com.sapience.hcm"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <img src={googlePlayBadge} alt="Get it on Google Play" className="h-10 w-auto" />
-    </a>
-    {/* TODO: replace # with the real App Store URL */}
-    <a href="#" target="_blank" rel="noopener noreferrer">
-      <img src={appStoreBadge} alt="Download on the App Store" className="h-10 w-auto" />
-    </a>
-  </div>
-</div>
-```
-
-### 2. Translations — add `getTheApp` under `common.footer`
-
-- `src/i18n/en.ts` → `getTheApp: "Get the mobile app",`
-- `src/i18n/ar.ts` → `getTheApp: "احصل على تطبيق الجوال",`
-- `src/i18n/es.ts` → `getTheApp: "Obtén la app móvil",`
+No other files change.
