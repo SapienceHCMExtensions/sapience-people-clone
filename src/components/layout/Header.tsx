@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "@tanstack/react-router";
 import { Menu, X, ChevronDown, Users, Clock, CalendarDays, FileText, BarChart3, Headphones, FolderOpen, UserMinus, Briefcase, Award, BookOpen, DollarSign, Plane, MessageSquare, Heart, Bot, Smartphone, Plug, Settings, Zap, Building2, Film, GraduationCap, Stethoscope, Landmark, Building, Layers, Globe } from "lucide-react";
-import logo from "@/assets/SapienceHCMLogo.svg";
+import logo from "@/assets/SapienceHCMLogo.png";
 import { useLanguage, useT, type Locale } from "@/i18n/context";
 
 const languages: { code: Locale; label: string; short: string }[] = [
@@ -137,7 +137,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex-shrink-0">
-            <img src={logo} alt="Sapience HCM" className="h-8 w-auto" />
+            <img src={logo} alt="Sapience HCM" className="h-12 w-auto" />
           </Link>
 
           <nav className="hidden lg:flex items-center gap-1">

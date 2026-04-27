@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import logo from "@/assets/SapienceHCMLogo.svg";
+import logo from "@/assets/SapienceHCMLogo.png";
 import { useT } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
 
@@ -27,7 +27,7 @@ function SignInPage() {
       <Card className="w-full max-w-md">
         <CardHeader className="text-center space-y-4">
           <Link to="/" className="inline-block mx-auto">
-            <img src={logo} alt="Sapience HCM" className="h-10 w-auto mx-auto object-cover" />
+            <img src={logo} alt="Sapience HCM" className="h-16 w-auto mx-auto" />
           </Link>
           <div>
             <CardTitle className="text-2xl font-bold text-foreground">{t("pages.signIn.welcomeBack")}</CardTitle>
