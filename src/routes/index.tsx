@@ -3,6 +3,9 @@ import { HeroSection } from "@/components/shared/HeroSection";
 import { FeatureCard } from "@/components/shared/FeatureCard";
 import { TestimonialBlock } from "@/components/shared/TestimonialBlock";
 import { CTABanner } from "@/components/shared/CTABanner";
+import { TrustBand } from "@/components/shared/TrustBand";
+import { ProductTour } from "@/components/shared/ProductTour";
+import { ROICalculator } from "@/components/shared/ROICalculator";
 import { Users, Briefcase, Award, DollarSign, Heart, Shield, Globe, Zap, Clock, BarChart3 } from "lucide-react";
 import { useT } from "@/i18n/context";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
@@ -112,6 +115,8 @@ function Index() {
         </div>
       </section>
 
+      <ProductTour />
+
       {/* Why Sapience Section */}
       <section className="py-16 bg-soft-gray">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -142,6 +147,8 @@ function Index() {
           </div>
         </div>
       </section>
+
+      <ROICalculator variant="compact" />
 
       <TestimonialBlock
         quote={t("home.testimonial.quote")}
