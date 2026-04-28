@@ -1,17 +1,12 @@
 import { useT } from "@/i18n/context";
 import { AnimatedCounter } from "./AnimatedCounter";
 
-// Placeholder customer logos — replace with real client logos.
-const CUSTOMER_LOGOS = [
-  "Acme Corp",
-  "Globex",
-  "Initech",
-  "Umbrella",
-  "Stark Industries",
-  "Wayne Enterprises",
-  "Hooli",
-  "Pied Piper",
-];
+// Real client logos from sapiencetechnology.com (default + hover variants).
+const PARTNER_BASE = "https://www.sapiencetechnology.com/assets/img/partner-img";
+const PARTNER_LOGOS = Array.from({ length: 18 }, (_, i) => ({
+  default: `${PARTNER_BASE}/partner-${i + 1}.png`,
+  hover: `${PARTNER_BASE}/partner-hover${i + 1}.png`,
+}));
 
 interface Stat {
   value: number;
@@ -31,7 +26,7 @@ export function TrustBand() {
   ];
 
   // Duplicate the array so the marquee loop is seamless.
-  const marqueeLogos = [...CUSTOMER_LOGOS, ...CUSTOMER_LOGOS];
+  const marqueeLogos = [...PARTNER_LOGOS, ...PARTNER_LOGOS];
 
   return (
     <section className="bg-background border-y border-border py-12 lg:py-14">
@@ -43,13 +38,27 @@ export function TrustBand() {
         {/* Marquee logo strip */}
         <div className="marquee mb-12">
           <div className="marquee-track">
-            {marqueeLogos.map((name, i) => (
+            {marqueeLogos.map((logo, i) => (
               <span
-                key={`${name}-${i}`}
+                key={`${logo.default}-${i}`}
                 className="trust-logo-item"
-                aria-hidden={i >= CUSTOMER_LOGOS.length}
+                aria-hidden={i >= PARTNER_LOGOS.length}
               >
-                {name}
+                <img
+                  src={logo.default}
+                  alt="Sapience client logo"
+                  className="trust-logo-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <img
+                  src={logo.hover}
+                  alt=""
+                  aria-hidden="true"
+                  className="trust-logo-img trust-logo-img--hover"
+                  loading="lazy"
+                  decoding="async"
+                />
               </span>
             ))}
           </div>
