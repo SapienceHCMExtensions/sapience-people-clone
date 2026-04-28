@@ -730,7 +730,6 @@ export const es = {
       submitRequest: "Comenzar",
     },
   },
-  },
   header: {
     orgHierarchy: "Jerarquía org.", orgChart: "Organigrama", jobDescriptions: "Descripciones de puesto",
     manpowerPlanning: "Planificación de personal", recruitment: "Reclutamiento", onboarding: "Incorporación",
