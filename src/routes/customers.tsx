@@ -21,6 +21,7 @@ function CustomersPage() {
       </section>
       <TestimonialBlock quote={t("pages.customers.testimonial1Quote")} name={t("pages.customers.testimonial1Name")} title={t("pages.customers.testimonial1Title")} company={t("pages.customers.testimonial1Company")} />
       <TestimonialBlock quote={t("pages.customers.testimonial2Quote")} name={t("pages.customers.testimonial2Name")} title={t("pages.customers.testimonial2Title")} company={t("pages.customers.testimonial2Company")} />
+      <TestimonialBlock quote={t("pages.customers.testimonial3Quote")} name={t("pages.customers.testimonial3Name")} title={t("pages.customers.testimonial3Title")} company={t("pages.customers.testimonial3Company")} />
       <CTABanner headline={t("pages.customers.joinCta")} />
     </>
   );
