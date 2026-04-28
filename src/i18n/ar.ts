@@ -136,7 +136,7 @@ export const ar = {
     trust: {
       title: "موثوق به من قِبل مؤسسات رائدة حول العالم",
       employees: "موظفون تتم إدارتهم",
-      companies: "شركات",
+      companies: "عملاء",
       countries: "دول",
       uptime: "اتفاقية مستوى التشغيل",
     },

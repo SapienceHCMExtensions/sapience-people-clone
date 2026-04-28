@@ -19,9 +19,9 @@ export function TrustBand() {
   const t = useT();
 
   const stats: Stat[] = [
-    { value: 10, suffix: "M+", label: t("home.trust.employees") },
-    { value: 500, suffix: "+", label: t("home.trust.companies") },
-    { value: 50, suffix: "+", label: t("home.trust.countries") },
+    { value: 1.5, suffix: "M+", label: t("home.trust.employees"), decimals: 1 },
+    { value: 250, suffix: "+", label: t("home.trust.companies") },
+    { value: 17, suffix: "+", label: t("home.trust.countries") },
     { value: 99.9, suffix: "%", label: t("home.trust.uptime"), decimals: 1 },
   ];
 

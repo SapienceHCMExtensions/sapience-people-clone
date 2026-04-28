@@ -136,7 +136,7 @@ export const es = {
     trust: {
       title: "Con la confianza de organizaciones líderes en todo el mundo",
       employees: "Empleados gestionados",
-      companies: "Empresas",
+      companies: "Clientes",
       countries: "Países",
       uptime: "SLA de disponibilidad",
     },
