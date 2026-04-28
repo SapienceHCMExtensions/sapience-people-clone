@@ -1,98 +1,41 @@
 ## Goal
 
-Create a single comprehensive `DEPLOYMENT.md` at the project root covering **two deployment targets** plus a dedicated **performance-optimization** section that applies to both.
+Update the `/customers` route so the testimonials match the three real quotes shown in the "What Users Saying" section of https://www.sapiencetechnology.com.
 
-## Targets covered
+## Source content (verbatim from sapiencetechnology.com)
 
-1. **Cloudflare Workers** (default Lovable build target) — managed edge, cheapest path.
-2. **GoDaddy hosting**, in two flavors:
-   - **GoDaddy VPS / Dedicated Server (Linux or Windows)** → Node SSR build + PM2/NSSM + Nginx/IIS reverse proxy. *(Recommended for GoDaddy.)*
-   - **GoDaddy cPanel shared hosting** → static export + `.htaccess`, with the trade-offs called out up front. (Shared cPanel can't run Node SSR.)
+1. **Maya Abdel Sater** — Country Finance / ME Payroll Lead
+   > "Sapience is very user friendly with all features an organization required to perform a seamless payroll processing. Moreover, the continued support of implementation team makes the journey even easier."
 
-A decision matrix at the top of the guide tells the operator which path to follow before they touch anything.
+2. **Abdul Nasar V.** — Head of Payroll, Middle East
+   > "Sapience HCM is a user friendly, easy to set up different modules, elements, easy to define the procedures, entitlements, calculation rules etc. Good connectivity with Oracle OTL system."
 
-## Project facts that drive the guide
+3. **Rinku Doshi** — Senior Associate
+   > "It's great to work with Sapience Technology Team. It is a user friendly software and the functionalities are helping process the payrolls at ease. It automates calculation and is highly flexible on the configuration."
 
-- TanStack Start v1 SSR (React 19, Vite 7, Tailwind v4), no backend, no env vars.
-- Default `npm run build` targets Cloudflare Workers via the Lovable preset; `defineConfig({ cloudflare: false })` switches it to a Node SSR bundle at `.output/server/index.mjs`.
-- Shared cPanel = no Node, so we'd prerender to static HTML and add an SPA `.htaccess` fallback.
-- TrustBand pulls partner logos from `sapiencetechnology.com` at runtime — relevant for cache and CSP headers in the perf section.
+The source page does not list company names for these quotes, so the company field will be left blank and the template adjusted to hide it gracefully.
 
-## Deliverable: `DEPLOYMENT.md` at the repo root
+## Changes
 
-### 1. Pick your target — decision matrix
-Cost, SSR support, TLS, complexity, recommendation. Routes the reader to Section 3, 4, or 5.
+1. **`src/i18n/en.ts`** — Under `pages.customers`:
+   - Replace `testimonial1*` (Michael Torres) with Maya Abdel Sater's quote/title.
+   - Replace `testimonial2*` (Priya Sharma) with Abdul Nasar V.'s quote/title.
+   - Add `testimonial3Quote / testimonial3Name / testimonial3Title / testimonial3Company` for Rinku Doshi.
+   - Set all three `*Company` values to empty strings (source has none).
+   - Lightly refresh `subtitle` to match the payroll/HCM tone of the real quotes.
 
-### 2. Common prerequisites
-Node.js 22 + Git install on Ubuntu/Debian, RHEL/Amazon Linux, and Windows. Repo clone steps for each OS.
+2. **`src/i18n/es.ts`** — Mirror the exact same keys with Spanish translations of the quote text. Names stay as-is; titles translated (e.g. "Responsable de Nómina – Oriente Medio").
 
-### 3. Path A — Cloudflare Workers
-Wrangler install + login → `npm run build` → `npx wrangler deploy`. Mapping a GoDaddy-registered domain to Cloudflare (nameserver swap + Worker route). Update workflow.
+3. **`src/i18n/ar.ts`** — Mirror the same keys with Arabic translations of the quote text and titles. Names kept in original form. (Required by the i18n parity rule.)
 
-### 4. Path B1 — GoDaddy VPS / Dedicated (Node SSR, recommended)
-- One-time `vite.config.ts` change: `cloudflare: false`.
-- `npm ci && npm run build` → `node .output/server/index.mjs`.
-- **Linux:** PM2 (recommended) + systemd alternative; Nginx reverse proxy; Certbot for free TLS.
-- **Windows:** NSSM to register Node as a Windows Service; IIS as reverse proxy with URL Rewrite + ARR; win-acme for TLS.
-- DNS: GoDaddy A record → VPS IP.
-- Update workflow.
+4. **`src/components/shared/TestimonialBlock.tsx`** — Small tweak: only render the `, {company}` segment when `company` is a non-empty string, so the attribution line reads cleanly as "Name — Title" when no company is supplied.
 
-### 5. Path B2 — GoDaddy cPanel shared hosting (static export fallback)
-- Honest warning that shared = no SSR.
-- Add a prerender list to `vite.config.ts` covering every TanStack route in `src/routes/**` (provide the exact snippet).
-- `npm run build` → upload `.output/public/**` into `public_html` via cPanel File Manager.
-- Provide the exact `.htaccess` SPA fallback snippet so deep-link refreshes don't 404.
-- Caveats: every new route requires re-uploading the build.
-
-### 6. **NEW — Performance optimization for production** (applies to all paths)
-A self-contained section the operator works through after the site is live. Covers:
-
-- **Pre-build optimizations**
-  - Always run `npm run build` (production), never ship `npm run build:dev`.
-  - Verify minification + tree-shaking are on (Vite default).
-  - Note that `sideEffects: false` is already set in `package.json` for better tree-shaking — leave it that way.
-- **Compression** (biggest single win)
-  - **Cloudflare:** automatic Brotli/gzip at the edge — nothing to configure.
-  - **Nginx (Linux VPS):** drop-in config block enabling `gzip`, `gzip_types`, `gzip_comp_level 6`, plus optional `brotli` (with the brotli module install one-liner).
-  - **IIS (Windows VPS):** enable static + dynamic compression via Server Manager / `<httpCompression>` web.config snippet.
-  - **cPanel shared:** enable "Optimize Website" → compress all content (path provided).
-- **Long-term caching for hashed assets**
-  - Vite already content-hashes JS/CSS/image filenames in `.output/public/_build/` — these can safely be cached forever.
-  - Provide concrete `Cache-Control: public, max-age=31536000, immutable` rules for:
-    - Nginx (`location ~* \.(js|css|woff2|png|jpg|svg|webp|avif)$`)
-    - IIS (`<staticContent><clientCache>` web.config snippet)
-    - cPanel (`.htaccess` `mod_expires` block)
-  - HTML files served with `Cache-Control: no-cache` so updates roll out instantly.
-- **HTTP/2 / HTTP/3**
-  - Enabled automatically on Cloudflare.
-  - Nginx: `listen 443 ssl http2;` (and `http3` if available).
-  - IIS: HTTP/2 is on by default with TLS in IIS 10+.
-- **Image optimization**
-  - The hero/dashboard screenshots are loaded from external CDNs (`marketing.zillancer.com`, `gdm-catalog-fmapi-prod.imgix.net`) — note that those already serve through CDNs.
-  - Local images in `src/assets/` and `public/`: convert PNGs to WebP/AVIF where possible (one-line `cwebp` / `avifenc` commands).
-  - Recommend self-hosting the 18 sapiencetechnology.com partner logos under `public/partners/` to (a) avoid third-party DNS hops on every page load, (b) allow long-term caching, and (c) survive if the source site ever moves them. Provide a one-line bash loop to download them, plus the one-line code change in `TrustBand.tsx`.
-- **Preconnect / DNS-prefetch**
-  - Snippet for `src/routes/__root.tsx` `<head>` to add `<link rel="preconnect">` for the external image hosts (skip this if logos are self-hosted).
-- **Font loading**
-  - Inter is the brand font — recommend `font-display: swap` if a `@font-face` is added later; today the project uses system Inter so no action needed (called out so the operator knows what to do if they add a webfont).
-- **Reverse-proxy timeouts and buffering** (VPS only)
-  - Nginx `proxy_read_timeout`, `proxy_buffering on`, `keepalive` upstream block.
-  - IIS request buffering / connection limits.
-- **Security headers that also help perf** (HSTS, `X-Content-Type-Options`, `Referrer-Policy: strict-origin-when-cross-origin`) — concrete snippets per server.
-- **CDN in front of a VPS** (optional)
-  - Putting Cloudflare's free plan in front of a GoDaddy VPS gives edge caching, TLS, and DDoS protection at no cost. Step-by-step (point GoDaddy nameservers to Cloudflare, set SSL mode to "Full (strict)", enable Auto Minify + Brotli).
-- **Verification**
-  - How to run a quick Lighthouse audit from Chrome DevTools and what targets to aim for (LCP < 2.5s, CLS < 0.1, TBT < 200ms).
-  - `curl -I` checks for `content-encoding: br|gzip` and `cache-control` headers.
-
-### 7. Health check & troubleshooting
-Combined symptoms ↔ fixes table covering all three paths (port in use, 502, deep-link 404, npm permission errors, Wrangler auth failure, cPanel "404 on refresh", missing partner-logo images, OOM during build on a tiny VPS).
-
-### 8. Optional hardening
-Firewall, non-root Node user, log rotation, uptime monitoring (VPS path).
-
-### 9. Cheat sheets
-End-of-doc condensed quickstart blocks, one per target.
+5. **`src/routes/customers.tsx`** — Render a **third** `<TestimonialBlock>` for Rinku Doshi using the new `testimonial3*` keys. Keep the existing two and append the third below them. No layout/background changes needed — the existing `bg-soft-gray` block style already alternates well visually with the page background.
 
 ## Out of scope
-No code changes to the app. The two config tweaks (`cloudflare: false`, prerender list) and the optional perf changes (self-host logos, preconnect) are documented inside the guide rather than committed, so the repo stays neutral and the Lovable preview keeps working unchanged.
+
+- No changes to the home page, header, footer, or partner logos.
+- No new images, icons, or routes.
+- No CRM/email wiring changes.
+
+Approve to apply these edits.
