@@ -1,79 +1,43 @@
-## Add Legal Routes (i18n-ready) & Update Footer
+## Make Recent Routes Respect the Language Switcher
 
-### New Routes
-Create four TanStack Start route files. Each route uses `useT()` so the language switcher (already global via `LanguageProvider` in `__root.tsx`) automatically translates the page when the user changes locale. Each has its own `head()` SEO metadata (title, description, og:title, og:description) and a `getHreflangLinks(...)` entry for proper multilingual SEO.
+### What's actually broken
 
-- `src/routes/terms-of-service.tsx` → `/terms-of-service`
-- `src/routes/privacy-policy.tsx` → `/privacy-policy`
-- `src/routes/cookie-policy.tsx` → `/cookie-policy`
-- `src/routes/anti-spam-policy.tsx` → `/anti-spam-policy`
+All recently added components/routes (`TrustBand`, `ProductTour`, `ROICalculator`, `roi-calculator.tsx`, and the four legal pages via `LegalPage`) already call `useT()` correctly — the wiring is fine.
 
-Layout pattern (shared across all four):
-- `max-w-3xl mx-auto px-4 py-16` container
-- Navy `<h1>` page title + muted "Last updated" date
-- Sectioned body with navy `<h2>` headings and prose paragraphs
-- All visible strings come from `t("legal.<page>.<key>")`
+The real issue is that the **new translation keys were only added to `src/i18n/en.ts`**, never to `es.ts` or `ar.ts`. `useT()` silently falls back to English when a key is missing, so switching to Spanish or Arabic leaves these blocks in English.
 
-### i18n Keys
-Add a new `legal` namespace to `src/i18n/en.ts`, `src/i18n/es.ts`, `src/i18n/ar.ts`:
+Missing namespaces in `es.ts` and `ar.ts`:
+- `home.trust.*` (eyebrow + 4 stat labels)
+- `home.tour.*` (eyebrow, title, subtitle, learnMore + 5 tabs × 5 strings each)
+- `home.roi.*` (~18 keys for the calculator UI)
+- `pages.roiCalculator.*` (eyebrow, title, subtitle)
 
-```ts
-legal: {
-  lastUpdated: "Last updated",
-  terms: {
-    title: "Terms of Service",
-    intro: "...",
-    sections: [
-      { heading: "Acceptance of Terms", body: "..." },
-      { heading: "Use of Service", body: "..." },
-      { heading: "Intellectual Property", body: "..." },
-      { heading: "Limitation of Liability", body: "..." },
-      { heading: "Governing Law", body: "..." },
-      { heading: "Contact Us", body: "..." },
-    ],
-  },
-  privacy: {
-    title: "Privacy Policy",
-    intro: "...",
-    sections: [
-      { heading: "Information We Collect", body: "..." },
-      { heading: "How We Use Information", body: "..." },
-      { heading: "Sharing & Disclosure", body: "..." },
-      { heading: "Your Rights", body: "..." },
-      { heading: "Data Retention", body: "..." },
-      { heading: "Contact Us", body: "..." },
-    ],
-  },
-  cookies: { title: "Cookie Policy", intro: "...", sections: [ /* What Are Cookies, Types We Use, Managing Cookies, Contact */ ] },
-  antiSpam: { title: "Anti-spam Policy", intro: "...", sections: [ /* Our Commitment, Email Practices, Reporting Spam, Contact */ ] },
-},
-```
+(`legal.*` was added to all three locales already and works.)
 
-- English file gets full placeholder legal copy (clearly marked for legal review).
-- Spanish and Arabic mirror the structure with translated headings + the same English body text as placeholder (consistent with how other recent keys were seeded). Arabic content renders RTL automatically because `LanguageProvider` already sets `dir="rtl"`.
+### Fix
 
-Pages render sections by mapping over `useTranslatedArray("legal.terms.sections")` (the existing helper in `src/i18n/context.tsx`), so adding/removing sections per locale just works.
+**1. `src/i18n/es.ts`** — add Spanish translations for the four missing namespaces, mirroring the exact key shape in `en.ts` (lines 136–650 for `home.trust/tour/roi`, lines 800–870 for `pages.roiCalculator`). Insert `trust`, `tour`, `roi` inside the existing `home: { ... }` block; insert `roiCalculator` inside the existing `pages: { ... }` block.
 
-### Footer Update (`src/components/layout/Footer.tsx`)
-- Remove the **GDPR Compliance** entry from `legal`.
-- Convert the remaining four entries from `<a href="#">` to `<Link to="...">` so they navigate to the new routes (rest of the footer already uses `Link`).
-- Remove the now-unused `gdprCompliance` key from `en.ts`, `es.ts`, `ar.ts`.
+**2. `src/i18n/ar.ts`** — same additions in Arabic, same structure. Arabic RTL flips automatically because `LanguageProvider` already sets `dir="rtl"` on `<html>`.
 
-```tsx
-legal: [
-  { name: t("common.footer.termsOfService"), href: "/terms-of-service" },
-  { name: t("common.footer.privacyPolicy"),  href: "/privacy-policy" },
-  { name: t("common.footer.cookiePolicy"),   href: "/cookie-policy" },
-  { name: t("common.footer.antiSpam"),       href: "/anti-spam-policy" },
-],
-```
+**3. Verification step** — after edits, run a small script to diff key paths between `en.ts` and each of `es.ts` / `ar.ts` and confirm zero missing keys.
 
-### Why the language switcher just works
-- `LanguageProvider` wraps the entire app in `__root.tsx` — every route is inside it.
-- `useT()` reads from the active locale in context and re-renders pages on switch.
-- Arabic direction (`dir="rtl"`) is already toggled on `<html>` by the provider, so the legal pages flip automatically.
-- Each route's `head()` includes `getHreflangLinks("/terms-of-service")` etc. so search engines see all 3 locale variants.
+### Future-proofing rule (the "make sure future routes work too" part)
+
+Add a short authoring rule to project memory so every future feature stays multilingual:
+
+> **i18n rule**: All user-visible strings must come from `useT()` / `useTranslatedArray()`. Any new key added to `src/i18n/en.ts` must be added to `src/i18n/es.ts` and `src/i18n/ar.ts` in the same change. Never hard-code text in components/routes. Arrays of content (sections, bullets, tabs) go through `useTranslatedArray` so locale-specific length is supported.
+
+Saved as `mem://preferences/i18n-parity` and referenced from the index Core block so it applies to every future change automatically.
 
 ### Out of scope
-- Real legal copy (placeholder shipped; legal team replaces).
-- Actual translated Spanish/Arabic legal text (English placeholder used; can be professionally translated later).
+
+- Professional translation review (the added Spanish/Arabic strings are functional translations, flagged for native-speaker review later, same convention used for the existing locales).
+- Refactoring older routes that are already translated.
+- Number/currency localization in `ROICalculator` (currently hard-coded to `en-US`/USD — separate request if desired).
+
+### Files touched
+- edit `src/i18n/es.ts`
+- edit `src/i18n/ar.ts`
+- create `mem://preferences/i18n-parity`
+- edit `mem://index.md` (add Core line + memory reference)
