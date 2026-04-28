@@ -34,11 +34,10 @@ export function Footer() {
       { name: t("common.footer.pricing"), href: "/pricing" },
     ],
     legal: [
-      { name: t("common.footer.termsOfService"), href: "#" },
-      { name: t("common.footer.privacyPolicy"), href: "#" },
-      { name: t("common.footer.cookiePolicy"), href: "#" },
-      { name: t("common.footer.gdprCompliance"), href: "#" },
-      { name: t("common.footer.antiSpam"), href: "#" },
+      { name: t("common.footer.termsOfService"), href: "/terms-of-service" },
+      { name: t("common.footer.privacyPolicy"), href: "/privacy-policy" },
+      { name: t("common.footer.cookiePolicy"), href: "/cookie-policy" },
+      { name: t("common.footer.antiSpam"), href: "/anti-spam-policy" },
     ],
   };
 
@@ -113,7 +112,7 @@ export function Footer() {
             <ul className="space-y-2">
               {footerLinks.legal.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="text-sm text-navy-foreground/60 hover:text-navy-foreground transition-colors">{link.name}</a>
+                  <Link to={link.href} className="text-sm text-navy-foreground/60 hover:text-navy-foreground transition-colors">{link.name}</Link>
                 </li>
               ))}
             </ul>

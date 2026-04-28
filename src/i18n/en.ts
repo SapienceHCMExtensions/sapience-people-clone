@@ -41,7 +41,6 @@ export const en = {
       termsOfService: "Terms of Service",
       privacyPolicy: "Privacy Policy",
       cookiePolicy: "Cookie Policy",
-      gdprCompliance: "GDPR Compliance",
       antiSpam: "Anti-spam Policy",
       coreHr: "Core HR",
       hiringOnboarding: "Hiring & Onboarding",
