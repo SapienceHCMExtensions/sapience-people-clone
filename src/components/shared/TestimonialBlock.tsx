@@ -44,7 +44,7 @@ export function TestimonialBlock({ quote, name, title, company }: TestimonialBlo
           style={{ transitionDelay: isVisible ? `${300 + words.length * 40 + 200}ms` : "0ms" }}
         >
           <div className="text-sm font-semibold text-foreground">{name}</div>
-          <div className="text-sm text-muted-foreground">{title}, {company}</div>
+          <div className="text-sm text-muted-foreground">{title}{company ? `, ${company}` : ""}</div>
         </div>
       </div>
     </section>
