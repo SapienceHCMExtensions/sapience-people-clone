@@ -654,6 +654,7 @@ export const es = {
       subtitle: "Página no encontrada",
       description: "La página que busca no existe o ha sido movida.",
       goHome: "Ir al inicio",
+    },
     webinars: {
       title: "Webinars",
       subtitle: "Únase a nuestros próximos webinars para aprender mejores prácticas, explorar nuevas funciones y conectar con expertos en RRHH.",
