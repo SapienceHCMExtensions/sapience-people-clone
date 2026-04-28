@@ -11,13 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as WebinarsRouteImport } from './routes/webinars'
 import { Route as TrainingProgramRouteImport } from './routes/training-program'
+import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as RoiCalculatorRouteImport } from './routes/roi-calculator'
 import { Route as RequestQuoteRouteImport } from './routes/request-quote'
 import { Route as RequestDemoRouteImport } from './routes/request-demo'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as GettingStartedRouteImport } from './routes/getting-started'
 import { Route as CustomersRouteImport } from './routes/customers'
+import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
+import { Route as AntiSpamPolicyRouteImport } from './routes/anti-spam-policy'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FeaturesIndexRouteImport } from './routes/features/index'
 import { Route as SolutionsSmallBusinessRouteImport } from './routes/solutions/small-business'
@@ -54,6 +58,11 @@ const TrainingProgramRoute = TrainingProgramRouteImport.update({
   path: '/training-program',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
+  id: '/terms-of-service',
+  path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SignInRoute = SignInRouteImport.update({
   id: '/sign-in',
   path: '/sign-in',
@@ -74,6 +83,11 @@ const RequestDemoRoute = RequestDemoRouteImport.update({
   path: '/request-demo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
@@ -87,6 +101,16 @@ const GettingStartedRoute = GettingStartedRouteImport.update({
 const CustomersRoute = CustomersRouteImport.update({
   id: '/customers',
   path: '/customers',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiePolicyRoute = CookiePolicyRouteImport.update({
+  id: '/cookie-policy',
+  path: '/cookie-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AntiSpamPolicyRoute = AntiSpamPolicyRouteImport.update({
+  id: '/anti-spam-policy',
+  path: '/anti-spam-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -221,13 +245,17 @@ const FeaturesBiometricIntegrationsRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/anti-spam-policy': typeof AntiSpamPolicyRoute
+  '/cookie-policy': typeof CookiePolicyRoute
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/pricing': typeof PricingRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
   '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
@@ -257,13 +285,17 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/anti-spam-policy': typeof AntiSpamPolicyRoute
+  '/cookie-policy': typeof CookiePolicyRoute
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/pricing': typeof PricingRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
   '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
@@ -294,13 +326,17 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/anti-spam-policy': typeof AntiSpamPolicyRoute
+  '/cookie-policy': typeof CookiePolicyRoute
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/pricing': typeof PricingRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
   '/request-quote': typeof RequestQuoteRoute
   '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
+  '/terms-of-service': typeof TermsOfServiceRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
   '/features/biometric-integrations': typeof FeaturesBiometricIntegrationsRoute
@@ -332,13 +368,17 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/anti-spam-policy'
+    | '/cookie-policy'
     | '/customers'
     | '/getting-started'
     | '/pricing'
+    | '/privacy-policy'
     | '/request-demo'
     | '/request-quote'
     | '/roi-calculator'
     | '/sign-in'
+    | '/terms-of-service'
     | '/training-program'
     | '/webinars'
     | '/features/biometric-integrations'
@@ -368,13 +408,17 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/anti-spam-policy'
+    | '/cookie-policy'
     | '/customers'
     | '/getting-started'
     | '/pricing'
+    | '/privacy-policy'
     | '/request-demo'
     | '/request-quote'
     | '/roi-calculator'
     | '/sign-in'
+    | '/terms-of-service'
     | '/training-program'
     | '/webinars'
     | '/features/biometric-integrations'
@@ -404,13 +448,17 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/anti-spam-policy'
+    | '/cookie-policy'
     | '/customers'
     | '/getting-started'
     | '/pricing'
+    | '/privacy-policy'
     | '/request-demo'
     | '/request-quote'
     | '/roi-calculator'
     | '/sign-in'
+    | '/terms-of-service'
     | '/training-program'
     | '/webinars'
     | '/features/biometric-integrations'
@@ -441,13 +489,17 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AntiSpamPolicyRoute: typeof AntiSpamPolicyRoute
+  CookiePolicyRoute: typeof CookiePolicyRoute
   CustomersRoute: typeof CustomersRoute
   GettingStartedRoute: typeof GettingStartedRoute
   PricingRoute: typeof PricingRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RequestDemoRoute: typeof RequestDemoRoute
   RequestQuoteRoute: typeof RequestQuoteRoute
   RoiCalculatorRoute: typeof RoiCalculatorRoute
   SignInRoute: typeof SignInRoute
+  TermsOfServiceRoute: typeof TermsOfServiceRoute
   TrainingProgramRoute: typeof TrainingProgramRoute
   WebinarsRoute: typeof WebinarsRoute
   FeaturesBiometricIntegrationsRoute: typeof FeaturesBiometricIntegrationsRoute
@@ -492,6 +544,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrainingProgramRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/terms-of-service': {
+      id: '/terms-of-service'
+      path: '/terms-of-service'
+      fullPath: '/terms-of-service'
+      preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sign-in': {
       id: '/sign-in'
       path: '/sign-in'
@@ -520,6 +579,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RequestDemoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/pricing': {
       id: '/pricing'
       path: '/pricing'
@@ -539,6 +605,20 @@ declare module '@tanstack/react-router' {
       path: '/customers'
       fullPath: '/customers'
       preLoaderRoute: typeof CustomersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookie-policy': {
+      id: '/cookie-policy'
+      path: '/cookie-policy'
+      fullPath: '/cookie-policy'
+      preLoaderRoute: typeof CookiePolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/anti-spam-policy': {
+      id: '/anti-spam-policy'
+      path: '/anti-spam-policy'
+      fullPath: '/anti-spam-policy'
+      preLoaderRoute: typeof AntiSpamPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -721,13 +801,17 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AntiSpamPolicyRoute: AntiSpamPolicyRoute,
+  CookiePolicyRoute: CookiePolicyRoute,
   CustomersRoute: CustomersRoute,
   GettingStartedRoute: GettingStartedRoute,
   PricingRoute: PricingRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
   RequestDemoRoute: RequestDemoRoute,
   RequestQuoteRoute: RequestQuoteRoute,
   RoiCalculatorRoute: RoiCalculatorRoute,
   SignInRoute: SignInRoute,
+  TermsOfServiceRoute: TermsOfServiceRoute,
   TrainingProgramRoute: TrainingProgramRoute,
   WebinarsRoute: WebinarsRoute,
   FeaturesBiometricIntegrationsRoute: FeaturesBiometricIntegrationsRoute,
