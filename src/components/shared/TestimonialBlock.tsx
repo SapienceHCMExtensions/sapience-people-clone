@@ -6,7 +6,7 @@ interface TestimonialBlockProps {
   quote: string;
   name: string;
   title: string;
-  company: string;
+  company?: string;
 }
 
 export function TestimonialBlock({ quote, name, title, company }: TestimonialBlockProps) {
