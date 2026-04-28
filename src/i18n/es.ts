@@ -41,7 +41,6 @@ export const es = {
       termsOfService: "Términos de Servicio",
       privacyPolicy: "Política de Privacidad",
       cookiePolicy: "Política de Cookies",
-      gdprCompliance: "Cumplimiento GDPR",
       antiSpam: "Política Anti-spam",
       coreHr: "RRHH Central",
       hiringOnboarding: "Contratación e Incorporación",

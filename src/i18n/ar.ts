@@ -41,7 +41,6 @@ export const ar = {
       termsOfService: "شروط الخدمة",
       privacyPolicy: "سياسة الخصوصية",
       cookiePolicy: "سياسة ملفات تعريف الارتباط",
-      gdprCompliance: "الامتثال لـ GDPR",
       antiSpam: "سياسة مكافحة البريد العشوائي",
       coreHr: "الموارد البشرية الأساسية",
       hiringOnboarding: "التوظيف والتأهيل",
