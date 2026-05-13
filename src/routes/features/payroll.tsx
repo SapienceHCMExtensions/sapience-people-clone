@@ -11,7 +11,7 @@ import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { getHreflangLinks } from "@/lib/seo";
 
 export const Route = createFileRoute("/features/payroll")({
-  head: () => ({ meta: [{ title: "Payroll Management — Sapience HCM" }, { name: "description", content: "GCC & Levant payroll with WPS compliance, multi-currency support, GL integration, pay groups, accruals, provisions, retro pay, and end of service benefits." }, { property: "og:title", content: "Payroll Management — Sapience HCM" }, { property: "og:description", content: "GCC-localized payroll with WPS compliance, GL integration, and multi-currency support." }], links: getHreflangLinks("/features/payroll") }),
+  head: () => ({ meta: [{ title: "Payroll Management — Sapience HCM" }, { name: "description", content: "GCC & Levant payroll with WPS compliance, multi-currency, GL integration, accruals, retro pay, and end-of-service benefits." }, { property: "og:title", content: "Payroll Management — Sapience HCM" }, { property: "og:description", content: "GCC-localized payroll with WPS compliance, GL integration, and multi-currency support." }], links: getHreflangLinks("/features/payroll") }),
   component: PayrollPage,
 });
 

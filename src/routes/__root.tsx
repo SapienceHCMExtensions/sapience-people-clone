@@ -49,6 +49,27 @@ export const Route = createRootRoute({
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" },
       ...getHreflangLinks("/"),
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "Sapience HCM",
+              url: "https://sapiencehcm.lovable.app",
+              logo: "https://sapiencehcm.lovable.app/favicon.png",
+            },
+            {
+              "@type": "WebSite",
+              name: "Sapience HCM",
+              url: "https://sapiencehcm.lovable.app",
+            },
+          ],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,

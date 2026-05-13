@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WebinarsRouteImport } from './routes/webinars'
 import { Route as TrainingProgramRouteImport } from './routes/training-program'
 import { Route as TermsOfServiceRouteImport } from './routes/terms-of-service'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SignInRouteImport } from './routes/sign-in'
 import { Route as RoiCalculatorRouteImport } from './routes/roi-calculator'
 import { Route as RequestQuoteRouteImport } from './routes/request-quote'
@@ -61,6 +62,11 @@ const TrainingProgramRoute = TrainingProgramRouteImport.update({
 const TermsOfServiceRoute = TermsOfServiceRouteImport.update({
   id: '/terms-of-service',
   path: '/terms-of-service',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignInRoute = SignInRouteImport.update({
@@ -255,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/request-quote': typeof RequestQuoteRoute
   '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
@@ -295,6 +302,7 @@ export interface FileRoutesByTo {
   '/request-quote': typeof RequestQuoteRoute
   '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
@@ -336,6 +344,7 @@ export interface FileRoutesById {
   '/request-quote': typeof RequestQuoteRoute
   '/roi-calculator': typeof RoiCalculatorRoute
   '/sign-in': typeof SignInRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms-of-service': typeof TermsOfServiceRoute
   '/training-program': typeof TrainingProgramRoute
   '/webinars': typeof WebinarsRoute
@@ -378,6 +387,7 @@ export interface FileRouteTypes {
     | '/request-quote'
     | '/roi-calculator'
     | '/sign-in'
+    | '/sitemap.xml'
     | '/terms-of-service'
     | '/training-program'
     | '/webinars'
@@ -418,6 +428,7 @@ export interface FileRouteTypes {
     | '/request-quote'
     | '/roi-calculator'
     | '/sign-in'
+    | '/sitemap.xml'
     | '/terms-of-service'
     | '/training-program'
     | '/webinars'
@@ -458,6 +469,7 @@ export interface FileRouteTypes {
     | '/request-quote'
     | '/roi-calculator'
     | '/sign-in'
+    | '/sitemap.xml'
     | '/terms-of-service'
     | '/training-program'
     | '/webinars'
@@ -499,6 +511,7 @@ export interface RootRouteChildren {
   RequestQuoteRoute: typeof RequestQuoteRoute
   RoiCalculatorRoute: typeof RoiCalculatorRoute
   SignInRoute: typeof SignInRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsOfServiceRoute: typeof TermsOfServiceRoute
   TrainingProgramRoute: typeof TrainingProgramRoute
   WebinarsRoute: typeof WebinarsRoute
@@ -549,6 +562,13 @@ declare module '@tanstack/react-router' {
       path: '/terms-of-service'
       fullPath: '/terms-of-service'
       preLoaderRoute: typeof TermsOfServiceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/sign-in': {
@@ -811,6 +831,7 @@ const rootRouteChildren: RootRouteChildren = {
   RequestQuoteRoute: RequestQuoteRoute,
   RoiCalculatorRoute: RoiCalculatorRoute,
   SignInRoute: SignInRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsOfServiceRoute: TermsOfServiceRoute,
   TrainingProgramRoute: TrainingProgramRoute,
   WebinarsRoute: WebinarsRoute,
@@ -842,12 +863,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-  }
-}
