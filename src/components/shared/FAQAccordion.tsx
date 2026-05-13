@@ -14,8 +14,21 @@ interface FAQAccordionProps {
 export function FAQAccordion({ title, items }: FAQAccordionProps) {
   const t = useT();
   const heading = title ?? t("common.faq");
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
   return (
     <section className="py-16 lg:py-24">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-2xl lg:text-3xl font-bold text-foreground text-center mb-10">{heading}</h2>
         <Accordion type="single" collapsible className="w-full">
