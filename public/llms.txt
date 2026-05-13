@@ -1,0 +1,49 @@
+# Sapience HCM
+
+> Modern Human Capital Management platform for hiring, payroll, performance, and engagement — built for the GCC and Levant.
+
+Sapience HCM is comprehensive HR software covering core HR, payroll (WPS-compliant, multi-currency), performance, hiring & onboarding, engagement, biometric and ERP integrations, and a mobile app.
+
+## Pages
+- [Home](/): Product overview and highlights
+- [Pricing](/pricing): Plans (Cloud, Customer Cloud, On Premise) and feature comparison
+- [Customers](/customers): Customer stories and testimonials
+- [Request a Demo](/request-demo): Book a product demo
+- [Request a Quote](/request-quote): Get pricing for your team
+- [ROI Calculator](/roi-calculator): Estimate savings vs. current HR ops
+- [Getting Started](/getting-started): Onboarding guide
+- [Training Program](/training-program): Customer training
+- [Webinars](/webinars): Live and recorded sessions
+
+## Features
+- [Core HR](/features/core-hr): Employee records, leave, attendance, shifts
+- [Payroll](/features/payroll): GCC payroll, WPS, GL integration, multi-currency
+- [Hiring & Onboarding](/features/hiring-onboarding): Recruitment to day-one
+- [Performance](/features/performance): Goals, reviews, 360 feedback
+- [Engagement](/features/engagement): Surveys, recognition, pulse
+- [Organization Management](/features/organization-management): Org chart, hierarchy
+- [HR Automation](/features/hr-automation): Workflow automation
+- [HR Chatbot](/features/hr-chatbot): Self-service AI assistant
+- [Travel & Expense](/features/travel-expense): Travel, claims, approvals
+- [Retirement & Separation](/features/retirement-separation): EOSB, exit
+- [Mobile App](/features/mobile-app): iOS and Android employee app
+- [Biometric Integrations](/features/biometric-integrations): Devices and access
+- [ERP Integrations](/features/erp-integrations): SAP, Oracle, Dynamics
+- [Custom Services](/features/custom-services): Tailored implementations
+- [Integrations](/features/integrations): Connectors and APIs
+
+## Solutions
+- [Small Business](/solutions/small-business)
+- [Medium Business](/solutions/medium-business)
+- [Enterprise](/solutions/enterprise)
+- [Healthcare](/solutions/healthcare)
+- [Finance](/solutions/finance)
+- [Education](/solutions/education)
+- [IT](/solutions/it)
+- [Media](/solutions/media)
+
+## Optional
+- [Privacy Policy](/privacy-policy)
+- [Terms of Service](/terms-of-service)
+- [Cookie Policy](/cookie-policy)
+- [Anti-Spam Policy](/anti-spam-policy)
