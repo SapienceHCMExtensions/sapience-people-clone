@@ -115,7 +115,7 @@ export function ProductTour() {
 
   return (
     <section
-      className="py-16 lg:py-24 bg-soft-gray"
+      className="py-16 lg:py-24 bg-surface-cream"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
