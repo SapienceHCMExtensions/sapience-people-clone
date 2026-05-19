@@ -1,25 +1,41 @@
-## What I found
-The external preview URLs are not reaching the app from my side right now — they redirect to the Lovable login gate instead of loading your site. So I can’t inspect the exact failing new-tab state yet from the browser tools.
+## What is actually happening
+This is not a generic auth issue and not the same runtime as the right-side preview.
 
-## What this means
-This is no longer pointing to the same in-editor bootstrap problem I fixed earlier. The current blocker is that the new-tab preview flow I need to inspect is behind authentication.
+- **Right-side preview** = sandbox dev server, and it loads correctly.
+- **Preview in new tab / public URL** = hosted runtime, and I confirmed it returns **HTTP 500**.
+- I also verified the **published URL** (`https://sapiencehcm.lovable.app/`) shows the same error state: “Something went wrong”.
+
+So your point is correct: the mismatch is real, and it means the hosted runtime is failing while the local sandbox runtime is fine.
+
+## Why this can happen
+The right preview and the hosted URL do not execute through the exact same serving path. A hosted-only SSR/server-entry issue can break the new-tab/public site even when the in-editor preview still works.
 
 ## Plan
-1. You log in in the preview/new-tab flow first.
-2. I re-open the authenticated preview and inspect the exact failing state.
-3. I check the authenticated page’s network requests, console/runtime errors, and route behavior.
-4. Once I can reproduce the real post-login failure, I’ll identify whether it’s:
-   - a remaining client bootstrap issue,
-   - a route/render error after auth,
-   - or a preview/share/auth bridge problem.
-5. Then I’ll apply the targeted fix instead of guessing again.
+1. Inspect the hosted/server entry path end-to-end
+   - Re-check `vite.config.ts` and `src/server.ts` to ensure the hosted build is truly using the custom server wrapper.
+   - Verify the wrapper catches both module-init failures and h3-swallowed SSR failures.
 
-## Needed from you
-Open the preview/new-tab while logged in, then send me one short message like: "I’m logged in now".
+2. Isolate the hosted-only failure source
+   - Audit root-shell/server-rendered files for code that can fail only outside the sandbox runtime.
+   - Focus on `src/routes/__root.tsx`, SEO/head generation helpers, and any module-scope imports used during SSR.
+   - Remove assumptions based on the working sandbox preview.
 
-## Technical note
-From my side, both of these currently redirect to the login gate instead of the app:
-- `https://id-preview--c1b4dd9c-4e49-4b86-98a3-179c7e2f3ac9.lovable.app`
-- `https://preview--sapiencehcm.lovable.app`
+3. Tighten the hosted SSR fallback path
+   - Ensure the hosted runtime can always return a stable HTML error page instead of opaque failure behavior.
+   - Confirm the server entry and error-capture setup are minimal and dependency-safe.
 
-So the next useful step is authenticated reproduction, not another blind code change.
+4. Validate against the real failing surface
+   - Re-test the **published URL** and the **new-tab preview URL**, not just the right-side preview.
+   - Only consider the fix complete when the hosted URL loads successfully.
+
+## Likely fix surface
+Most likely files involved:
+- `vite.config.ts`
+- `src/server.ts`
+- `src/lib/error-capture.ts`
+- `src/lib/error-page.ts`
+- `src/routes/__root.tsx`
+- `src/lib/seo.ts`
+
+## Important conclusion
+You were right to push back: the issue is logically consistent once we separate the two environments. The app works in the sandbox preview, but the hosted runtime is still broken, and that is the path I would fix next.

@@ -1,17 +1,5 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-const workerNoExternal = [
-  "h3-v2",
-  "rou3",
-  "srvx",
-  "crossws",
-  "cookie-es",
-  "fetchdts",
-  "seroval",
-  "seroval-plugins",
-  /^@tanstack\//,
-];
-
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
@@ -19,10 +7,10 @@ export default defineConfig({
   },
   vite: {
     resolve: {
-      noExternal: workerNoExternal,
+      noExternal: true,
     },
     ssr: {
-      noExternal: workerNoExternal,
+      noExternal: true,
     },
   },
 });
