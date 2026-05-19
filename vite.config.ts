@@ -5,6 +5,6 @@
 // `node` (or PM2 / systemd) behind any reverse proxy on a private VPS.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig({
-  cloudflare: process.env.LOVABLE_BUILD !== "vps",
-});
+export default defineConfig(
+  process.env.LOVABLE_BUILD === "vps" ? { cloudflare: false } : {},
+);
