@@ -1,4 +1,4 @@
-import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
+import { Outlet, Link, createRootRoute, HeadContent, Scripts, useRouter } from "@tanstack/react-router";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/layout/CookieConsent";
@@ -6,6 +6,35 @@ import { PageTransition } from "@/components/layout/PageTransition";
 import { LanguageProvider } from "@/i18n/context";
 import { getHreflangLinks } from "@/lib/seo";
 import appCss from "../styles.css?url";
+
+function RootErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
+  console.error(error);
+  const router = useRouter();
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-background px-4">
+      <div className="max-w-md text-center">
+        <h1 className="text-2xl font-bold text-foreground">Something went wrong</h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          An unexpected error occurred. Please try again.
+        </p>
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <button
+            onClick={() => { router.invalidate(); reset(); }}
+            className="inline-flex items-center justify-center rounded-md bg-vibrant-orange px-4 py-2 text-sm font-medium text-vibrant-orange-foreground transition-colors hover:opacity-90"
+          >
+            Try again
+          </button>
+          <a
+            href="/"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+          >
+            Go home
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function NotFoundComponent() {
   return (
@@ -76,6 +105,7 @@ export const Route = createRootRoute({
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
+  errorComponent: RootErrorComponent,
 });
 
 function RootShell({ children }: { children: React.ReactNode }) {
