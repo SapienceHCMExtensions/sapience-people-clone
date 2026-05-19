@@ -106,12 +106,12 @@ function Index() {
             <p className="mt-4 text-muted-foreground">{t("home.features.subtitle")}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard icon={Briefcase} title={t("home.features.hiringTitle")} description={t("home.features.hiringDesc")} link="/features/hiring-onboarding" delay={0} />
-            <FeatureCard icon={Users} title={t("home.features.coreHrTitle")} description={t("home.features.coreHrDesc")} link="/features/core-hr" delay={100} />
-            <FeatureCard icon={Award} title={t("home.features.performanceTitle")} description={t("home.features.performanceDesc")} link="/features/performance" delay={200} />
-            <FeatureCard icon={DollarSign} title={t("home.features.payrollTitle")} description={t("home.features.payrollDesc")} link="/features/payroll" delay={300} />
-            <FeatureCard icon={Heart} title={t("home.features.engagementTitle")} description={t("home.features.engagementDesc")} link="/features/engagement" delay={400} />
-            <FeatureCard icon={Zap} title={t("home.features.automationTitle")} description={t("home.features.automationDesc")} link="/features/hr-automation" delay={500} />
+            <FeatureCard accent="sky" icon={Briefcase} title={t("home.features.hiringTitle")} description={t("home.features.hiringDesc")} link="/features/hiring-onboarding" delay={0} />
+            <FeatureCard accent="mint" icon={Users} title={t("home.features.coreHrTitle")} description={t("home.features.coreHrDesc")} link="/features/core-hr" delay={100} />
+            <FeatureCard accent="lavender" icon={Award} title={t("home.features.performanceTitle")} description={t("home.features.performanceDesc")} link="/features/performance" delay={200} />
+            <FeatureCard accent="sun" icon={DollarSign} title={t("home.features.payrollTitle")} description={t("home.features.payrollDesc")} link="/features/payroll" delay={300} />
+            <FeatureCard accent="coral" icon={Heart} title={t("home.features.engagementTitle")} description={t("home.features.engagementDesc")} link="/features/engagement" delay={400} />
+            <FeatureCard accent="peach" icon={Zap} title={t("home.features.automationTitle")} description={t("home.features.automationDesc")} link="/features/hr-automation" delay={500} />
           </div>
         </div>
       </section>
