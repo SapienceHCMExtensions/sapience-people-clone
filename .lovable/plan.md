@@ -1,26 +1,29 @@
 ## Goal
-Restore the standalone preview (`preview--sapiencehcm.lovable.app`) so it loads the app instead of returning 500, while keeping the embedded right-side preview working.
+Restore the standalone preview/new-tab host so `/` and `/favicon.ico` stop returning `Internal server error`.
 
 ## What I found
-- The `postMessage` console warning from `lovable.js` is not the blocker.
-- The real failure is server-side: preview requests to `/` and `/favicon.ico` return 500.
-- Preview worker logs show repeated module-resolution crashes such as:
-  - `Error: No such module "assets/h3-v2"`
-  - `Error: No such module "assets/react"`
-- Current `src/server.ts` uses a lazy `import("@tanstack/react-start/server-entry")`, which is the likely trigger for Worker asset code-splitting on the standalone preview host.
+- The live standalone preview is still returning `502 Internal server error`.
+- Runtime logs still show `Error: No such module "h3-v2" imported from "server.js"`.
+- `src/server.ts` already contains the intended wrapper logic.
+- `vite.config.ts` already points TanStack Start at `server: { entry: "server" }`.
+- There is currently no `wrangler.jsonc` in the repo, so the deployed worker can still boot the default server entry instead of `src/server.ts`.
 
 ## Plan
-1. Update `src/server.ts` to use a static top-level import of `@tanstack/react-start/server-entry` instead of the lazy `await import()` path.
-2. Keep the existing error fallback behavior (`renderErrorPage()` and response normalization) as intact as possible, only removing the part that depends on lazy-loading.
-3. Verify the custom TanStack server entry wiring remains correct in `vite.config.ts` and does not need extra bundler overrides.
-4. Validate by checking:
-   - standalone preview host `/` returns 200
-   - `/favicon.ico` no longer 500s
-   - preview logs stop showing `No such module` for `assets/h3-v2` / `assets/react`
-   - right-side preview still renders normally
+1. Add an explicit worker config file that points the deployment entry to `src/server.ts` and keeps the required Cloudflare compatibility settings.
+2. Align `src/server.ts` with TanStack Start’s canonical custom server-entry shape so the wrapper is definitely used as the worker entry while preserving the existing 500 fallback behavior.
+3. Re-check the deployed host by requesting `/` and `/favicon.ico`, then inspect runtime logs to confirm the `h3-v2` module error is gone.
 
 ## Technical details
-- File to change: `src/server.ts`
-- No homepage/design changes.
-- No `vite.config.ts` experimentation unless the static import alone fails.
-- If the standalone preview still fails after the import change, the next fallback will be to simplify the wrapper further so it directly exports `handler.fetch` plus minimal error logging, but only if needed after the first verification.
+- **Files to update:**
+  - `wrangler.jsonc` (new)
+  - `src/server.ts` (small alignment only if needed)
+- **Key config target:** ensure deployment `main` resolves to `src/server.ts`, not the framework default entry.
+- **Validation:**
+  - `/` returns 200
+  - `/favicon.ico` no longer 500/502s
+  - logs no longer show `No such module "h3-v2"`
+
+## Out of scope
+- No homepage or styling changes
+- No unrelated SSR refactors
+- No backend feature work
