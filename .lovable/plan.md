@@ -1,41 +1,57 @@
 ## Goal
 
-Update the `/customers` route so the testimonials match the three real quotes shown in the "What Users Saying" section of https://www.sapiencetechnology.com.
+1. Get the site building and running cleanly on Lovable preview + published Lovable URL (revert the VPS-only Node SSR change).
+2. Kick off Google Search Console verification for `https://sapiencehcm.lovable.app`.
 
-## Source content (verbatim from sapiencetechnology.com)
+VPS deployment work is deferred — we'll revisit it later without touching it now.
 
-1. **Maya Abdel Sater** — Country Finance / ME Payroll Lead
-   > "Sapience is very user friendly with all features an organization required to perform a seamless payroll processing. Moreover, the continued support of implementation team makes the journey even easier."
+---
 
-2. **Abdul Nasar V.** — Head of Payroll, Middle East
-   > "Sapience HCM is a user friendly, easy to set up different modules, elements, easy to define the procedures, entitlements, calculation rules etc. Good connectivity with Oracle OTL system."
+## Step 1 — Restore the Lovable (Cloudflare Worker) build target
 
-3. **Rinku Doshi** — Senior Associate
-   > "It's great to work with Sapience Technology Team. It is a user friendly software and the functionalities are helping process the payrolls at ease. It automates calculation and is highly flexible on the configuration."
+`vite.config.ts` was switched to `cloudflare: false`, which made the build emit a Node bundle. Lovable's preview + publish runtime expects the default Worker bundle.
 
-The source page does not list company names for these quotes, so the company field will be left blank and the template adjusted to hide it gracefully.
+Change `vite.config.ts` back to:
 
-## Changes
+```ts
+import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-1. **`src/i18n/en.ts`** — Under `pages.customers`:
-   - Replace `testimonial1*` (Michael Torres) with Maya Abdel Sater's quote/title.
-   - Replace `testimonial2*` (Priya Sharma) with Abdul Nasar V.'s quote/title.
-   - Add `testimonial3Quote / testimonial3Name / testimonial3Title / testimonial3Company` for Rinku Doshi.
-   - Set all three `*Company` values to empty strings (source has none).
-   - Lightly refresh `subtitle` to match the payroll/HCM tone of the real quotes.
+export default defineConfig({});
+```
 
-2. **`src/i18n/es.ts`** — Mirror the exact same keys with Spanish translations of the quote text. Names stay as-is; titles translated (e.g. "Responsable de Nómina – Oriente Medio").
+No other config changes. `@cloudflare/vite-plugin` and `wrangler.jsonc` were removed earlier, but they were never required at the project level — the Lovable preset wires up the Worker target internally. We confirm a clean build runs and the preview loads.
 
-3. **`src/i18n/ar.ts`** — Mirror the same keys with Arabic translations of the quote text and titles. Names kept in original form. (Required by the i18n parity rule.)
+Note: `DEPLOYMENT.md` stays as-is for now (useful reference for the future VPS work). We just won't act on it.
 
-4. **`src/components/shared/TestimonialBlock.tsx`** — Small tweak: only render the `, {company}` segment when `company` is a non-empty string, so the attribution line reads cleanly as "Name — Title" when no company is supplied.
+## Step 2 — Verify preview is healthy
 
-5. **`src/routes/customers.tsx`** — Render a **third** `<TestimonialBlock>` for Rinku Doshi using the new `testimonial3*` keys. Keep the existing two and append the third below them. No layout/background changes needed — the existing `bg-soft-gray` block style already alternates well visually with the page background.
+After the config change:
+- Confirm the preview at `/` renders.
+- Spot-check a couple of routes (`/pricing`, `/features/payroll`).
+- Confirm `/sitemap.xml` and `/robots.txt` respond.
 
-## Out of scope
+## Step 3 — Google Search Console verification
 
-- No changes to the home page, header, footer, or partner logos.
-- No new images, icons, or routes.
-- No CRM/email wiring changes.
+Flow for `https://sapiencehcm.lovable.app/`:
 
-Approve to apply these edits.
+1. Call the GSC connector gateway to request a `META` verification token for `https://sapiencehcm.lovable.app/`.
+2. Add the returned `<meta name="google-site-verification" content="..." />` tag to `src/routes/__root.tsx` `head().meta`. This makes it part of the SSR-rendered `<head>` on every page, including `/`.
+3. Tell the user to click **Publish → Update** so the new meta tag is live on `sapiencehcm.lovable.app` (preview URL won't satisfy Google).
+4. Once they confirm publish is done, call the GSC `siteVerification/v1/webResource?verificationMethod=META` endpoint to trigger verification.
+5. On success, register the site in Search Console via `PUT /webmasters/v3/sites/{url-encoded}`.
+
+If step 4 fails with `failedToFindMetaTag`, the most likely cause is that the publish hasn't propagated yet — wait and retry, don't remove the tag.
+
+## Technical details
+
+- Files touched in this plan:
+  - `vite.config.ts` — revert to `defineConfig({})`.
+  - `src/routes/__root.tsx` — append the GSC meta tag to the existing `head().meta` array (added after token is issued in step 3.1).
+- No dependency installs, no route additions, no removals.
+- `DEPLOYMENT.md`, `wrangler.jsonc` deletion, and the prior `@cloudflare/vite-plugin` removal are left untouched — the Lovable preset doesn't need them for preview/publish.
+
+## What's explicitly out of scope
+
+- VPS / Node SSR deployment (you'll revisit later).
+- Any SEO content changes beyond the GSC meta tag.
+- Google Analytics, sitemap submission inside GSC (can be done after verification succeeds).
