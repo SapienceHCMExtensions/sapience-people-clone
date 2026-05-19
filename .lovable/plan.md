@@ -1,49 +1,41 @@
-## The actual cause
+## Goal
 
-The 502 on `/favicon.ico` (and every other URL) is **not a favicon problem**. The preview deployment's server logs show every request failing with:
+Update the `/customers` route so the testimonials match the three real quotes shown in the "What Users Saying" section of https://www.sapiencetechnology.com.
 
-```
-Error: No such module "h3-v2".
-  imported from "server.js"
-```
+## Source content (verbatim from sapiencetechnology.com)
 
-The browser only highlights `/favicon.ico` because that's an automatic browser request — `/`, `/about`, anything else returns the same 502. `vite.config.ts` is fine; the previous `LOVABLE_BUILD` switch is not the issue.
+1. **Maya Abdel Sater** — Country Finance / ME Payroll Lead
+   > "Sapience is very user friendly with all features an organization required to perform a seamless payroll processing. Moreover, the continued support of implementation team makes the journey even easier."
 
-### Why `h3-v2` is missing at runtime
+2. **Abdul Nasar V.** — Head of Payroll, Middle East
+   > "Sapience HCM is a user friendly, easy to set up different modules, elements, easy to define the procedures, entitlements, calculation rules etc. Good connectivity with Oracle OTL system."
 
-`@tanstack/start-server-core` (a transitive dep of `@tanstack/react-start@1.167`) imports from the package name `h3-v2`:
+3. **Rinku Doshi** — Senior Associate
+   > "It's great to work with Sapience Technology Team. It is a user friendly software and the functionalities are helping process the payrolls at ease. It automates calculation and is highly flexible on the configuration."
 
-```js
-// node_modules/@tanstack/start-server-core/dist/esm/request-response.js
-import { H3Event, ... } from "h3-v2";
-```
+The source page does not list company names for these quotes, so the company field will be left blank and the template adjusted to hide it gracefully.
 
-`h3-v2` is an npm alias for `h3@2.x` (still in RC). It exists in our `node_modules/h3-v2/` locally, but it is **not listed in our `package.json` dependencies** — it's only there transitively. When the Cloudflare Worker build runs in the Lovable preview environment, the bundler treats the `h3-v2` import as external (because the project doesn't directly depend on it), so the emitted `server.js` references a module that doesn't exist at runtime → 502 on every route.
+## Changes
 
-This also explains why `npm run dev` works locally (Node resolves transitive deps freely) but the published Worker bundle fails.
+1. **`src/i18n/en.ts`** — Under `pages.customers`:
+   - Replace `testimonial1*` (Michael Torres) with Maya Abdel Sater's quote/title.
+   - Replace `testimonial2*` (Priya Sharma) with Abdul Nasar V.'s quote/title.
+   - Add `testimonial3Quote / testimonial3Name / testimonial3Title / testimonial3Company` for Rinku Doshi.
+   - Set all three `*Company` values to empty strings (source has none).
+   - Lightly refresh `subtitle` to match the payroll/HCM tone of the real quotes.
 
-## The fix
+2. **`src/i18n/es.ts`** — Mirror the exact same keys with Spanish translations of the quote text. Names stay as-is; titles translated (e.g. "Responsable de Nómina – Oriente Medio").
 
-Add `h3-v2` as a direct dependency in `package.json` so the Worker bundler includes it in the output:
+3. **`src/i18n/ar.ts`** — Mirror the same keys with Arabic translations of the quote text and titles. Names kept in original form. (Required by the i18n parity rule.)
 
-```json
-"dependencies": {
-  ...
-  "h3-v2": "npm:h3@^2.0.1-rc.20",
-  ...
-}
-```
+4. **`src/components/shared/TestimonialBlock.tsx`** — Small tweak: only render the `, {company}` segment when `company` is a non-empty string, so the attribution line reads cleanly as "Name — Title" when no company is supplied.
 
-Then reinstall (`bun install` / `npm install`) and let Lovable rebuild the preview. After rebuild, `/`, `/favicon.ico`, and every other route should return 200.
+5. **`src/routes/customers.tsx`** — Render a **third** `<TestimonialBlock>` for Rinku Doshi using the new `testimonial3*` keys. Keep the existing two and append the third below them. No layout/background changes needed — the existing `bg-soft-gray` block style already alternates well visually with the page background.
 
-## Why this is the right fix (not the SSR error wrapper)
+## Out of scope
 
-The TanStack SSR error-handling wrapper (server.ts + error-capture.ts) is designed for the case where the Worker runs but throws an error rendering a route. Here the Worker can't even start — `server.js` fails at module-init because of the unresolved import. No wrapper can intercept that. We need the import to resolve, which means adding the dep.
+- No changes to the home page, header, footer, or partner logos.
+- No new images, icons, or routes.
+- No CRM/email wiring changes.
 
-## Steps
-
-1. Add `"h3-v2": "npm:h3@^2.0.1-rc.20"` to `package.json` dependencies.
-2. Run `bun add 'h3-v2@npm:h3@^2.0.1-rc.20'` to update lockfile.
-3. Lovable auto-rebuilds the preview; verify `/` returns 200 and the 502 in the console is gone.
-
-No source code, route, or vite config changes needed.
+Approve to apply these edits.

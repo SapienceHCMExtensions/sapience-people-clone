@@ -15,7 +15,7 @@ This project builds for **Node.js** and runs on any private VPS, dedicated serve
 | **Any VPS / Dedicated (Linux or Windows)** | Paid VPS plan | ✅ Node SSR | ✅ Let's Encrypt / win-acme | ✅ via DNS | ⭐⭐ Medium | Production deployments |
 | **GoDaddy shared cPanel** | Cheapest GoDaddy plan | ❌ Static export only | ✅ via cPanel AutoSSL | ✅ via cPanel | ⭐⭐ Medium | When a VPS is not an option |
 
-**Project facts:** TanStack Start v1 (React 19 + Vite 7 + Tailwind v4). No backend, no database, no runtime environment variables required. `vite.config.ts` defaults to a Cloudflare Worker bundle (so Lovable preview + published keep working); setting `LOVABLE_BUILD=vps` at build time switches it to a Node SSR bundle at `.output/server/index.mjs`. All VPS / static-export commands below already include this env var.
+**Project facts:** TanStack Start v1 (React 19 + Vite 7 + Tailwind v4). No backend, no database, no environment variables required. `vite.config.ts` is configured with `cloudflare: false`, so `npm run build` produces a Node SSR bundle at `.output/server/index.mjs`.
 
 ---
 
@@ -65,13 +65,13 @@ git clone <REPO_URL> sapience-hcm ; cd sapience-hcm
 ```bash
 # Linux
 npm ci
-LOVABLE_BUILD=vps npm run build
+npm run build
 node .output/server/index.mjs    # smoke test → http://<server-ip>:3000
 ```
 ```powershell
 # Windows
 npm ci
-$env:LOVABLE_BUILD="vps"; npm run build
+npm run build
 node .output/server/index.mjs
 ```
 Default port is **3000**. Override with `PORT=8080 node .output/server/index.mjs` (Linux) or `$env:PORT=8080; node .output/server/index.mjs` (PowerShell).
@@ -181,13 +181,13 @@ At your registrar (GoDaddy, Namecheap, Cloudflare Registrar, etc.) → DNS recor
 ```bash
 cd /var/www/sapience-hcm
 git pull
-npm ci && LOVABLE_BUILD=vps npm run build
+npm ci && npm run build
 pm2 restart sapience-hcm     # or: sudo systemctl restart sapience-hcm
 ```
 ```powershell
 cd C:\apps\sapience-hcm
 git pull
-npm ci ; $env:LOVABLE_BUILD="vps"; npm run build
+npm ci ; npm run build
 nssm restart SapienceHCM
 ```
 
@@ -255,7 +255,7 @@ export default defineConfig({
 ### 4.2 Build
 ```bash
 npm ci
-LOVABLE_BUILD=vps npm run build
+npm run build
 ```
 The static site lives at `.output/public/`. Zip its **contents** (not the folder itself):
 ```bash
