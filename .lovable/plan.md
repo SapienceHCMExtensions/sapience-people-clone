@@ -1,35 +1,48 @@
+## Goal
+Restore `https://sapiencehcm.lovable.app` so it no longer returns **Internal server error** after publish.
+
+## What I found
+The live site is failing in production with:
+- `Error: No such module "h3-v2" imported from "server.js"`
+- Live requests to `/` are returning **502**
+- The preview/local app structure looks fine, so this is a **published SSR/server-entry issue**, not a page-content issue
+
 ## Plan
+1. **Wire a custom server entry through Vite**
+   - Update `vite.config.ts` so TanStack Start uses a custom server entry instead of the default published SSR entry.
+   - This ensures the published build goes through our own error-handling wrapper.
 
-1. Separate the two failures so we stop iterating blindly.
-   - Confirm whether the error you’re seeing is the editor preview, the share preview URL, or the published `sapiencehcm.lovable.app` site.
-   - Use server logs and direct URL checks to verify each environment independently.
+2. **Add a production-safe server wrapper**
+   - Create `src/server.ts`.
+   - Lazily import the TanStack server entry.
+   - Catch top-level SSR boot/import failures.
+   - Detect framework-swallowed 500 JSON responses and convert them into a real HTML fallback while logging the underlying error.
 
-2. Fix the one code issue currently visible in the app shell.
-   - Update the SEO helper so React gets `hrefLang` instead of `hreflang` in the generated alternate links.
-   - Recheck the local preview after that change to make sure the preview itself is clean.
+3. **Add minimal error-capture utilities**
+   - Create `src/lib/error-capture.ts` to record uncaught runtime errors and unhandled promise rejections.
+   - Create `src/lib/error-page.ts` with a dependency-light fallback HTML page so error rendering still works even if app imports fail.
 
-3. Force a fresh frontend deployment path only once.
-   - Keep a minimal frontend diff in place so Lovable recognizes the app as changed.
-   - Then you can use **Publish → Update** to replace the broken live bundle.
+4. **Strengthen route-level SSR error handling**
+   - Add a root-route `errorComponent` in `src/routes/__root.tsx` so render/load errors inside the React route tree show a usable fallback instead of collapsing the request.
+   - Keep the existing router-level default error boundary in `src/router.tsx` as a backup.
 
-4. Validate the recovery end-to-end.
-   - Confirm local preview loads normally.
-   - Confirm `https://sapiencehcm.lovable.app/` returns 200 instead of 502.
-   - Confirm the page source includes the Google Search Console verification meta tag.
-   - Confirm key SEO endpoints like `robots.txt` and `sitemap.xml` are reachable.
-
-## What I already confirmed
-
-- **Published site:** still returning **502**, so the broken live deployment has not been replaced yet.
-- **Preview auth URL:** responding with a normal redirect, not a server crash.
-- **Local sandbox preview:** the dev server is starting successfully; the only code-level issue visible right now is a React warning from the SEO link helper.
+5. **Validate after implementation**
+   - Recheck published server logs for the `h3-v2` error.
+   - Verify `GET /` returns 200 instead of 502.
+   - Open the published URL in the browser to confirm the site renders.
 
 ## Technical details
+Files to change/add:
+- `vite.config.ts`
+- `src/server.ts` (new)
+- `src/lib/error-capture.ts` (new)
+- `src/lib/error-page.ts` (new)
+- `src/routes/__root.tsx`
 
-- `vite.config.ts` is now correct again, so this does **not** look like a current config regression.
-- `src/lib/seo.ts` is generating head link objects with `hreflang`; React expects `hrefLang`.
-- That head-prop bug is worth fixing, but it does **not** explain the live 502 by itself; the live site still needs a fresh publish of the corrected frontend bundle.
+Expected outcome:
+- Published builds stop crashing at the server-entry boundary
+- Hidden SSR failures become catchable/loggable
+- The live site can render again after the next publish
 
-## Expected outcome
-
-After this pass, we should know whether there is any real preview crash left, and the live site should only need one clean republish rather than more guesswork.
+## Note
+Once these changes are implemented, the frontend will need to be **published again** for the live domain to recover.
