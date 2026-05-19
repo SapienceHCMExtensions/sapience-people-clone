@@ -119,7 +119,7 @@ function Index() {
       <ProductTour />
 
       {/* Why Sapience Section */}
-      <section className="py-16 bg-soft-gray">
+      <section className="py-16 bg-surface-mint">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
             ref={whySection.ref}
@@ -130,24 +130,33 @@ function Index() {
             <h2 className="text-2xl lg:text-3xl font-bold text-foreground">{t("home.whySapience.title")}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {whyItems.map((item, i) => (
-              <div
-                key={item.title}
-                className={`text-center transition-all duration-700 ${
-                  whySection.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
-                style={{ transitionDelay: `${200 + i * 120}ms` }}
-              >
-                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-bright-blue/10 text-bright-blue mx-auto mb-4 transition-transform duration-300 hover:scale-110 hover:rotate-6 cursor-default">
-                  <item.icon className="h-7 w-7" />
+            {whyItems.map((item, i) => {
+              const chipClasses = [
+                "accent-chip-sky",
+                "accent-chip-coral",
+                "accent-chip-lavender",
+                "accent-chip-mint",
+              ];
+              return (
+                <div
+                  key={item.title}
+                  className={`text-center transition-all duration-700 ${
+                    whySection.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  }`}
+                  style={{ transitionDelay: `${200 + i * 120}ms` }}
+                >
+                  <div className={`flex items-center justify-center w-14 h-14 rounded-full mx-auto mb-4 transition-transform duration-300 hover:scale-110 hover:rotate-6 cursor-default ${chipClasses[i % chipClasses.length]}`}>
+                    <item.icon className="h-7 w-7" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-xs text-muted-foreground">{item.desc}</p>
                 </div>
-                <h3 className="text-sm font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-xs text-muted-foreground">{item.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
+
 
       <ROICalculator variant="compact" />
 
