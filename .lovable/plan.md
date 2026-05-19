@@ -1,48 +1,47 @@
-## Goal
-Restore `https://sapiencehcm.lovable.app` so it no longer returns **Internal server error** after publish.
+## What’s actually broken
+The in-editor preview can render, but **Open Preview in new Tab** and the published site both hit the server-rendered worker build. That build is crashing before the app renders with:
 
-## What I found
-The live site is failing in production with:
 - `Error: No such module "h3-v2" imported from "server.js"`
-- Live requests to `/` are returning **502**
-- The preview/local app structure looks fine, so this is a **published SSR/server-entry issue**, not a page-content issue
+- Confirmed in both published and preview worker logs
+- Confirmed via direct request to `/` returning **502 Internal server error**
+
+So this is **not** a page/component bug. It is a **server bundling/deployment issue**.
 
 ## Plan
-1. **Wire a custom server entry through Vite**
-   - Update `vite.config.ts` so TanStack Start uses a custom server entry instead of the default published SSR entry.
-   - This ensures the published build goes through our own error-handling wrapper.
+1. **Force-bundle the missing server dependency into the worker build**
+   - Update `vite.config.ts` to explicitly prevent `h3-v2` from being externalized during SSR/worker bundling.
+   - Keep the existing custom server entry intact.
+   - If needed, include the related TanStack server packages in the same no-external rule so the alias resolves inside the final worker bundle.
 
-2. **Add a production-safe server wrapper**
-   - Create `src/server.ts`.
-   - Lazily import the TanStack server entry.
-   - Catch top-level SSR boot/import failures.
-   - Detect framework-swallowed 500 JSON responses and convert them into a real HTML fallback while logging the underlying error.
+2. **Verify the worker build path is using the intended server entry**
+   - Confirm the custom `src/server.ts` path is still the active server entry for deployed SSR.
+   - Ensure no config path is causing the worker bundle to reference runtime modules that should have been inlined.
 
-3. **Add minimal error-capture utilities**
-   - Create `src/lib/error-capture.ts` to record uncaught runtime errors and unhandled promise rejections.
-   - Create `src/lib/error-page.ts` with a dependency-light fallback HTML page so error rendering still works even if app imports fail.
+3. **Validate against the actual failing surface**
+   - Re-check the published/new-tab URL directly after the config change.
+   - Re-check worker logs to confirm the `h3-v2` import error is gone.
+   - Confirm `/` returns a real HTML document instead of 502.
 
-4. **Strengthen route-level SSR error handling**
-   - Add a root-route `errorComponent` in `src/routes/__root.tsx` so render/load errors inside the React route tree show a usable fallback instead of collapsing the request.
-   - Keep the existing router-level default error boundary in `src/router.tsx` as a backup.
-
-5. **Validate after implementation**
-   - Recheck published server logs for the `h3-v2` error.
-   - Verify `GET /` returns 200 instead of 502.
-   - Open the published URL in the browser to confirm the site renders.
+4. **Only if the first fix is insufficient, apply the fallback isolation step**
+   - Adjust the worker/server bundling strategy further for TanStack Start on Cloudflare-style runtime resolution, based on the exact emitted logs.
+   - Re-validate new-tab and published behavior again.
 
 ## Technical details
-Files to change/add:
+Likely fix target:
 - `vite.config.ts`
-- `src/server.ts` (new)
-- `src/lib/error-capture.ts` (new)
-- `src/lib/error-page.ts` (new)
-- `src/routes/__root.tsx`
 
-Expected outcome:
-- Published builds stop crashing at the server-entry boundary
-- Hidden SSR failures become catchable/loggable
-- The live site can render again after the next publish
+Likely change:
+- Add explicit SSR no-external bundling rules for `h3-v2` (and possibly adjacent TanStack server packages that pull it in), because the deployed worker runtime cannot resolve that alias as a separate runtime module.
 
-## Note
-Once these changes are implemented, the frontend will need to be **published again** for the live domain to recover.
+Validation signals:
+- `GET /` should stop returning 502
+- Browser new-tab should stop showing `Internal server error`
+- Server logs should no longer show `No such module "h3-v2"`
+
+<presentation-actions>
+  <presentation-open-history>View History</presentation-open-history>
+</presentation-actions>
+
+<presentation-actions>
+<presentation-link url="https://docs.lovable.dev/tips-tricks/troubleshooting">Troubleshooting docs</presentation-link>
+</presentation-actions>
