@@ -11,12 +11,12 @@ export function getHreflangLinks(path: string) {
     { rel: "canonical" as const, href: url },
     ...SUPPORTED_LOCALES.map((locale) => ({
       rel: "alternate" as const,
-      hreflang: locale,
+      hrefLang: locale,
       href: url,
     })),
     {
       rel: "alternate" as const,
-      hreflang: "x-default",
+      hrefLang: "x-default",
       href: url,
     },
   ];
