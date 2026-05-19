@@ -1,38 +1,68 @@
-## What happened
+## Goal
 
-My previous `vite.config.ts` change set `noExternal: true` on both `resolve` and `ssr`. That forces Vite's dev SSR runner to inline every dependency through its ESM evaluator — including React, which ships as CommonJS. The result is the dev SSR crash now showing in the right-side preview:
+Make the homepage feel brighter, more colorful, and more energetic — while staying true to the existing brand (Navy #011B3D, Bright Blue #1E90FF, Orange #F05A28) and keeping Inter as the font.
 
+The current homepage is mostly white/very-pale-blue with a single navy ROI card at the bottom. Color only shows up in tiny accents. The plan injects color in a controlled, brand-aligned way so it feels designed, not random.
+
+## Direction (chosen for you)
+
+- Palette: extend the existing brand with brighter sky/peach/mint support tones so each major section has its own clear color identity (no neon, no off-brand).
+- Layout: keep the current section order but switch to a **full-width colored bands** rhythm — alternating white, sky-tint, peach-tint, navy — so color carries the eye down the page.
+- Typography: keep Inter; just lean on heavier weights and larger display sizes in the hero and section headers for more impact.
+
+## What changes on the homepage
+
+1. **Hero** — replace the pale aurora with a brighter gradient (sky-blue → soft peach → white) plus a vivid orange highlight on the headline keyword. Add subtle floating colored blobs for liveliness.
+2. **Trust band** — give it a thin sky-tint background and colorize each stat number (blue, orange, navy, mint) instead of all-black.
+3. **Dashboard section** — soft peach-tinted background band so the screenshot pops; add a colored gradient border/glow around the dashboard image.
+4. **Features grid** — give each of the 6 feature cards its own pastel accent (sky, peach, mint, lavender, sun-yellow, coral) on the icon chip + top border, instead of all blue. Cards stay white for readability.
+5. **Product Tour** — light sky-tint background; active tab gets an orange underline accent.
+6. **Why Sapience** — currently `bg-soft-gray`. Switch to a warm cream/peach band; icon chips alternate brand blue/orange.
+7. **ROI Calculator** — keep the navy card but add a bright gradient top border so it doesn't feel isolated.
+8. **Testimonial** — sky-tint band with a large orange quote mark.
+9. **CTA Banner** — vibrant blue→orange gradient instead of flat navy.
+
+## Design tokens (added to `src/styles.css`)
+
+Add these as new semantic tokens so the whole page can use them consistently:
+
+```text
+--surface-sky        light blue tint band
+--surface-peach      light peach tint band
+--surface-cream      warm off-white band
+--accent-mint        feature card accent
+--accent-lavender    feature card accent
+--accent-sun         feature card accent
+--accent-coral       feature card accent
+--gradient-hero      sky → peach → white
+--gradient-cta       bright-blue → orange
 ```
-ReferenceError: module is not defined
-  at eval (/dev-server/node_modules/react/index.js:6:3)
-```
 
-So the right-side preview was working before because dev SSR was correctly externalizing `react`. The new-tab/published URL is a separate, pre-existing problem and was not actually fixed by that change — it just appeared to work because the published build hadn't been redeployed yet.
+All values in oklch, defined alongside existing brand tokens. No hard-coded hex inside components.
 
-## Plan
+## Files touched
 
-1. **Revert `vite.config.ts`** back to the minimal form (no custom `resolve.noExternal` / `ssr.noExternal`), so the dev preview renders again:
+- `src/styles.css` — new tokens + gradient utilities
+- `src/routes/index.tsx` — section background classes, hero gradient, per-card accent prop
+- `src/components/shared/HeroSection.tsx` — new `bright` variant
+- `src/components/shared/FeatureCard.tsx` — optional `accent` prop
+- `src/components/shared/TrustBand.tsx` — colorized stat numbers
+- `src/components/shared/CTABanner.tsx` — gradient background
+- `src/components/shared/TestimonialBlock.tsx` — sky band + quote mark
+- `src/components/shared/ProductTour.tsx` — light tint + orange active accent
 
-   ```ts
-   import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+## Out of scope
 
-   export default defineConfig({
-     tanstackStart: {
-       server: { entry: "server" },
-       client: { entry: "client" },
-     },
-   });
-   ```
+- No content/copy changes
+- No new sections, no removed sections
+- No layout restructure (full-width-section rhythm is achieved purely with backgrounds)
+- No font swap (Inter stays per brand memory)
+- No changes to other pages (Features, Pricing, etc.) — only `/`
 
-2. **Restart the dev server** and confirm the right-side preview is back to working.
+## Verification
 
-3. **Reinvestigate the hosted 500 properly** without touching externalization:
-   - Pull published worker logs (`stack_modern--server-function-logs` with `deployment: 'published'`) to get the real stack trace from the live failure — the wrapper in `src/server.ts` + `error-capture.ts` should now be surfacing the underlying error.
-   - Review `src/server.ts`, `src/lib/error-capture.ts`, `src/lib/error-page.ts`, `src/routes/__root.tsx`, and `src/lib/seo.ts` for hosted-only failure modes (module-init throws, head/SEO helpers reading missing env, etc.).
-   - Fix the actual root cause in app code, not in the bundler config.
-
-4. **Verify by republishing** and loading both `https://sapiencehcm.lovable.app/` and the new-tab preview URL.
-
-## Note
-
-No app feature code changes in this step — only `vite.config.ts` is reverted. The hosted fix comes after we have the real stack trace from worker logs.
+After edits, reload `/` in the right-side preview, scroll top-to-bottom, and confirm:
+- alternating color bands read cleanly
+- contrast stays AA on all text
+- the page no longer looks "mostly white"
+- mobile (375px) still looks balanced, not garish
