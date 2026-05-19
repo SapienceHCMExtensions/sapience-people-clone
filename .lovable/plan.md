@@ -1,37 +1,35 @@
-## Goal
-Get the published Lovable site serving again, then complete Google Search Console verification once the live HTML includes the verification meta tag.
-
-## What’s happening now
-- The current codebase already contains the fix for the publish runtime issue.
-- The root route already contains the `google-site-verification` meta tag.
-- The published URL is still returning **502 / Internal server error**, which means the live deployment is serving an older broken build.
-- Your preview URL is login-protected, so Google cannot use that for verification.
-- Because Lovable shows **Website up to date**, there is no new frontend diff for the publish flow to send right now.
-
 ## Plan
-1. Trigger a tiny no-op frontend change so Lovable enables the publish/update flow again.
-2. Republish the site so the fixed frontend bundle replaces the broken live deployment.
-3. Validate the published URL returns 200 and contains the `google-site-verification` meta tag.
-4. Complete the Google Search Console verification against `https://sapiencehcm.lovable.app/`.
-5. Confirm sitemap/robots endpoints are reachable on the published site.
 
-## Minimal implementation
-- Add one harmless frontend-only change, such as a whitespace-safe comment or tiny non-visible metadata adjustment, without changing design or behavior.
-- Publish again from Lovable.
-- Recheck:
-  - `/`
-  - `/robots.txt`
-  - `/llms.txt`
-  - `/sitemap.xml`
-  - presence of `google-site-verification`
+1. Separate the two failures so we stop iterating blindly.
+   - Confirm whether the error you’re seeing is the editor preview, the share preview URL, or the published `sapiencehcm.lovable.app` site.
+   - Use server logs and direct URL checks to verify each environment independently.
+
+2. Fix the one code issue currently visible in the app shell.
+   - Update the SEO helper so React gets `hrefLang` instead of `hreflang` in the generated alternate links.
+   - Recheck the local preview after that change to make sure the preview itself is clean.
+
+3. Force a fresh frontend deployment path only once.
+   - Keep a minimal frontend diff in place so Lovable recognizes the app as changed.
+   - Then you can use **Publish → Update** to replace the broken live bundle.
+
+4. Validate the recovery end-to-end.
+   - Confirm local preview loads normally.
+   - Confirm `https://sapiencehcm.lovable.app/` returns 200 instead of 502.
+   - Confirm the page source includes the Google Search Console verification meta tag.
+   - Confirm key SEO endpoints like `robots.txt` and `sitemap.xml` are reachable.
+
+## What I already confirmed
+
+- **Published site:** still returning **502**, so the broken live deployment has not been replaced yet.
+- **Preview auth URL:** responding with a normal redirect, not a server crash.
+- **Local sandbox preview:** the dev server is starting successfully; the only code-level issue visible right now is a React warning from the SEO link helper.
 
 ## Technical details
-- No backend or database changes are needed.
-- The purpose of the no-op change is only to re-enable a fresh publish.
-- Google Search Console verification must happen on the public Lovable domain, not the private preview URL.
 
-## Success criteria
-- `https://sapiencehcm.lovable.app/` loads normally.
-- The HTML includes the verification meta tag.
-- Search Console can verify ownership.
-- SEO helper files on the public site respond successfully.
+- `vite.config.ts` is now correct again, so this does **not** look like a current config regression.
+- `src/lib/seo.ts` is generating head link objects with `hreflang`; React expects `hrefLang`.
+- That head-prop bug is worth fixing, but it does **not** explain the live 502 by itself; the live site still needs a fresh publish of the corrected frontend bundle.
+
+## Expected outcome
+
+After this pass, we should know whether there is any real preview crash left, and the live site should only need one clean republish rather than more guesswork.
