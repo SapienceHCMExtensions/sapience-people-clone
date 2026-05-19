@@ -50,7 +50,7 @@ export function CTABanner({
         >
           <Link
             to="/request-demo"
-            className="shimmer-btn inline-flex items-center justify-center rounded-lg bg-vibrant-orange px-6 py-3 text-sm font-semibold text-vibrant-orange-foreground shadow-lg hover:opacity-90 transition-opacity"
+            className="shimmer-btn inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 text-sm font-semibold text-navy shadow-lg hover:bg-white/90 transition-colors"
           >
             {t("common.cta.startFreeTrial")}
           </Link>
