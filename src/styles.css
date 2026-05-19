@@ -51,6 +51,16 @@
   --color-vibrant-orange: var(--vibrant-orange);
   --color-vibrant-orange-foreground: var(--vibrant-orange-foreground);
   --color-soft-gray: var(--soft-gray);
+  --color-surface-sky: var(--surface-sky);
+  --color-surface-peach: var(--surface-peach);
+  --color-surface-cream: var(--surface-cream);
+  --color-surface-mint: var(--surface-mint);
+  --color-accent-mint: var(--accent-mint);
+  --color-accent-lavender: var(--accent-lavender);
+  --color-accent-sun: var(--accent-sun);
+  --color-accent-coral: var(--accent-coral);
+  --color-accent-sky: var(--accent-sky);
+  --color-accent-peach: var(--accent-peach);
 }
 
 :root {
