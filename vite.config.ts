@@ -15,6 +15,7 @@ const workerNoExternal = [
 export default defineConfig({
   tanstackStart: {
     server: { entry: "server" },
+    client: { entry: "client" },
   },
   vite: {
     resolve: {
