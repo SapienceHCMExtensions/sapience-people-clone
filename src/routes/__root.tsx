@@ -41,6 +41,7 @@ export const Route = createRootRoute({
       { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/SYTLloB8zYNde14mMZvCwyqsrxq2/social-images/social-1776343901483-SapienceHCM_FullSuite.webp" },
       { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/SYTLloB8zYNde14mMZvCwyqsrxq2/social-images/social-1776343901483-SapienceHCM_FullSuite.webp" },
       { name: "google-site-verification", content: "CqLxHJhN1i8iOc92dhNq7yco3sq_77YRXcZWHJXtMZM" },
+      { name: "generator", content: "Lovable" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
