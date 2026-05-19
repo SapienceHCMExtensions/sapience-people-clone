@@ -5,12 +5,4 @@ export default defineConfig({
     server: { entry: "server" },
     client: { entry: "client" },
   },
-  vite: {
-    resolve: {
-      noExternal: true,
-    },
-    ssr: {
-      noExternal: true,
-    },
-  },
 });

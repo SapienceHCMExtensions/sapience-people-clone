@@ -1,41 +1,38 @@
-## What is actually happening
-This is not a generic auth issue and not the same runtime as the right-side preview.
+## What happened
 
-- **Right-side preview** = sandbox dev server, and it loads correctly.
-- **Preview in new tab / public URL** = hosted runtime, and I confirmed it returns **HTTP 500**.
-- I also verified the **published URL** (`https://sapiencehcm.lovable.app/`) shows the same error state: “Something went wrong”.
+My previous `vite.config.ts` change set `noExternal: true` on both `resolve` and `ssr`. That forces Vite's dev SSR runner to inline every dependency through its ESM evaluator — including React, which ships as CommonJS. The result is the dev SSR crash now showing in the right-side preview:
 
-So your point is correct: the mismatch is real, and it means the hosted runtime is failing while the local sandbox runtime is fine.
+```
+ReferenceError: module is not defined
+  at eval (/dev-server/node_modules/react/index.js:6:3)
+```
 
-## Why this can happen
-The right preview and the hosted URL do not execute through the exact same serving path. A hosted-only SSR/server-entry issue can break the new-tab/public site even when the in-editor preview still works.
+So the right-side preview was working before because dev SSR was correctly externalizing `react`. The new-tab/published URL is a separate, pre-existing problem and was not actually fixed by that change — it just appeared to work because the published build hadn't been redeployed yet.
 
 ## Plan
-1. Inspect the hosted/server entry path end-to-end
-   - Re-check `vite.config.ts` and `src/server.ts` to ensure the hosted build is truly using the custom server wrapper.
-   - Verify the wrapper catches both module-init failures and h3-swallowed SSR failures.
 
-2. Isolate the hosted-only failure source
-   - Audit root-shell/server-rendered files for code that can fail only outside the sandbox runtime.
-   - Focus on `src/routes/__root.tsx`, SEO/head generation helpers, and any module-scope imports used during SSR.
-   - Remove assumptions based on the working sandbox preview.
+1. **Revert `vite.config.ts`** back to the minimal form (no custom `resolve.noExternal` / `ssr.noExternal`), so the dev preview renders again:
 
-3. Tighten the hosted SSR fallback path
-   - Ensure the hosted runtime can always return a stable HTML error page instead of opaque failure behavior.
-   - Confirm the server entry and error-capture setup are minimal and dependency-safe.
+   ```ts
+   import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-4. Validate against the real failing surface
-   - Re-test the **published URL** and the **new-tab preview URL**, not just the right-side preview.
-   - Only consider the fix complete when the hosted URL loads successfully.
+   export default defineConfig({
+     tanstackStart: {
+       server: { entry: "server" },
+       client: { entry: "client" },
+     },
+   });
+   ```
 
-## Likely fix surface
-Most likely files involved:
-- `vite.config.ts`
-- `src/server.ts`
-- `src/lib/error-capture.ts`
-- `src/lib/error-page.ts`
-- `src/routes/__root.tsx`
-- `src/lib/seo.ts`
+2. **Restart the dev server** and confirm the right-side preview is back to working.
 
-## Important conclusion
-You were right to push back: the issue is logically consistent once we separate the two environments. The app works in the sandbox preview, but the hosted runtime is still broken, and that is the path I would fix next.
+3. **Reinvestigate the hosted 500 properly** without touching externalization:
+   - Pull published worker logs (`stack_modern--server-function-logs` with `deployment: 'published'`) to get the real stack trace from the live failure — the wrapper in `src/server.ts` + `error-capture.ts` should now be surfacing the underlying error.
+   - Review `src/server.ts`, `src/lib/error-capture.ts`, `src/lib/error-page.ts`, `src/routes/__root.tsx`, and `src/lib/seo.ts` for hosted-only failure modes (module-init throws, head/SEO helpers reading missing env, etc.).
+   - Fix the actual root cause in app code, not in the bundler config.
+
+4. **Verify by republishing** and loading both `https://sapiencehcm.lovable.app/` and the new-tab preview URL.
+
+## Note
+
+No app feature code changes in this step — only `vite.config.ts` is reverted. The hosted fix comes after we have the real stack trace from worker logs.
