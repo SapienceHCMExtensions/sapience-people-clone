@@ -1,57 +1,37 @@
 ## Goal
+Get the published Lovable site serving again, then complete Google Search Console verification once the live HTML includes the verification meta tag.
 
-1. Get the site building and running cleanly on Lovable preview + published Lovable URL (revert the VPS-only Node SSR change).
-2. Kick off Google Search Console verification for `https://sapiencehcm.lovable.app`.
+## What’s happening now
+- The current codebase already contains the fix for the publish runtime issue.
+- The root route already contains the `google-site-verification` meta tag.
+- The published URL is still returning **502 / Internal server error**, which means the live deployment is serving an older broken build.
+- Your preview URL is login-protected, so Google cannot use that for verification.
+- Because Lovable shows **Website up to date**, there is no new frontend diff for the publish flow to send right now.
 
-VPS deployment work is deferred — we'll revisit it later without touching it now.
+## Plan
+1. Trigger a tiny no-op frontend change so Lovable enables the publish/update flow again.
+2. Republish the site so the fixed frontend bundle replaces the broken live deployment.
+3. Validate the published URL returns 200 and contains the `google-site-verification` meta tag.
+4. Complete the Google Search Console verification against `https://sapiencehcm.lovable.app/`.
+5. Confirm sitemap/robots endpoints are reachable on the published site.
 
----
-
-## Step 1 — Restore the Lovable (Cloudflare Worker) build target
-
-`vite.config.ts` was switched to `cloudflare: false`, which made the build emit a Node bundle. Lovable's preview + publish runtime expects the default Worker bundle.
-
-Change `vite.config.ts` back to:
-
-```ts
-import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-
-export default defineConfig({});
-```
-
-No other config changes. `@cloudflare/vite-plugin` and `wrangler.jsonc` were removed earlier, but they were never required at the project level — the Lovable preset wires up the Worker target internally. We confirm a clean build runs and the preview loads.
-
-Note: `DEPLOYMENT.md` stays as-is for now (useful reference for the future VPS work). We just won't act on it.
-
-## Step 2 — Verify preview is healthy
-
-After the config change:
-- Confirm the preview at `/` renders.
-- Spot-check a couple of routes (`/pricing`, `/features/payroll`).
-- Confirm `/sitemap.xml` and `/robots.txt` respond.
-
-## Step 3 — Google Search Console verification
-
-Flow for `https://sapiencehcm.lovable.app/`:
-
-1. Call the GSC connector gateway to request a `META` verification token for `https://sapiencehcm.lovable.app/`.
-2. Add the returned `<meta name="google-site-verification" content="..." />` tag to `src/routes/__root.tsx` `head().meta`. This makes it part of the SSR-rendered `<head>` on every page, including `/`.
-3. Tell the user to click **Publish → Update** so the new meta tag is live on `sapiencehcm.lovable.app` (preview URL won't satisfy Google).
-4. Once they confirm publish is done, call the GSC `siteVerification/v1/webResource?verificationMethod=META` endpoint to trigger verification.
-5. On success, register the site in Search Console via `PUT /webmasters/v3/sites/{url-encoded}`.
-
-If step 4 fails with `failedToFindMetaTag`, the most likely cause is that the publish hasn't propagated yet — wait and retry, don't remove the tag.
+## Minimal implementation
+- Add one harmless frontend-only change, such as a whitespace-safe comment or tiny non-visible metadata adjustment, without changing design or behavior.
+- Publish again from Lovable.
+- Recheck:
+  - `/`
+  - `/robots.txt`
+  - `/llms.txt`
+  - `/sitemap.xml`
+  - presence of `google-site-verification`
 
 ## Technical details
+- No backend or database changes are needed.
+- The purpose of the no-op change is only to re-enable a fresh publish.
+- Google Search Console verification must happen on the public Lovable domain, not the private preview URL.
 
-- Files touched in this plan:
-  - `vite.config.ts` — revert to `defineConfig({})`.
-  - `src/routes/__root.tsx` — append the GSC meta tag to the existing `head().meta` array (added after token is issued in step 3.1).
-- No dependency installs, no route additions, no removals.
-- `DEPLOYMENT.md`, `wrangler.jsonc` deletion, and the prior `@cloudflare/vite-plugin` removal are left untouched — the Lovable preset doesn't need them for preview/publish.
-
-## What's explicitly out of scope
-
-- VPS / Node SSR deployment (you'll revisit later).
-- Any SEO content changes beyond the GSC meta tag.
-- Google Analytics, sitemap submission inside GSC (can be done after verification succeeds).
+## Success criteria
+- `https://sapiencehcm.lovable.app/` loads normally.
+- The HTML includes the verification meta tag.
+- Search Console can verify ownership.
+- SEO helper files on the public site respond successfully.
