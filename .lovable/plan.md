@@ -1,28 +1,29 @@
-## Goal
-Fix the published-site error page shown when opening the preview/live app in a new tab by identifying and removing the actual server-render crash in the root/homepage render path.
+## What’s actually wrong
+The app is currently failing before it hydrates in Preview/New Tab because the TanStack Start client bootstrap module is not loading:
+
+`Failed to fetch dynamically imported module: /@id/virtual:tanstack-start-client-entry`
+
+That means the current problem is not the homepage render logic. The earlier fixes targeted published SSR/worker bundling, which is why they did not resolve this preview failure.
+
+## Files involved
+- `vite.config.ts`
+- `package.json`
+- lockfiles (`bun.lock`, `package-lock.json`)
+- missing local client bootstrap file: `src/client.tsx`
+- existing server wrapper: `src/server.ts`
 
 ## Plan
-1. Reproduce the failing render path locally and narrow the fault to the exact component/module in the `/` route tree.
-   - Temporarily isolate the homepage by removing large sections from `src/routes/index.tsx` in small steps.
-   - If needed, also bypass root-shell children (`Header`, `Footer`, `CookieConsent`, `PageTransition`, `LanguageProvider`) one at a time to determine whether the crash is in the shell or page content.
-   - Add temporary server-safe logging only if the crash location is still unclear.
+1. Add an explicit local TanStack client entry in `src/client.tsx` so the app no longer depends on the problematic virtual client entry resolution path.
+2. Align TanStack package versions in `package.json` so `@tanstack/react-start`, `@tanstack/react-router`, and related runtime/plugin pieces are on a compatible patch set instead of the current mixed versions.
+3. Keep the existing SSR/server wrapper in place, but stop treating it as the root cause for this preview issue.
+4. Validate the fix against the actual failing symptom by checking that Preview/New Tab loads without the dynamic import error.
 
-2. Fix the root cause instead of the fallback symptom.
-   - Remove or guard any code that breaks SSR in the published environment.
-   - Prioritize browser-only APIs, runtime-incompatible UI primitives, or render-time logic that behaves differently in the deployed server environment.
-   - Keep the existing error wrapper only as protection, not as the “solution.”
+## Technical details
+- The installed TanStack packages are currently mixed across multiple patch lines, and the project has no `src/client.tsx` override.
+- The web evidence for this exact error points to TanStack Start virtual client entry resolution bugs/regressions, especially in proxied/preview environments.
+- A local `src/client.tsx` is the most targeted workaround because it bypasses the failing `virtual:tanstack-start-client-entry` resolution.
+- After that, package alignment reduces the chance that plugin/runtime mismatches keep reproducing the same bootstrap problem.
 
-3. Validate that the server can render `/` successfully again.
-   - Confirm the homepage loads in preview without the generic error boundary.
-   - Confirm the published/new-tab route returns real app HTML instead of the fallback error page.
-   - Re-check that the earlier bundling fix remains intact.
-
-## Likely focus areas
-- `src/routes/index.tsx` and the shared homepage components it imports
-- `src/routes/__root.tsx` and `src/router.tsx`
-- Runtime-sensitive shared components such as `ProductTour`, `ROICalculator`, `TrustBand`, and any Radix-based UI used on the homepage
-
-## Technical notes
-- The previous update did have a real effect: it eliminated the earlier worker/module-resolution failure and let the request reach the app server entry.
-- The remaining problem is a separate SSR crash during render, currently masked by the custom fallback page.
-- I’ll keep changes tightly scoped to diagnosing and fixing this render failure only.
+## Expected outcome
+- Preview in new tab opens the real app instead of the generic error page.
+- We stop debugging the wrong layer and address the actual bootstrap failure first.
