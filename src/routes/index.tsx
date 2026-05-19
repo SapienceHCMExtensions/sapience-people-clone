@@ -49,17 +49,15 @@ function Index() {
         badge={t("home.hero.badge")}
         screenshotUrl="https://marketing.zillancer.com/image%20for%20landing%20page.png"
         screenshotAlt="Sapience HCM platform overview"
-        variant="aurora"
-        showSpotlight
-        showGrid
-        showNoise
+        variant="bright"
+        showOrbs={false}
         size="xl"
       />
 
       <TrustBand />
 
       {/* Dashboard Section */}
-      <section className="py-16 lg:py-24 bg-background">
+      <section className="py-16 lg:py-24 bg-surface-peach">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
             ref={dashboardSection.ref}
@@ -79,18 +77,21 @@ function Index() {
             onMouseMove={handleDashMove}
             onMouseLeave={handleDashLeave}
           >
-            <img
-              src="https://gdm-catalog-fmapi-prod.imgix.net/ProductScreenshot/fb7068d1-4226-40b3-bf18-9a5daf35ff8d.png"
-              alt="Sapience HCM dashboard showing employee analytics and workforce metrics"
-              className="tilt-card-inner w-full rounded-xl shadow-2xl border border-border"
-              style={{
-                transform: `rotateX(${dashTilt.x}deg) rotateY(${dashTilt.y}deg)`,
-              }}
-              loading="lazy"
-            />
+            <div className="gradient-ring shadow-2xl">
+              <img
+                src="https://gdm-catalog-fmapi-prod.imgix.net/ProductScreenshot/fb7068d1-4226-40b3-bf18-9a5daf35ff8d.png"
+                alt="Sapience HCM dashboard showing employee analytics and workforce metrics"
+                className="tilt-card-inner w-full block bg-background"
+                style={{
+                  transform: `rotateX(${dashTilt.x}deg) rotateY(${dashTilt.y}deg)`,
+                }}
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* Features Section */}
       <section className="py-16 lg:py-24">
