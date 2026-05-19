@@ -17,10 +17,10 @@ export function CTABanner({
   const s = subHeadline ?? t("common.cta.readyToTransformSub");
 
   return (
-    <section className="bg-navy py-16 lg:py-20 relative overflow-hidden" ref={ref}>
+    <section className="bg-gradient-cta py-16 lg:py-20 relative overflow-hidden" ref={ref}>
       {/* Subtle dot grid background */}
       <div
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: "radial-gradient(circle, oklch(1 0 0) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
