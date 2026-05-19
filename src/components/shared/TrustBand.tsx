@@ -28,8 +28,10 @@ export function TrustBand() {
   // Duplicate the array so the marquee loop is seamless.
   const marqueeLogos = [...PARTNER_LOGOS, ...PARTNER_LOGOS];
 
+  const colors = ["text-bright-blue", "text-vibrant-orange", "text-navy", "text-[oklch(0.55_0.15_170)]"];
+
   return (
-    <section className="bg-background border-y border-border py-12 lg:py-14">
+    <section className="bg-surface-sky border-y border-border py-12 lg:py-14">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <p className="text-center text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-6">
           {t("home.trust.title")}
@@ -66,9 +68,9 @@ export function TrustBand() {
 
         {/* Stats row */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:divide-x lg:divide-border">
-          {stats.map((s) => (
+          {stats.map((s, i) => (
             <div key={s.label} className="text-center lg:px-4">
-              <div className="text-3xl lg:text-4xl font-bold text-navy">
+              <div className={`text-3xl lg:text-4xl font-bold ${colors[i % colors.length]}`}>
                 <AnimatedCounter
                   value={s.value}
                   suffix={s.suffix}

@@ -49,17 +49,15 @@ function Index() {
         badge={t("home.hero.badge")}
         screenshotUrl="https://marketing.zillancer.com/image%20for%20landing%20page.png"
         screenshotAlt="Sapience HCM platform overview"
-        variant="aurora"
-        showSpotlight
-        showGrid
-        showNoise
+        variant="bright"
+        showOrbs={false}
         size="xl"
       />
 
       <TrustBand />
 
       {/* Dashboard Section */}
-      <section className="py-16 lg:py-24 bg-background">
+      <section className="py-16 lg:py-24 bg-surface-peach">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
             ref={dashboardSection.ref}
@@ -79,18 +77,21 @@ function Index() {
             onMouseMove={handleDashMove}
             onMouseLeave={handleDashLeave}
           >
-            <img
-              src="https://gdm-catalog-fmapi-prod.imgix.net/ProductScreenshot/fb7068d1-4226-40b3-bf18-9a5daf35ff8d.png"
-              alt="Sapience HCM dashboard showing employee analytics and workforce metrics"
-              className="tilt-card-inner w-full rounded-xl shadow-2xl border border-border"
-              style={{
-                transform: `rotateX(${dashTilt.x}deg) rotateY(${dashTilt.y}deg)`,
-              }}
-              loading="lazy"
-            />
+            <div className="gradient-ring shadow-2xl">
+              <img
+                src="https://gdm-catalog-fmapi-prod.imgix.net/ProductScreenshot/fb7068d1-4226-40b3-bf18-9a5daf35ff8d.png"
+                alt="Sapience HCM dashboard showing employee analytics and workforce metrics"
+                className="tilt-card-inner w-full block bg-background"
+                style={{
+                  transform: `rotateX(${dashTilt.x}deg) rotateY(${dashTilt.y}deg)`,
+                }}
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </section>
+
 
       {/* Features Section */}
       <section className="py-16 lg:py-24">
@@ -105,12 +106,12 @@ function Index() {
             <p className="mt-4 text-muted-foreground">{t("home.features.subtitle")}</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <FeatureCard icon={Briefcase} title={t("home.features.hiringTitle")} description={t("home.features.hiringDesc")} link="/features/hiring-onboarding" delay={0} />
-            <FeatureCard icon={Users} title={t("home.features.coreHrTitle")} description={t("home.features.coreHrDesc")} link="/features/core-hr" delay={100} />
-            <FeatureCard icon={Award} title={t("home.features.performanceTitle")} description={t("home.features.performanceDesc")} link="/features/performance" delay={200} />
-            <FeatureCard icon={DollarSign} title={t("home.features.payrollTitle")} description={t("home.features.payrollDesc")} link="/features/payroll" delay={300} />
-            <FeatureCard icon={Heart} title={t("home.features.engagementTitle")} description={t("home.features.engagementDesc")} link="/features/engagement" delay={400} />
-            <FeatureCard icon={Zap} title={t("home.features.automationTitle")} description={t("home.features.automationDesc")} link="/features/hr-automation" delay={500} />
+            <FeatureCard accent="sky" icon={Briefcase} title={t("home.features.hiringTitle")} description={t("home.features.hiringDesc")} link="/features/hiring-onboarding" delay={0} />
+            <FeatureCard accent="mint" icon={Users} title={t("home.features.coreHrTitle")} description={t("home.features.coreHrDesc")} link="/features/core-hr" delay={100} />
+            <FeatureCard accent="lavender" icon={Award} title={t("home.features.performanceTitle")} description={t("home.features.performanceDesc")} link="/features/performance" delay={200} />
+            <FeatureCard accent="sun" icon={DollarSign} title={t("home.features.payrollTitle")} description={t("home.features.payrollDesc")} link="/features/payroll" delay={300} />
+            <FeatureCard accent="coral" icon={Heart} title={t("home.features.engagementTitle")} description={t("home.features.engagementDesc")} link="/features/engagement" delay={400} />
+            <FeatureCard accent="peach" icon={Zap} title={t("home.features.automationTitle")} description={t("home.features.automationDesc")} link="/features/hr-automation" delay={500} />
           </div>
         </div>
       </section>
@@ -118,7 +119,7 @@ function Index() {
       <ProductTour />
 
       {/* Why Sapience Section */}
-      <section className="py-16 bg-soft-gray">
+      <section className="py-16 bg-surface-mint">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div
             ref={whySection.ref}
@@ -129,24 +130,33 @@ function Index() {
             <h2 className="text-2xl lg:text-3xl font-bold text-foreground">{t("home.whySapience.title")}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {whyItems.map((item, i) => (
-              <div
-                key={item.title}
-                className={`text-center transition-all duration-700 ${
-                  whySection.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
-                style={{ transitionDelay: `${200 + i * 120}ms` }}
-              >
-                <div className="flex items-center justify-center w-14 h-14 rounded-full bg-bright-blue/10 text-bright-blue mx-auto mb-4 transition-transform duration-300 hover:scale-110 hover:rotate-6 cursor-default">
-                  <item.icon className="h-7 w-7" />
+            {whyItems.map((item, i) => {
+              const chipClasses = [
+                "accent-chip-sky",
+                "accent-chip-coral",
+                "accent-chip-lavender",
+                "accent-chip-mint",
+              ];
+              return (
+                <div
+                  key={item.title}
+                  className={`text-center transition-all duration-700 ${
+                    whySection.isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+                  }`}
+                  style={{ transitionDelay: `${200 + i * 120}ms` }}
+                >
+                  <div className={`flex items-center justify-center w-14 h-14 rounded-full mx-auto mb-4 transition-transform duration-300 hover:scale-110 hover:rotate-6 cursor-default ${chipClasses[i % chipClasses.length]}`}>
+                    <item.icon className="h-7 w-7" />
+                  </div>
+                  <h3 className="text-sm font-semibold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-xs text-muted-foreground">{item.desc}</p>
                 </div>
-                <h3 className="text-sm font-semibold text-foreground mb-2">{item.title}</h3>
-                <p className="text-xs text-muted-foreground">{item.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
+
 
       <ROICalculator variant="compact" />
 

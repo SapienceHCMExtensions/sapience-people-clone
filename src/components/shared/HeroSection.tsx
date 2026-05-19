@@ -3,7 +3,7 @@ import { useT } from "@/i18n/context";
 import { useState, useRef, useCallback, useEffect } from "react";
 import type { LucideIcon } from "lucide-react";
 
-export type HeroVariant = "default" | "gradient-mesh" | "spotlight" | "aurora" | "grid";
+export type HeroVariant = "default" | "gradient-mesh" | "spotlight" | "aurora" | "grid" | "bright";
 export type HeroSize = "md" | "lg" | "xl";
 export type HeroAlign = "center" | "left";
 
@@ -48,6 +48,7 @@ const variantClass: Record<HeroVariant, string> = {
   spotlight: "bg-soft-gray hero-spotlight",
   aurora: "hero-aurora",
   grid: "bg-soft-gray hero-grid",
+  bright: "hero-bright",
 };
 
 export function HeroSection({

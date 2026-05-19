@@ -17,10 +17,10 @@ export function CTABanner({
   const s = subHeadline ?? t("common.cta.readyToTransformSub");
 
   return (
-    <section className="bg-navy py-16 lg:py-20 relative overflow-hidden" ref={ref}>
+    <section className="bg-gradient-cta py-16 lg:py-20 relative overflow-hidden" ref={ref}>
       {/* Subtle dot grid background */}
       <div
-        className="absolute inset-0 opacity-5"
+        className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: "radial-gradient(circle, oklch(1 0 0) 1px, transparent 1px)",
           backgroundSize: "24px 24px",
@@ -50,7 +50,7 @@ export function CTABanner({
         >
           <Link
             to="/request-demo"
-            className="shimmer-btn inline-flex items-center justify-center rounded-lg bg-vibrant-orange px-6 py-3 text-sm font-semibold text-vibrant-orange-foreground shadow-lg hover:opacity-90 transition-opacity"
+            className="shimmer-btn inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 text-sm font-semibold text-navy shadow-lg hover:bg-white/90 transition-colors"
           >
             {t("common.cta.startFreeTrial")}
           </Link>

@@ -15,7 +15,7 @@ export function TestimonialBlock({ quote, name, title, company }: TestimonialBlo
   const words = useMemo(() => quote.split(" "), [quote]);
 
   return (
-    <section className="bg-soft-gray py-16" ref={ref}>
+    <section className="bg-surface-sky py-16 relative overflow-hidden" ref={ref}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <Quote
           className={`h-10 w-10 text-vibrant-orange mx-auto mb-6 transition-all duration-700 ${

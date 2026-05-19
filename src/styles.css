@@ -51,6 +51,16 @@
   --color-vibrant-orange: var(--vibrant-orange);
   --color-vibrant-orange-foreground: var(--vibrant-orange-foreground);
   --color-soft-gray: var(--soft-gray);
+  --color-surface-sky: var(--surface-sky);
+  --color-surface-peach: var(--surface-peach);
+  --color-surface-cream: var(--surface-cream);
+  --color-surface-mint: var(--surface-mint);
+  --color-accent-mint: var(--accent-mint);
+  --color-accent-lavender: var(--accent-lavender);
+  --color-accent-sun: var(--accent-sun);
+  --color-accent-coral: var(--accent-coral);
+  --color-accent-sky: var(--accent-sky);
+  --color-accent-peach: var(--accent-peach);
 }
 
 :root {
@@ -96,6 +106,25 @@
   --vibrant-orange: oklch(0.6 0.2 30);
   --vibrant-orange-foreground: oklch(1 0 0);
   --soft-gray: oklch(0.965 0.002 250);
+
+  /* Bright surface tints (very light, used for full-width section bands) */
+  --surface-sky: oklch(0.975 0.025 235);
+  --surface-peach: oklch(0.972 0.035 55);
+  --surface-cream: oklch(0.98 0.02 85);
+  --surface-mint: oklch(0.972 0.04 165);
+
+  /* Bright accent hues for feature cards / icons */
+  --accent-sky: oklch(0.65 0.16 235);
+  --accent-mint: oklch(0.66 0.15 170);
+  --accent-lavender: oklch(0.62 0.18 295);
+  --accent-sun: oklch(0.78 0.16 85);
+  --accent-coral: oklch(0.68 0.19 18);
+  --accent-peach: oklch(0.72 0.15 50);
+
+  /* Hero & CTA gradients */
+  --gradient-hero: linear-gradient(135deg, oklch(0.96 0.04 235) 0%, oklch(0.99 0.02 90) 45%, oklch(0.96 0.04 50) 100%);
+  --gradient-cta: linear-gradient(120deg, oklch(0.5 0.18 250) 0%, oklch(0.6 0.2 280) 45%, oklch(0.65 0.22 30) 100%);
+  --gradient-rainbow: linear-gradient(90deg, oklch(0.65 0.18 235), oklch(0.66 0.16 170), oklch(0.78 0.16 85), oklch(0.68 0.19 18));
 }
 
 .dark {
@@ -568,3 +597,71 @@
 @media (prefers-reduced-motion: reduce) {
   .marquee-track { animation: none !important; }
 }
+
+/* ===== Bright section bands & gradient utilities ===== */
+.bg-surface-sky { background-color: var(--surface-sky); }
+.bg-surface-peach { background-color: var(--surface-peach); }
+.bg-surface-cream { background-color: var(--surface-cream); }
+.bg-surface-mint { background-color: var(--surface-mint); }
+
+.bg-gradient-hero { background-image: var(--gradient-hero); }
+.bg-gradient-cta { background-image: var(--gradient-cta); }
+.bg-gradient-rainbow { background-image: var(--gradient-rainbow); }
+
+/* Hero bright variant */
+.hero-bright {
+  background-image: var(--gradient-hero);
+  position: relative;
+}
+.hero-bright::before,
+.hero-bright::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero-bright::before {
+  width: 520px;
+  height: 520px;
+  background: oklch(0.7 0.2 235 / 0.45);
+  top: -180px;
+  left: -120px;
+  animation: float 12s ease-in-out infinite;
+}
+.hero-bright::after {
+  width: 440px;
+  height: 440px;
+  background: oklch(0.75 0.2 35 / 0.45);
+  bottom: -160px;
+  right: -100px;
+  animation: float 14s ease-in-out infinite -4s;
+}
+
+/* Per-accent feature card chips */
+.accent-chip-sky { background-color: oklch(0.65 0.16 235 / 0.12); color: oklch(0.5 0.18 235); }
+.accent-chip-mint { background-color: oklch(0.66 0.15 170 / 0.14); color: oklch(0.48 0.14 170); }
+.accent-chip-lavender { background-color: oklch(0.62 0.18 295 / 0.14); color: oklch(0.5 0.18 295); }
+.accent-chip-sun { background-color: oklch(0.78 0.16 85 / 0.18); color: oklch(0.5 0.14 75); }
+.accent-chip-coral { background-color: oklch(0.68 0.19 18 / 0.13); color: oklch(0.55 0.2 22); }
+.accent-chip-peach { background-color: oklch(0.72 0.15 50 / 0.16); color: oklch(0.55 0.18 40); }
+
+.accent-bar-sky { background-color: oklch(0.65 0.16 235); }
+.accent-bar-mint { background-color: oklch(0.66 0.15 170); }
+.accent-bar-lavender { background-color: oklch(0.62 0.18 295); }
+.accent-bar-sun { background-color: oklch(0.78 0.16 85); }
+.accent-bar-coral { background-color: oklch(0.68 0.19 18); }
+.accent-bar-peach { background-color: oklch(0.72 0.15 50); }
+
+/* Gradient border ring for dashboard image */
+.gradient-ring {
+  position: relative;
+  border-radius: 1rem;
+  padding: 3px;
+  background: var(--gradient-rainbow);
+}
+.gradient-ring > * {
+  border-radius: calc(1rem - 3px);
+}
+
