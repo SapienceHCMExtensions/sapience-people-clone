@@ -6,10 +6,26 @@ export default defineConfig({
   },
   vite: {
     resolve: {
-      noExternal: ["h3-v2", "@tanstack/start-server-core"],
+      noExternal: [
+        "h3-v2",
+        "@tanstack/start-server-core",
+        "rou3",
+        "srvx",
+        "crossws",
+        "cookie-es",
+        "fetchdts",
+      ],
     },
     ssr: {
-      noExternal: ["h3-v2", "@tanstack/start-server-core"],
+      noExternal: [
+        "h3-v2",
+        "@tanstack/start-server-core",
+        "rou3",
+        "srvx",
+        "crossws",
+        "cookie-es",
+        "fetchdts",
+      ],
     },
   },
 });
