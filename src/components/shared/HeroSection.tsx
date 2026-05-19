@@ -48,6 +48,7 @@ const variantClass: Record<HeroVariant, string> = {
   spotlight: "bg-soft-gray hero-spotlight",
   aurora: "hero-aurora",
   grid: "bg-soft-gray hero-grid",
+  bright: "hero-bright",
 };
 
 export function HeroSection({
