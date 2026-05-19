@@ -1,17 +1,28 @@
-## Status
-- Fixed: `h3-v2` is now bundled into the worker (no more 502).
-- New error: `No such module "assets/rou3"` — `rou3` is a transitive dep of `h3-v2` and the bundler still leaves it as a runtime import. The custom error page in `src/server.ts` is correctly catching the SSR crash, which is why you see the branded "Something went wrong" page instead of a raw 502.
+## Goal
+Fix the published-site error page shown when opening the preview/live app in a new tab by identifying and removing the actual server-render crash in the root/homepage render path.
 
-## Fix
-Add the `h3-v2` transitive dependencies to the SSR `noExternal` list in `vite.config.ts` so they get inlined into the worker bundle:
-- `rou3`
-- `srvx`
-- `crossws` (optional peer dep of h3-v2)
-- `cookie-es`, `fetchdts` (other h3-v2 deps)
+## Plan
+1. Reproduce the failing render path locally and narrow the fault to the exact component/module in the `/` route tree.
+   - Temporarily isolate the homepage by removing large sections from `src/routes/index.tsx` in small steps.
+   - If needed, also bypass root-shell children (`Header`, `Footer`, `CookieConsent`, `PageTransition`, `LanguageProvider`) one at a time to determine whether the crash is in the shell or page content.
+   - Add temporary server-safe logging only if the crash location is still unclear.
 
-Then republish and re-check the new-tab URL and worker logs.
+2. Fix the root cause instead of the fallback symptom.
+   - Remove or guard any code that breaks SSR in the published environment.
+   - Prioritize browser-only APIs, runtime-incompatible UI primitives, or render-time logic that behaves differently in the deployed server environment.
+   - Keep the existing error wrapper only as protection, not as the “solution.”
 
-## Validation
-- `GET /` returns 200 with real HTML
-- Worker logs no longer show `No such module "..."`
-- New-tab preview renders the actual site instead of the fallback error page
+3. Validate that the server can render `/` successfully again.
+   - Confirm the homepage loads in preview without the generic error boundary.
+   - Confirm the published/new-tab route returns real app HTML instead of the fallback error page.
+   - Re-check that the earlier bundling fix remains intact.
+
+## Likely focus areas
+- `src/routes/index.tsx` and the shared homepage components it imports
+- `src/routes/__root.tsx` and `src/router.tsx`
+- Runtime-sensitive shared components such as `ProductTour`, `ROICalculator`, `TrustBand`, and any Radix-based UI used on the homepage
+
+## Technical notes
+- The previous update did have a real effect: it eliminated the earlier worker/module-resolution failure and let the request reach the app server entry.
+- The remaining problem is a separate SSR crash during render, currently masked by the custom fallback page.
+- I’ll keep changes tightly scoped to diagnosing and fixing this render failure only.
