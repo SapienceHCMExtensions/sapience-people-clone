@@ -22,25 +22,48 @@ interface CountryEntry {
   frameworks: string[];
 }
 
-const gccCountries: CountryEntry[] = [
-  { code: "ae", name: "United Arab Emirates", frameworks: ["UAE Labour Law", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)", "Country-specific leave & working-hour rules"] },
-  { code: "sa", name: "Saudi Arabia", frameworks: ["KSA Labour Law", "GOSI (Social Insurance)", "WPS / Mudad payroll filing", "End-of-Service Gratuity (EOSB)"] },
-  { code: "qa", name: "Qatar", frameworks: ["Qatar Labour Law", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)", "Statutory leave & working-hour rules"] },
-  { code: "om", name: "Oman", frameworks: ["Oman Labour Law", "PASI (Social Insurance)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
-  { code: "bh", name: "Bahrain", frameworks: ["Bahrain Labour Law", "SIO (Social Insurance Organisation)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
-  { code: "kw", name: "Kuwait", frameworks: ["Kuwait Labour Law", "PIFSS (Social Security)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
+interface Region {
+  key: "gcc" | "levant" | "africa" | "asia";
+  countries: CountryEntry[];
+}
+
+const regions: Region[] = [
+  {
+    key: "gcc",
+    countries: [
+      { code: "ae", name: "United Arab Emirates", frameworks: ["UAE Labour Law", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)", "Country-specific leave & working-hour rules"] },
+      { code: "sa", name: "Saudi Arabia", frameworks: ["KSA Labour Law", "GOSI (Social Insurance)", "WPS / Mudad payroll filing", "End-of-Service Gratuity (EOSB)"] },
+      { code: "qa", name: "Qatar", frameworks: ["Qatar Labour Law", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)", "Statutory leave & working-hour rules"] },
+      { code: "om", name: "Oman", frameworks: ["Oman Labour Law", "PASI (Social Insurance)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
+      { code: "bh", name: "Bahrain", frameworks: ["Bahrain Labour Law", "SIO (Social Insurance Organisation)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
+      { code: "kw", name: "Kuwait", frameworks: ["Kuwait Labour Law", "PIFSS (Social Security)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
+    ],
+  },
+  {
+    key: "levant",
+    countries: [
+      { code: "jo", name: "Jordan", frameworks: ["Labour Law", "Income tax & social security", "Statutory leave rules"] },
+      { code: "lb", name: "Lebanon", frameworks: ["Labour Law", "NSSF & income tax", "Statutory leave rules"] },
+      { code: "ps", name: "Palestine", frameworks: ["Labour Law", "Payroll tax rules", "Statutory leave rules"] },
+      { code: "iq", name: "Iraq", frameworks: ["Labour Law", "Income tax & social security", "Statutory leave rules"] },
+    ],
+  },
+  {
+    key: "africa",
+    countries: [
+      { code: "eg", name: "Egypt", frameworks: ["Labour Law", "Income tax & social insurance", "Statutory leave rules"] },
+      { code: "ly", name: "Libya", frameworks: ["Labour Law", "Payroll tax rules", "Statutory leave rules"] },
+    ],
+  },
+  {
+    key: "asia",
+    countries: [
+      { code: "in", name: "India", frameworks: ["Labour codes", "PF, ESI & professional tax", "TDS / income-tax payroll"] },
+      { code: "pk", name: "Pakistan", frameworks: ["Labour Law", "EOBI & social security", "Income-tax payroll"] },
+    ],
+  },
 ];
 
-const levantAsiaCountries: CountryEntry[] = [
-  { code: "jo", name: "Jordan", frameworks: ["Labour Law", "Income tax & social security", "Statutory leave rules"] },
-  { code: "eg", name: "Egypt", frameworks: ["Labour Law", "Income tax & social insurance", "Statutory leave rules"] },
-  { code: "ps", name: "Palestine", frameworks: ["Labour Law", "Payroll tax rules", "Statutory leave rules"] },
-  { code: "iq", name: "Iraq", frameworks: ["Labour Law", "Income tax & social security", "Statutory leave rules"] },
-  { code: "lb", name: "Lebanon", frameworks: ["Labour Law", "NSSF & income tax", "Statutory leave rules"] },
-  { code: "ly", name: "Libya", frameworks: ["Labour Law", "Payroll tax rules", "Statutory leave rules"] },
-  { code: "in", name: "India", frameworks: ["Labour codes", "PF, ESI & professional tax", "TDS / income-tax payroll"] },
-  { code: "pk", name: "Pakistan", frameworks: ["Labour Law", "EOBI & social security", "Income-tax payroll"] },
-];
 
 function CountryCard({ entry, frameworksLabel }: { entry: CountryEntry; frameworksLabel: string }) {
   return (
@@ -98,35 +121,23 @@ function LegislationsPage() {
         </div>
       </section>
 
-      {/* GCC */}
-      <section className="py-16 lg:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-navy">{t("legislations.gccHeading")}</h2>
-            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">{t("legislations.gccSubheading")}</p>
+      {/* Regions */}
+      {regions.map((region, idx) => (
+        <section key={region.key} className={`py-16 lg:py-20 ${idx % 2 === 1 ? "bg-soft-gray" : ""}`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-10 text-center">
+              <h2 className="text-2xl md:text-3xl font-bold text-navy">{t(`legislations.regions.${region.key}.heading`)}</h2>
+              <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">{t(`legislations.regions.${region.key}.subheading`)}</p>
+            </div>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {region.countries.map((c) => (
+                <CountryCard key={c.code} entry={c} frameworksLabel={t("legislations.frameworksLabel")} />
+              ))}
+            </div>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {gccCountries.map((c) => (
-              <CountryCard key={c.name} entry={c} frameworksLabel={t("legislations.frameworksLabel")} />
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      ))}
 
-      {/* Levant & Asia */}
-      <section className="py-16 lg:py-20 bg-soft-gray">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-navy">{t("legislations.levantAsiaHeading")}</h2>
-            <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">{t("legislations.levantAsiaSubheading")}</p>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {levantAsiaCountries.map((c) => (
-              <CountryCard key={c.name} entry={c} frameworksLabel={t("legislations.frameworksLabel")} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Capabilities */}
       <section className="py-16 lg:py-20">
