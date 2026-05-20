@@ -18,7 +18,9 @@ export const ar = {
       allFeatures: "جميع الميزات",
       requestDemo: "طلب عرض توضيحي",
       requestQuote: "طلب عرض أسعار",
+      legislations: "التشريعات",
     },
+
     cta: {
       startFreeTrial: "ابدأ تجربة مجانية",
       requestDemo: "طلب عرض توضيحي",
