@@ -20,6 +20,8 @@ export const es = {
       requestQuote: "Solicitar Cotización",
       legislations: "Legislaciones",
       partnerWithUs: "Asóciese con Nosotros",
+      findAPartner: "Encontrar un Partner",
+      becomeAPartner: "Convertirse en Partner",
     },
 
     cta: {
