@@ -18,7 +18,9 @@ export const en = {
       allFeatures: "All Features",
       requestDemo: "Request Demo",
       requestQuote: "Request a Price Quote",
+      legislations: "Legislations",
     },
+
     cta: {
       startFreeTrial: "Start Free Trial",
       requestDemo: "Request Demo",

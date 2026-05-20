@@ -18,7 +18,9 @@ export const es = {
       allFeatures: "Todas las Características",
       requestDemo: "Solicitar Demo",
       requestQuote: "Solicitar Cotización",
+      legislations: "Legislaciones",
     },
+
     cta: {
       startFreeTrial: "Iniciar Prueba Gratuita",
       requestDemo: "Solicitar Demo",
