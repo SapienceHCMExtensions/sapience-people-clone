@@ -15,7 +15,10 @@ const PATHS: string[] = [
   "/webinars",
   "/legislations",
   "/partner-with-us",
+  "/partner-with-us/find-a-partner",
+  "/partner-with-us/become-a-partner",
   "/sign-in",
+
 
 
   "/features",
