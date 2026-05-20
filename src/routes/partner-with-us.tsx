@@ -60,12 +60,12 @@ function PartnerPage() {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">{t("partner.hero.title")}</h1>
               <p className="text-lg text-white/80 leading-relaxed mb-8 max-w-xl">{t("partner.hero.subtitle")}</p>
               <div className="flex flex-wrap gap-3">
-                <a href="#partners" className="inline-flex items-center justify-center rounded-md bg-vibrant-orange px-6 py-3 text-sm font-semibold text-vibrant-orange-foreground hover:opacity-90 transition-opacity">
+                <Link to="/partner-with-us/find-a-partner" className="inline-flex items-center justify-center rounded-md bg-vibrant-orange px-6 py-3 text-sm font-semibold text-vibrant-orange-foreground hover:opacity-90 transition-opacity">
                   {t("partner.hero.findPartner")}
-                </a>
-                <a href="#become-a-partner" className="inline-flex items-center justify-center rounded-md bg-white text-navy px-6 py-3 text-sm font-semibold hover:bg-white/90 transition-colors">
+                </Link>
+                <Link to="/partner-with-us/become-a-partner" className="inline-flex items-center justify-center rounded-md bg-white text-navy px-6 py-3 text-sm font-semibold hover:bg-white/90 transition-colors">
                   {t("partner.hero.becomePartner")}
-                </a>
+                </Link>
               </div>
             </div>
             <div className="hidden lg:block relative">
@@ -106,9 +106,9 @@ function PartnerPage() {
                 </div>
                 <h3 className="text-xl font-bold text-navy mb-3">{t(`partner.programs.${p.key}.title`)}</h3>
                 <p className="text-sm text-gray-600 leading-relaxed mb-6 flex-1">{t(`partner.programs.${p.key}.desc`)}</p>
-                <a href="#become-a-partner" className="inline-flex items-center gap-1.5 text-sm font-semibold text-bright-blue hover:text-bright-blue/80">
+                <Link to="/partner-with-us/become-a-partner" className="inline-flex items-center gap-1.5 text-sm font-semibold text-bright-blue hover:text-bright-blue/80">
                   {t("partner.programs.learnMore")} <ArrowRight className="h-4 w-4" />
-                </a>
+                </Link>
               </div>
             ))}
           </div>

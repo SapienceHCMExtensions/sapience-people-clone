@@ -256,6 +256,8 @@ export function Header() {
               <Link to="/request-demo" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.requestDemo")}</Link>
               <Link to="/request-quote" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.requestQuote")}</Link>
               <Link to="/partner-with-us" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.partnerWithUs")}</Link>
+              <Link to="/partner-with-us/find-a-partner" onClick={() => setActiveDropdown(null)} className="block px-6 py-1.5 text-xs text-muted-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.findAPartner")}</Link>
+              <Link to="/partner-with-us/become-a-partner" onClick={() => setActiveDropdown(null)} className="block px-6 py-1.5 text-xs text-muted-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.becomeAPartner")}</Link>
               <Link to="/webinars" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.webinars")}</Link>
               <Link to="/training-program" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.trainingProgram")}</Link>
               <Link to="/getting-started" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.getStarted")}</Link>
@@ -286,6 +288,8 @@ export function Header() {
             <Link to="/customers" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.customers")}</Link>
             <Link to="/legislations" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.legislations")}</Link>
             <Link to="/partner-with-us" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.partnerWithUs")}</Link>
+            <Link to="/partner-with-us/find-a-partner" onClick={() => setMobileOpen(false)} className="block px-6 py-1.5 text-xs text-muted-foreground hover:bg-soft-gray rounded-md">{t("common.nav.findAPartner")}</Link>
+            <Link to="/partner-with-us/become-a-partner" onClick={() => setMobileOpen(false)} className="block px-6 py-1.5 text-xs text-muted-foreground hover:bg-soft-gray rounded-md">{t("common.nav.becomeAPartner")}</Link>
             <Link to="/request-demo" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.requestDemo")}</Link>
 
             <div className="border-t border-border my-2" />

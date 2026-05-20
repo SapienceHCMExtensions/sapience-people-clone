@@ -35,6 +35,8 @@ import { Route as SolutionsHealthcareRouteImport } from './routes/solutions/heal
 import { Route as SolutionsFinanceRouteImport } from './routes/solutions/finance'
 import { Route as SolutionsEnterpriseRouteImport } from './routes/solutions/enterprise'
 import { Route as SolutionsEducationRouteImport } from './routes/solutions/education'
+import { Route as PartnerWithUsFindAPartnerRouteImport } from './routes/partner-with-us.find-a-partner'
+import { Route as PartnerWithUsBecomeAPartnerRouteImport } from './routes/partner-with-us.become-a-partner'
 import { Route as FeaturesTravelExpenseRouteImport } from './routes/features/travel-expense'
 import { Route as FeaturesRetirementSeparationRouteImport } from './routes/features/retirement-separation'
 import { Route as FeaturesPerformanceRouteImport } from './routes/features/performance'
@@ -181,6 +183,18 @@ const SolutionsEducationRoute = SolutionsEducationRouteImport.update({
   path: '/solutions/education',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PartnerWithUsFindAPartnerRoute =
+  PartnerWithUsFindAPartnerRouteImport.update({
+    id: '/find-a-partner',
+    path: '/find-a-partner',
+    getParentRoute: () => PartnerWithUsRoute,
+  } as any)
+const PartnerWithUsBecomeAPartnerRoute =
+  PartnerWithUsBecomeAPartnerRouteImport.update({
+    id: '/become-a-partner',
+    path: '/become-a-partner',
+    getParentRoute: () => PartnerWithUsRoute,
+  } as any)
 const FeaturesTravelExpenseRoute = FeaturesTravelExpenseRouteImport.update({
   id: '/features/travel-expense',
   path: '/features/travel-expense',
@@ -268,7 +282,7 @@ export interface FileRoutesByFullPath {
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/legislations': typeof LegislationsRoute
-  '/partner-with-us': typeof PartnerWithUsRoute
+  '/partner-with-us': typeof PartnerWithUsRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -294,6 +308,8 @@ export interface FileRoutesByFullPath {
   '/features/performance': typeof FeaturesPerformanceRoute
   '/features/retirement-separation': typeof FeaturesRetirementSeparationRoute
   '/features/travel-expense': typeof FeaturesTravelExpenseRoute
+  '/partner-with-us/become-a-partner': typeof PartnerWithUsBecomeAPartnerRoute
+  '/partner-with-us/find-a-partner': typeof PartnerWithUsFindAPartnerRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
   '/solutions/finance': typeof SolutionsFinanceRoute
@@ -311,7 +327,7 @@ export interface FileRoutesByTo {
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/legislations': typeof LegislationsRoute
-  '/partner-with-us': typeof PartnerWithUsRoute
+  '/partner-with-us': typeof PartnerWithUsRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -337,6 +353,8 @@ export interface FileRoutesByTo {
   '/features/performance': typeof FeaturesPerformanceRoute
   '/features/retirement-separation': typeof FeaturesRetirementSeparationRoute
   '/features/travel-expense': typeof FeaturesTravelExpenseRoute
+  '/partner-with-us/become-a-partner': typeof PartnerWithUsBecomeAPartnerRoute
+  '/partner-with-us/find-a-partner': typeof PartnerWithUsFindAPartnerRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
   '/solutions/finance': typeof SolutionsFinanceRoute
@@ -355,7 +373,7 @@ export interface FileRoutesById {
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/legislations': typeof LegislationsRoute
-  '/partner-with-us': typeof PartnerWithUsRoute
+  '/partner-with-us': typeof PartnerWithUsRouteWithChildren
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -381,6 +399,8 @@ export interface FileRoutesById {
   '/features/performance': typeof FeaturesPerformanceRoute
   '/features/retirement-separation': typeof FeaturesRetirementSeparationRoute
   '/features/travel-expense': typeof FeaturesTravelExpenseRoute
+  '/partner-with-us/become-a-partner': typeof PartnerWithUsBecomeAPartnerRoute
+  '/partner-with-us/find-a-partner': typeof PartnerWithUsFindAPartnerRoute
   '/solutions/education': typeof SolutionsEducationRoute
   '/solutions/enterprise': typeof SolutionsEnterpriseRoute
   '/solutions/finance': typeof SolutionsFinanceRoute
@@ -426,6 +446,8 @@ export interface FileRouteTypes {
     | '/features/performance'
     | '/features/retirement-separation'
     | '/features/travel-expense'
+    | '/partner-with-us/become-a-partner'
+    | '/partner-with-us/find-a-partner'
     | '/solutions/education'
     | '/solutions/enterprise'
     | '/solutions/finance'
@@ -469,6 +491,8 @@ export interface FileRouteTypes {
     | '/features/performance'
     | '/features/retirement-separation'
     | '/features/travel-expense'
+    | '/partner-with-us/become-a-partner'
+    | '/partner-with-us/find-a-partner'
     | '/solutions/education'
     | '/solutions/enterprise'
     | '/solutions/finance'
@@ -512,6 +536,8 @@ export interface FileRouteTypes {
     | '/features/performance'
     | '/features/retirement-separation'
     | '/features/travel-expense'
+    | '/partner-with-us/become-a-partner'
+    | '/partner-with-us/find-a-partner'
     | '/solutions/education'
     | '/solutions/enterprise'
     | '/solutions/finance'
@@ -530,7 +556,7 @@ export interface RootRouteChildren {
   CustomersRoute: typeof CustomersRoute
   GettingStartedRoute: typeof GettingStartedRoute
   LegislationsRoute: typeof LegislationsRoute
-  PartnerWithUsRoute: typeof PartnerWithUsRoute
+  PartnerWithUsRoute: typeof PartnerWithUsRouteWithChildren
   PricingRoute: typeof PricingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RequestDemoRoute: typeof RequestDemoRoute
@@ -751,6 +777,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SolutionsEducationRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/partner-with-us/find-a-partner': {
+      id: '/partner-with-us/find-a-partner'
+      path: '/find-a-partner'
+      fullPath: '/partner-with-us/find-a-partner'
+      preLoaderRoute: typeof PartnerWithUsFindAPartnerRouteImport
+      parentRoute: typeof PartnerWithUsRoute
+    }
+    '/partner-with-us/become-a-partner': {
+      id: '/partner-with-us/become-a-partner'
+      path: '/become-a-partner'
+      fullPath: '/partner-with-us/become-a-partner'
+      preLoaderRoute: typeof PartnerWithUsBecomeAPartnerRouteImport
+      parentRoute: typeof PartnerWithUsRoute
+    }
     '/features/travel-expense': {
       id: '/features/travel-expense'
       path: '/features/travel-expense'
@@ -859,6 +899,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface PartnerWithUsRouteChildren {
+  PartnerWithUsBecomeAPartnerRoute: typeof PartnerWithUsBecomeAPartnerRoute
+  PartnerWithUsFindAPartnerRoute: typeof PartnerWithUsFindAPartnerRoute
+}
+
+const PartnerWithUsRouteChildren: PartnerWithUsRouteChildren = {
+  PartnerWithUsBecomeAPartnerRoute: PartnerWithUsBecomeAPartnerRoute,
+  PartnerWithUsFindAPartnerRoute: PartnerWithUsFindAPartnerRoute,
+}
+
+const PartnerWithUsRouteWithChildren = PartnerWithUsRoute._addFileChildren(
+  PartnerWithUsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AntiSpamPolicyRoute: AntiSpamPolicyRoute,
@@ -866,7 +920,7 @@ const rootRouteChildren: RootRouteChildren = {
   CustomersRoute: CustomersRoute,
   GettingStartedRoute: GettingStartedRoute,
   LegislationsRoute: LegislationsRoute,
-  PartnerWithUsRoute: PartnerWithUsRoute,
+  PartnerWithUsRoute: PartnerWithUsRouteWithChildren,
   PricingRoute: PricingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RequestDemoRoute: RequestDemoRoute,
