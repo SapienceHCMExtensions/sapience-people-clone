@@ -827,5 +827,63 @@ export const es = {
     ctaSubtitle: "Obtenga un recorrido personalizado de cómo Sapience HCM gestiona la legislación en sus países de operación.",
     ctaButton: "Solicitar Demo",
   },
+  partner: {
+    hero: {
+      eyebrow: "Programa de Partners",
+      title: "Asóciese con Sapience HCM",
+      subtitle: "Únase a un ecosistema en crecimiento de partners de canal, referencia e implementación que están dando forma al futuro de RRHH en el CCG, Levante, África y Asia.",
+      findPartner: "Encontrar un Partner",
+      becomePartner: "Convertirse en Partner",
+      badge: "Crecer Juntos",
+    },
+    why: {
+      title: "Por qué asociarse con nosotros",
+      body: "Sapience HCM tiene la misión de ofrecer una gestión moderna y conforme del capital humano en Medio Oriente, Levante, África y Asia. Nuestro Programa de Partners está diseñado para ayudar a consultoras, integradores de sistemas, especialistas en nómina y revendedores a diversificar su oferta, generar ingresos recurrentes y entregar resultados de negocio medibles a sus clientes.",
+    },
+    programs: {
+      title: "Elija el programa de partner adecuado",
+      subtitle: "Tres modalidades flexibles diseñadas según su forma de ir al mercado.",
+      learnMore: "Más información",
+      channel: {
+        title: "Partner de Canal",
+        desc: "Lidere las acciones de ventas y marketing de Sapience HCM en su territorio. Genere pipeline, cierre acuerdos y desarrolle una práctica HR-tech rentable con todo nuestro soporte.",
+      },
+      referral: {
+        title: "Partner de Referencia",
+        desc: "Comparta leads cualificados con Sapience HCM y obtenga recompensas mientras los cerramos. Ideal para asesores y consultores que buscan un flujo de ingresos sencillo.",
+      },
+      implementation: {
+        title: "Partner de Implementación",
+        desc: "Entregue despliegues de Sapience HCM, configuración de nómina y cumplimiento específico por país para clientes de toda la región, respaldado por nuestro marco de entrega.",
+      },
+    },
+    benefits: {
+      title: "Beneficios de asociarse",
+      subtitle: "Todo lo que necesita para ganar, entregar y crecer con Sapience HCM.",
+      revenue: { title: "Ingresos recurrentes", desc: "Obtenga márgenes atractivos y predecibles en cada suscripción, con condiciones comerciales transparentes." },
+      comarketing: { title: "Co-marketing y demanda", desc: "Campañas, eventos y contenido conjuntos construidos con nuestro equipo de marketing para llenar su pipeline." },
+      manager: { title: "Partner manager dedicado", desc: "Un punto de contacto único para alinear oportunidades, soporte de deals y planificación trimestral." },
+      enablement: { title: "Capacitación comercial y de producto", desc: "Presentaciones, entornos demo, battlecards y talleres en vivo para mantener afilado a su equipo." },
+      certification: { title: "Programa de certificación", desc: "Formación estructurada y certificaciones para ventas, implementación y soporte." },
+      reach: { title: "Acceso regional", desc: "Acceda a clientes y prospectos de Sapience HCM en el CCG, Levante, África y Asia." },
+    },
+    partners: {
+      title: "Nuestros increíbles partners globales",
+      subtitle: "Trabajamos con organizaciones líderes que ayudan a nuestros clientes a tener éxito.",
+    },
+    howTo: {
+      title: "Cómo convertirse en partner",
+      subtitle: "Un camino simple de tres pasos para lanzar su alianza con Sapience HCM.",
+      apply: { title: "Aplicar", desc: "Cuéntenos sobre su negocio, mercados objetivo y la modalidad de partner que mejor le encaja." },
+      onboard: { title: "Onboarding y certificación", desc: "Complete la capacitación comercial y de producto, y obtenga la certificación de partner de Sapience HCM." },
+      launch: { title: "Ir al mercado", desc: "Lance campañas conjuntas, registre oportunidades y comience a crecer junto a nuestro equipo de partners." },
+    },
+    cta: {
+      title: "¿Listo para crecer con Sapience HCM?",
+      subtitle: "Hable con nuestro equipo de partners para explorar el programa adecuado para su negocio.",
+      button: "Hablar con el equipo de partners",
+    },
+  },
 };
+
 
