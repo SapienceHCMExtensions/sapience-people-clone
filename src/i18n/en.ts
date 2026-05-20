@@ -20,6 +20,8 @@ export const en = {
       requestQuote: "Request a Price Quote",
       legislations: "Legislations",
       partnerWithUs: "Partner with Us",
+      findAPartner: "Find a Partner",
+      becomeAPartner: "Become a Partner",
     },
 
     cta: {
