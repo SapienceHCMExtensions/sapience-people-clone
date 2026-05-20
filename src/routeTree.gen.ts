@@ -19,6 +19,7 @@ import { Route as RequestQuoteRouteImport } from './routes/request-quote'
 import { Route as RequestDemoRouteImport } from './routes/request-demo'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as LegislationsRouteImport } from './routes/legislations'
 import { Route as GettingStartedRouteImport } from './routes/getting-started'
 import { Route as CustomersRouteImport } from './routes/customers'
 import { Route as CookiePolicyRouteImport } from './routes/cookie-policy'
@@ -97,6 +98,11 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegislationsRoute = LegislationsRouteImport.update({
+  id: '/legislations',
+  path: '/legislations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GettingStartedRoute = GettingStartedRouteImport.update({
@@ -255,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/cookie-policy': typeof CookiePolicyRoute
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
+  '/legislations': typeof LegislationsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -296,6 +303,7 @@ export interface FileRoutesByTo {
   '/cookie-policy': typeof CookiePolicyRoute
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
+  '/legislations': typeof LegislationsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -338,6 +346,7 @@ export interface FileRoutesById {
   '/cookie-policy': typeof CookiePolicyRoute
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
+  '/legislations': typeof LegislationsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -381,6 +390,7 @@ export interface FileRouteTypes {
     | '/cookie-policy'
     | '/customers'
     | '/getting-started'
+    | '/legislations'
     | '/pricing'
     | '/privacy-policy'
     | '/request-demo'
@@ -422,6 +432,7 @@ export interface FileRouteTypes {
     | '/cookie-policy'
     | '/customers'
     | '/getting-started'
+    | '/legislations'
     | '/pricing'
     | '/privacy-policy'
     | '/request-demo'
@@ -463,6 +474,7 @@ export interface FileRouteTypes {
     | '/cookie-policy'
     | '/customers'
     | '/getting-started'
+    | '/legislations'
     | '/pricing'
     | '/privacy-policy'
     | '/request-demo'
@@ -505,6 +517,7 @@ export interface RootRouteChildren {
   CookiePolicyRoute: typeof CookiePolicyRoute
   CustomersRoute: typeof CustomersRoute
   GettingStartedRoute: typeof GettingStartedRoute
+  LegislationsRoute: typeof LegislationsRoute
   PricingRoute: typeof PricingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RequestDemoRoute: typeof RequestDemoRoute
@@ -611,6 +624,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legislations': {
+      id: '/legislations'
+      path: '/legislations'
+      fullPath: '/legislations'
+      preLoaderRoute: typeof LegislationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/getting-started': {
@@ -825,6 +845,7 @@ const rootRouteChildren: RootRouteChildren = {
   CookiePolicyRoute: CookiePolicyRoute,
   CustomersRoute: CustomersRoute,
   GettingStartedRoute: GettingStartedRoute,
+  LegislationsRoute: LegislationsRoute,
   PricingRoute: PricingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RequestDemoRoute: RequestDemoRoute,
