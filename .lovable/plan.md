@@ -1,29 +1,43 @@
-# Split Legislations page by region
+## Goal
 
-## Change
-Refactor the Legislations page to render one section per region (currently "GCC" and "Levant & Asia"). The new layout uses 4 regions, driven by a single data array so future regions can be added with a one-line entry.
+Create a new **Partner With Sapience** page at `/partner-with-us` that mirrors the structure and content sections of the ZingHR partner page, fully styled in Sapience HCM brand (Navy / Blue / Orange) and translated across en/es/ar.
 
-## New region groupings
-- **GCC** — UAE, Saudi Arabia, Qatar, Oman, Bahrain, Kuwait
-- **Levant** — Jordan, Lebanon, Palestine, Iraq
-- **Africa** — Egypt, Libya
-- **Asia** — India, Pakistan
+## Page structure (sections, top → bottom)
 
-(Existing per-country frameworks are preserved as-is.)
+1. **Hero**
+  - H1: "Partner With Sapience"
+  - Sub: "We've teamed up with leading organizations to help your business grow."
+  - Two CTAs: `Find a Partner` (→ `#partners`) and `Become a Partner` (→ `/request-demo?type=partner` or anchor to form)
+  - Right-side illustration (use existing brand asset / generated SVG; no new image generation unless needed)
+2. **Why partner with us**
+  - Paragraph explaining Sapience's HCM partner program, regional reach (GCC, Levant, Africa, Asia), and shared growth model.
+  - Supporting visual (decorative panel).
+3. **Choose the Right Partner Program** (2–3 program cards)
+  - **Channel Partner** — sells and markets Sapience HCM; owns lead pipeline.
+  - **Referral Partner** — shares qualified leads; Sapience closes.
+  - **Implementation Partner** (added; common for HCM) — delivers onboarding, payroll configuration, country-specific compliance.
+  - Each card: icon (lucide), title, description, "Learn more" link → `#become-a-partner`.
+4. **Benefits of partnering** (4–6 small benefit tiles)
+  - Recurring revenue share, co-marketing, dedicated partner manager, sales & product enablement, certification, regional market access.
+5. **Our Global Partners** (`#partners`)
+  - Logo grid placeholder (6–8 monochrome logo tiles). Use neutral placeholder logo blocks with partner-name text since we don't have real partner logos.
+6. **How to become a partner** (`#become-a-partner`)
+  - 3-step process: Apply → Onboard & Certify → Go to market.
+7. **CTA band**
+  - "Ready to grow with Sapience HCM?" + button → `/request-demo`.
 
-## Edits
+## Files to create / edit
 
-1. **`src/routes/legislations.tsx`**
-   - Replace the two arrays (`gccCountries`, `levantAsiaCountries`) with a single `regions: Region[]` array. Each `Region` has `{ key, countries: CountryEntry[] }` so adding a new region later means appending one object.
-   - Render the page by mapping over `regions`, alternating section backgrounds (white / soft-gray) for visual rhythm.
-   - Each region's heading and subheading come from i18n keys `legislations.regions.<key>.heading` / `.subheading` so they translate.
-
-2. **i18n — add to `en.ts`, `es.ts`, AND `ar.ts` together** (memory parity rule)
-   - Add `legislations.regions.gcc.{heading,subheading}` (reuse existing GCC copy).
-   - Add `legislations.regions.levant.{heading,subheading}` — "Levant" / "Country-specific labour law, tax and statutory rules across the Levant."
-   - Add `legislations.regions.africa.{heading,subheading}` — "Africa" / "Labour law, payroll tax and statutory leave coverage for African operations."
-   - Add `legislations.regions.asia.{heading,subheading}` — "Asia" / "Labour codes, social security and income-tax payroll for South Asia."
-   - Remove the now-unused `gccHeading`, `gccSubheading`, `levantAsiaHeading`, `levantAsiaSubheading` keys.
+- **Create** `src/routes/partner-with-us.tsx` — TanStack route with `createFileRoute("/partner-with-us")`, `head()` SEO metadata (title, description, og:title, og:description, canonical), and all sections above using existing design tokens and the `useT()` i18n hook.
+- **Edit** `src/components/layout/Header.tsx` — add "Partner with us" nav entry (Company / top-level menu — match existing nav grouping).
+- **Edit** `src/components/layout/Footer.tsx` (if it exists) — add link under appropriate column.
+- **Edit** `src/i18n/en.ts`, `src/i18n/es.ts`, `src/i18n/ar.ts` — add a `partner` namespace (hero, why, programs, benefits, partners, howTo, cta) in all three locales together (per i18n parity rule).
+- **Edit** `public/llms.txt` and `src/routes/sitemap[.]xml.ts` — register the new URL.
+- `src/routeTree.gen.ts` is auto-generated — do not edit.
 
 ## Out of scope
-No changes to nav, hero, capabilities section, CTA, country cards, or any other page. No new images — flag thumbnails continue to come from flagcdn.com.
+
+- No backend form submission (CTAs link to existing `/request-demo`).
+- No real partner logos (placeholder tiles).
+- No new generated imagery unless an existing brand asset cannot fill the hero — will use CSS/SVG decorative panel first.
+- No changes to other pages.
