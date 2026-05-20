@@ -18,7 +18,9 @@ export const en = {
       allFeatures: "All Features",
       requestDemo: "Request Demo",
       requestQuote: "Request a Price Quote",
+      legislations: "Legislations",
     },
+
     cta: {
       startFreeTrial: "Start Free Trial",
       requestDemo: "Request Demo",
@@ -935,5 +937,21 @@ export const en = {
         { heading: "5. Contact Us", body: "For questions about this Anti-spam Policy, please contact us at abuse@sapiencehcm.com." },
       ],
     },
+    legislations: {
+      title: "Legislations & Compliance",
+      subtitle: "Built-in regulatory compliance across the Middle East, Levant, and Asia.",
+      intro: "Sapience HCM is purpose-built for the Middle East, Levant and Asia regulatory environment. The solution includes built-in compliance for Labour Law, WPS payroll file generation, end-of-service gratuity calculations for all GCC countries, GOSI/social insurance integrations, tax calculations for the Asia/Levant region, and country-specific leave and working-hour rules. Compliance updates are delivered regularly as part of the subscription.",
+      gccHeading: "GCC Countries",
+      gccSubheading: "Full labour law, WPS payroll, end-of-service and social insurance coverage.",
+      levantAsiaHeading: "Levant & Asia",
+      levantAsiaSubheading: "Country-specific labour law, tax, leave and working-hour rules.",
+      capabilitiesHeading: "Built-in Compliance Capabilities",
+      capabilitiesSubheading: "Everything you need to stay compliant — out of the box, kept current with every release.",
+      frameworksLabel: "Frameworks supported",
+      ctaTitle: "See Sapience HCM compliance in action",
+      ctaSubtitle: "Get a tailored walkthrough of how Sapience HCM handles legislation across your operating countries.",
+      ctaButton: "Request a Demo",
+    },
   },
+
 };

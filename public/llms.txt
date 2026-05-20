@@ -14,6 +14,7 @@ Sapience HCM is comprehensive HR software covering core HR, payroll (WPS-complia
 - [Getting Started](/getting-started): Onboarding guide
 - [Training Program](/training-program): Customer training
 - [Webinars](/webinars): Live and recorded sessions
+- [Legislations](/legislations): Regulatory frameworks Sapience HCM complies with across GCC, Levant and Asia
 
 ## Features
 - [Core HR](/features/core-hr): Employee records, leave, attendance, shifts

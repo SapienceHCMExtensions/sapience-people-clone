@@ -1,29 +1,54 @@
-## Goal
-Restore the standalone preview/new-tab host so `/` and `/favicon.ico` stop returning `Internal server error`.
+# Add Legislations page under Resources
 
-## What I found
-- The live standalone preview is still returning `502 Internal server error`.
-- Runtime logs still show `Error: No such module "h3-v2" imported from "server.js"`.
-- `src/server.ts` already contains the intended wrapper logic.
-- `vite.config.ts` already points TanStack Start at `server: { entry: "server" }`.
-- There is currently no `wrangler.jsonc` in the repo, so the deployed worker can still boot the default server entry instead of `src/server.ts`.
+## Scope
 
-## Plan
-1. Add an explicit worker config file that points the deployment entry to `src/server.ts` and keeps the required Cloudflare compatibility settings.
-2. Align `src/server.ts` with TanStack Start’s canonical custom server-entry shape so the wrapper is definitely used as the worker entry while preserving the existing 500 fallback behavior.
-3. Re-check the deployed host by requesting `/` and `/favicon.ico`, then inspect runtime logs to confirm the `h3-v2` module error is gone.
+Add a new "Legislations" entry to the Resources mega-menu (desktop + mobile) and create a `/legislations` route. Content is sourced strictly from the attached Sapience Technology Company Profile — no other site sections will be touched. Make sure it supports the language selection when we switch to a different language.
 
-## Technical details
-- **Files to update:**
-  - `wrangler.jsonc` (new)
-  - `src/server.ts` (small alignment only if needed)
-- **Key config target:** ensure deployment `main` resolves to `src/server.ts`, not the framework default entry.
-- **Validation:**
-  - `/` returns 200
-  - `/favicon.ico` no longer 500/502s
-  - logs no longer show `No such module "h3-v2"`
+## Legislations to feature (from the PDF)
+
+Per the "Legislative Compliance" section of the profile, Sapience HCM provides built-in compliance for:
+
+**GCC (full labour law + payroll/WPS/EOSB/social insurance)**
+
+- UAE — UAE Labour Law, WPS (Wages Protection System), End-of-Service Gratuity
+- Saudi Arabia — Labour Law, GOSI, WPS, EOSB
+- Qatar — Labour Law, WPS, EOSB
+- Oman — Labour Law, PASI, WPS, EOSB
+- Bahrain — Labour Law, SIO, WPS, EOSB
+- Kuwait — Labour Law, PIFSS, WPS, EOSB
+
+**Levant & Asia (tax + country-specific leave / working-hour / payroll rules)**
+
+- Jordan, Egypt, Palestine, Iraq, Lebanon, Libya
+- India, Pakistan
+
+Cross-cutting capabilities highlighted on the page: WPS file generation, EOSB calculations, GOSI / social insurance integrations, Asia/Levant tax calculations, country-specific leave & working-hour rules, and regular compliance updates delivered via subscription.
+
+## Changes
+
+1. **New route** `src/routes/legislations.tsx`
+  - `head()` with unique title/description/OG tags (e.g. "Legislations & Compliance — Sapience HCM").
+  - Hero: title + short intro paragraph (paraphrased from the profile's Legislative Compliance section).
+  - "GCC" section: 6 country cards (UAE, KSA, Qatar, Oman, Bahrain, Kuwait) each listing its specific frameworks (Labour Law, WPS, EOSB, GOSI/PASI/SIO/PIFSS as applicable).
+  - "Levant & Asia" section: country cards for Jordan, Egypt, Palestine, Iraq, Lebanon, Libya, India, Pakistan with short notes (labour law, tax, leave/working-hour rules).
+  - "Built-in capabilities" strip: WPS generation, EOSB, social insurance, tax engines, statutory reporting, regular regulatory updates.
+  - Reuse existing primitives (`HeroSection` or local section markup, FeatureCard-style grid, semantic tokens — navy / bright-blue / vibrant-orange).
+  - Standard CTA banner at the bottom linking to `/request-demo`.
+2. **Navigation**
+  - `src/components/layout/Header.tsx`: add a "Legislations" `<Link to="/legislations">` inside the Resources mega-dropdown. Place it under the "HR Toolkit" column (alongside Knowledge Base / Blogs / Glossary) so it surfaces as a resource.
+  - Mobile menu: add a matching link in the Resources section of the mobile drawer (it currently doesn't list Resources items individually — add a single "Legislations" link near the existing resources block).
+3. **i18n parity** (per project memory rule)
+  - Add the following keys to `en.ts`, `es.ts`, AND `ar.ts` together:
+    - `common.nav.legislations` ("Legislations")
+    - `legislations.title`, `legislations.subtitle`, `legislations.intro`
+    - `legislations.gccHeading`, `legislations.levantAsiaHeading`, `legislations.capabilitiesHeading`
+    - Per-country labels & framework lines, plus capability bullet strings.
+4. **SEO**
+  - Add `/legislations` to `src/routes/sitemap[.]xml.ts` PATHS array.
+  - Add to `public/llms.txt` under an appropriate section.
 
 ## Out of scope
-- No homepage or styling changes
-- No unrelated SSR refactors
-- No backend feature work
+
+- No changes to home, features, solutions, pricing, customers, or any other page.
+- No new imagery generation, no styling changes outside the new route + the single nav link.
+- No backend / data work.

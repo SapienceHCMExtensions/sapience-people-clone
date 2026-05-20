@@ -237,7 +237,9 @@ export function Header() {
               <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.hrKnowledgeBase")}</a>
               <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.blogs")}</a>
               <a href="#" className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.hrGlossary")}</a>
+              <Link to="/legislations" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.legislations")}</Link>
             </div>
+
           </div>
           <div>
             <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t("common.nav.helpDocs")}</h3>
@@ -281,7 +283,9 @@ export function Header() {
             <div className="border-t border-border my-2" />
             <Link to="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.pricing")}</Link>
             <Link to="/customers" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.customers")}</Link>
+            <Link to="/legislations" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.legislations")}</Link>
             <Link to="/request-demo" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.requestDemo")}</Link>
+
             <div className="border-t border-border my-2" />
             <Link to="/request-demo" onClick={() => setMobileOpen(false)} className="block w-full text-center rounded-md bg-vibrant-orange px-5 py-2.5 text-sm font-semibold text-vibrant-orange-foreground">
               {t("common.nav.getStarted")}

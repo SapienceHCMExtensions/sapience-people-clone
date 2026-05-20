@@ -18,7 +18,9 @@ export const es = {
       allFeatures: "Todas las Características",
       requestDemo: "Solicitar Demo",
       requestQuote: "Solicitar Cotización",
+      legislations: "Legislaciones",
     },
+
     cta: {
       startFreeTrial: "Iniciar Prueba Gratuita",
       requestDemo: "Solicitar Demo",
@@ -806,5 +808,21 @@ export const es = {
         { heading: "5. Contáctenos", body: "Para preguntas sobre esta Política Anti-spam, contáctenos en abuse@sapiencehcm.com." },
       ],
     },
+    legislations: {
+      title: "Legislaciones y Cumplimiento",
+      subtitle: "Cumplimiento normativo integrado en Medio Oriente, Levante y Asia.",
+      intro: "Sapience HCM está diseñado específicamente para el entorno regulatorio de Medio Oriente, Levante y Asia. La solución incluye cumplimiento integrado de la Ley Laboral, generación de archivos de nómina WPS, cálculos de indemnización por fin de servicio para todos los países del CCG, integraciones con GOSI/seguros sociales, cálculos de impuestos para la región de Asia/Levante y reglas específicas por país sobre permisos y horas de trabajo. Las actualizaciones de cumplimiento se entregan regularmente como parte de la suscripción.",
+      gccHeading: "Países del CCG",
+      gccSubheading: "Cobertura completa de ley laboral, nómina WPS, fin de servicio y seguro social.",
+      levantAsiaHeading: "Levante y Asia",
+      levantAsiaSubheading: "Ley laboral, impuestos, permisos y reglas de jornada específicos por país.",
+      capabilitiesHeading: "Capacidades de Cumplimiento Integradas",
+      capabilitiesSubheading: "Todo lo que necesita para mantener el cumplimiento — listo para usar y actualizado con cada versión.",
+      frameworksLabel: "Marcos soportados",
+      ctaTitle: "Vea el cumplimiento de Sapience HCM en acción",
+      ctaSubtitle: "Obtenga un recorrido personalizado de cómo Sapience HCM gestiona la legislación en sus países de operación.",
+      ctaButton: "Solicitar Demo",
+    },
   },
+
 };
