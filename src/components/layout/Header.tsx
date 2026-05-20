@@ -285,6 +285,7 @@ export function Header() {
             <Link to="/pricing" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.pricing")}</Link>
             <Link to="/customers" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.customers")}</Link>
             <Link to="/legislations" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.legislations")}</Link>
+            <Link to="/partner-with-us" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.partnerWithUs")}</Link>
             <Link to="/request-demo" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-soft-gray rounded-md">{t("common.nav.requestDemo")}</Link>
 
             <div className="border-t border-border my-2" />
