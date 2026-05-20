@@ -17,38 +17,47 @@ export const Route = createFileRoute("/legislations")({
 });
 
 interface CountryEntry {
-  flag: string;
+  code: string;
   name: string;
   frameworks: string[];
 }
 
 const gccCountries: CountryEntry[] = [
-  { flag: "🇦🇪", name: "United Arab Emirates", frameworks: ["UAE Labour Law", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)", "Country-specific leave & working-hour rules"] },
-  { flag: "🇸🇦", name: "Saudi Arabia", frameworks: ["KSA Labour Law", "GOSI (Social Insurance)", "WPS / Mudad payroll filing", "End-of-Service Gratuity (EOSB)"] },
-  { flag: "🇶🇦", name: "Qatar", frameworks: ["Qatar Labour Law", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)", "Statutory leave & working-hour rules"] },
-  { flag: "🇴🇲", name: "Oman", frameworks: ["Oman Labour Law", "PASI (Social Insurance)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
-  { flag: "🇧🇭", name: "Bahrain", frameworks: ["Bahrain Labour Law", "SIO (Social Insurance Organisation)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
-  { flag: "🇰🇼", name: "Kuwait", frameworks: ["Kuwait Labour Law", "PIFSS (Social Security)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
+  { code: "ae", name: "United Arab Emirates", frameworks: ["UAE Labour Law", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)", "Country-specific leave & working-hour rules"] },
+  { code: "sa", name: "Saudi Arabia", frameworks: ["KSA Labour Law", "GOSI (Social Insurance)", "WPS / Mudad payroll filing", "End-of-Service Gratuity (EOSB)"] },
+  { code: "qa", name: "Qatar", frameworks: ["Qatar Labour Law", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)", "Statutory leave & working-hour rules"] },
+  { code: "om", name: "Oman", frameworks: ["Oman Labour Law", "PASI (Social Insurance)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
+  { code: "bh", name: "Bahrain", frameworks: ["Bahrain Labour Law", "SIO (Social Insurance Organisation)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
+  { code: "kw", name: "Kuwait", frameworks: ["Kuwait Labour Law", "PIFSS (Social Security)", "Wages Protection System (WPS)", "End-of-Service Gratuity (EOSB)"] },
 ];
 
 const levantAsiaCountries: CountryEntry[] = [
-  { flag: "🇯🇴", name: "Jordan", frameworks: ["Labour Law", "Income tax & social security", "Statutory leave rules"] },
-  { flag: "🇪🇬", name: "Egypt", frameworks: ["Labour Law", "Income tax & social insurance", "Statutory leave rules"] },
-  { flag: "🇵🇸", name: "Palestine", frameworks: ["Labour Law", "Payroll tax rules", "Statutory leave rules"] },
-  { flag: "🇮🇶", name: "Iraq", frameworks: ["Labour Law", "Income tax & social security", "Statutory leave rules"] },
-  { flag: "🇱🇧", name: "Lebanon", frameworks: ["Labour Law", "NSSF & income tax", "Statutory leave rules"] },
-  { flag: "🇱🇾", name: "Libya", frameworks: ["Labour Law", "Payroll tax rules", "Statutory leave rules"] },
-  { flag: "🇮🇳", name: "India", frameworks: ["Labour codes", "PF, ESI & professional tax", "TDS / income-tax payroll"] },
-  { flag: "🇵🇰", name: "Pakistan", frameworks: ["Labour Law", "EOBI & social security", "Income-tax payroll"] },
+  { code: "jo", name: "Jordan", frameworks: ["Labour Law", "Income tax & social security", "Statutory leave rules"] },
+  { code: "eg", name: "Egypt", frameworks: ["Labour Law", "Income tax & social insurance", "Statutory leave rules"] },
+  { code: "ps", name: "Palestine", frameworks: ["Labour Law", "Payroll tax rules", "Statutory leave rules"] },
+  { code: "iq", name: "Iraq", frameworks: ["Labour Law", "Income tax & social security", "Statutory leave rules"] },
+  { code: "lb", name: "Lebanon", frameworks: ["Labour Law", "NSSF & income tax", "Statutory leave rules"] },
+  { code: "ly", name: "Libya", frameworks: ["Labour Law", "Payroll tax rules", "Statutory leave rules"] },
+  { code: "in", name: "India", frameworks: ["Labour codes", "PF, ESI & professional tax", "TDS / income-tax payroll"] },
+  { code: "pk", name: "Pakistan", frameworks: ["Labour Law", "EOBI & social security", "Income-tax payroll"] },
 ];
 
 function CountryCard({ entry, frameworksLabel }: { entry: CountryEntry; frameworksLabel: string }) {
   return (
     <div className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg hover:border-bright-blue/40 transition-all">
       <div className="flex items-center gap-3 mb-4">
-        <span className="text-3xl leading-none" aria-hidden="true">{entry.flag}</span>
+        <img
+          src={`https://flagcdn.com/w80/${entry.code}.png`}
+          srcSet={`https://flagcdn.com/w80/${entry.code}.png 1x, https://flagcdn.com/w160/${entry.code}.png 2x`}
+          width={40}
+          height={28}
+          loading="lazy"
+          alt={`${entry.name} flag`}
+          className="rounded-sm border border-gray-200 object-cover shadow-sm"
+        />
         <h3 className="text-lg font-semibold text-navy">{entry.name}</h3>
       </div>
+
       <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
         {frameworksLabel}
       </p>
