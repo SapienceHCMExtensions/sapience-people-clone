@@ -19,6 +19,7 @@ export const en = {
       requestDemo: "Request Demo",
       requestQuote: "Request a Price Quote",
       legislations: "Legislations",
+      partnerWithUs: "Partner with Us",
     },
 
     cta: {
@@ -956,5 +957,63 @@ export const en = {
     ctaSubtitle: "Get a tailored walkthrough of how Sapience HCM handles legislation across your operating countries.",
     ctaButton: "Request a Demo",
   },
+  partner: {
+    hero: {
+      eyebrow: "Partner Program",
+      title: "Partner with Sapience HCM",
+      subtitle: "Join a growing ecosystem of channel, referral and implementation partners shaping the future of HR across the GCC, Levant, Africa and Asia.",
+      findPartner: "Find a Partner",
+      becomePartner: "Become a Partner",
+      badge: "Grow Together",
+    },
+    why: {
+      title: "Why partner with us",
+      body: "Sapience HCM is on a mission to deliver modern, compliance-ready human capital management across the Middle East, Levant, Africa and Asia. Our Partner Program is built to help consultancies, system integrators, payroll specialists and resellers diversify their offerings, unlock recurring revenue and deliver measurable business outcomes for their clients.",
+    },
+    programs: {
+      title: "Choose the right partner program",
+      subtitle: "Three flexible tracks designed to match how you go to market.",
+      learnMore: "Learn more",
+      channel: {
+        title: "Channel Partner",
+        desc: "Lead sales and marketing motions for Sapience HCM in your territory. Build pipeline, close deals and grow a profitable HR-tech practice with our full enablement support.",
+      },
+      referral: {
+        title: "Referral Partner",
+        desc: "Share qualified leads with Sapience HCM and earn rewards as we take them through to close. Ideal for advisors and consultants who want a low-touch revenue stream.",
+      },
+      implementation: {
+        title: "Implementation Partner",
+        desc: "Deliver Sapience HCM rollouts, payroll configuration and country-specific compliance for customers across the region. Become a certified expert backed by our delivery framework.",
+      },
+    },
+    benefits: {
+      title: "Benefits of partnering",
+      subtitle: "Everything you need to win, deliver and grow with Sapience HCM.",
+      revenue: { title: "Recurring revenue share", desc: "Earn attractive, predictable margins on every subscription you bring or support, with transparent commercial terms." },
+      comarketing: { title: "Co-marketing & demand gen", desc: "Joint campaigns, events and content built with our marketing team to help you fill your pipeline." },
+      manager: { title: "Dedicated partner manager", desc: "A single point of contact to align on opportunities, deal support and quarterly business planning." },
+      enablement: { title: "Sales & product enablement", desc: "Pitch decks, demo environments, battlecards and live workshops to keep your team sharp." },
+      certification: { title: "Certification program", desc: "Structured training and certifications for sales, implementation and support professionals." },
+      reach: { title: "Regional market access", desc: "Tap into Sapience HCM customers and prospects across the GCC, Levant, Africa and Asia." },
+    },
+    partners: {
+      title: "Our awesome global partners",
+      subtitle: "We are proud to work with leading organizations that help our customers succeed.",
+    },
+    howTo: {
+      title: "How to become a partner",
+      subtitle: "A simple three-step path to launching your partnership with Sapience HCM.",
+      apply: { title: "Apply", desc: "Tell us about your business, target markets and the partner track that fits you best." },
+      onboard: { title: "Onboard & certify", desc: "Complete sales and product enablement, then earn your Sapience HCM partner certification." },
+      launch: { title: "Go to market", desc: "Launch joint campaigns, register opportunities and start growing with our partner team by your side." },
+    },
+    cta: {
+      title: "Ready to grow with Sapience HCM?",
+      subtitle: "Talk to our partner team to explore the program that's right for your business.",
+      button: "Talk to our partner team",
+    },
+  },
 };
+
 

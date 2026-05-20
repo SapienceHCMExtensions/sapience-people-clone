@@ -19,6 +19,7 @@ import { Route as RequestQuoteRouteImport } from './routes/request-quote'
 import { Route as RequestDemoRouteImport } from './routes/request-demo'
 import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as PartnerWithUsRouteImport } from './routes/partner-with-us'
 import { Route as LegislationsRouteImport } from './routes/legislations'
 import { Route as GettingStartedRouteImport } from './routes/getting-started'
 import { Route as CustomersRouteImport } from './routes/customers'
@@ -98,6 +99,11 @@ const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
 const PricingRoute = PricingRouteImport.update({
   id: '/pricing',
   path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerWithUsRoute = PartnerWithUsRouteImport.update({
+  id: '/partner-with-us',
+  path: '/partner-with-us',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LegislationsRoute = LegislationsRouteImport.update({
@@ -262,6 +268,7 @@ export interface FileRoutesByFullPath {
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/legislations': typeof LegislationsRoute
+  '/partner-with-us': typeof PartnerWithUsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -304,6 +311,7 @@ export interface FileRoutesByTo {
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/legislations': typeof LegislationsRoute
+  '/partner-with-us': typeof PartnerWithUsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -347,6 +355,7 @@ export interface FileRoutesById {
   '/customers': typeof CustomersRoute
   '/getting-started': typeof GettingStartedRoute
   '/legislations': typeof LegislationsRoute
+  '/partner-with-us': typeof PartnerWithUsRoute
   '/pricing': typeof PricingRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/request-demo': typeof RequestDemoRoute
@@ -391,6 +400,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/getting-started'
     | '/legislations'
+    | '/partner-with-us'
     | '/pricing'
     | '/privacy-policy'
     | '/request-demo'
@@ -433,6 +443,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/getting-started'
     | '/legislations'
+    | '/partner-with-us'
     | '/pricing'
     | '/privacy-policy'
     | '/request-demo'
@@ -475,6 +486,7 @@ export interface FileRouteTypes {
     | '/customers'
     | '/getting-started'
     | '/legislations'
+    | '/partner-with-us'
     | '/pricing'
     | '/privacy-policy'
     | '/request-demo'
@@ -518,6 +530,7 @@ export interface RootRouteChildren {
   CustomersRoute: typeof CustomersRoute
   GettingStartedRoute: typeof GettingStartedRoute
   LegislationsRoute: typeof LegislationsRoute
+  PartnerWithUsRoute: typeof PartnerWithUsRoute
   PricingRoute: typeof PricingRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RequestDemoRoute: typeof RequestDemoRoute
@@ -624,6 +637,13 @@ declare module '@tanstack/react-router' {
       path: '/pricing'
       fullPath: '/pricing'
       preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partner-with-us': {
+      id: '/partner-with-us'
+      path: '/partner-with-us'
+      fullPath: '/partner-with-us'
+      preLoaderRoute: typeof PartnerWithUsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/legislations': {
@@ -846,6 +866,7 @@ const rootRouteChildren: RootRouteChildren = {
   CustomersRoute: CustomersRoute,
   GettingStartedRoute: GettingStartedRoute,
   LegislationsRoute: LegislationsRoute,
+  PartnerWithUsRoute: PartnerWithUsRoute,
   PricingRoute: PricingRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RequestDemoRoute: RequestDemoRoute,

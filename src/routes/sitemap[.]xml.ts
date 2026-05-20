@@ -14,7 +14,9 @@ const PATHS: string[] = [
   "/training-program",
   "/webinars",
   "/legislations",
+  "/partner-with-us",
   "/sign-in",
+
 
   "/features",
   "/features/core-hr",
