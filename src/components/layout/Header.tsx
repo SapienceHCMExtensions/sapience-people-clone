@@ -255,6 +255,7 @@ export function Header() {
             <div className="space-y-1">
               <Link to="/request-demo" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.requestDemo")}</Link>
               <Link to="/request-quote" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.requestQuote")}</Link>
+              <Link to="/partner-with-us" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.partnerWithUs")}</Link>
               <Link to="/webinars" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.webinars")}</Link>
               <Link to="/training-program" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.trainingProgram")}</Link>
               <Link to="/getting-started" onClick={() => setActiveDropdown(null)} className="block px-3 py-2 text-sm text-foreground hover:text-bright-blue hover:bg-soft-gray rounded-md transition-colors">{t("common.nav.getStarted")}</Link>
