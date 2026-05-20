@@ -19,6 +19,7 @@ export const es = {
       requestDemo: "Solicitar Demo",
       requestQuote: "Solicitar Cotización",
       legislations: "Legislaciones",
+      partnerWithUs: "Asóciese con Nosotros",
     },
 
     cta: {
