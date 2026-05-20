@@ -20,6 +20,8 @@ export const ar = {
       requestQuote: "طلب عرض أسعار",
       legislations: "التشريعات",
       partnerWithUs: "كن شريكًا معنا",
+      findAPartner: "ابحث عن شريك",
+      becomeAPartner: "كن شريكًا",
     },
 
     cta: {
