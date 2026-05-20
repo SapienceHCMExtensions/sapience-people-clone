@@ -108,7 +108,7 @@ function PartnerPage() {
                 <p className="text-sm text-gray-600 leading-relaxed mb-6 flex-1">{t(`partner.programs.${p.key}.desc`)}</p>
                 <Link to="/partner-with-us/become-a-partner" className="inline-flex items-center gap-1.5 text-sm font-semibold text-bright-blue hover:text-bright-blue/80">
                   {t("partner.programs.learnMore")} <ArrowRight className="h-4 w-4" />
-                </a>
+                </Link>
               </div>
             ))}
           </div>
